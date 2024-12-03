@@ -1,0 +1,23 @@
+// register
+curl -X POST http://localhost:3000/api/register \
+-H "Content-Type: application/json" \
+-d '{
+  "firstName": "John",
+  "lastName": "Doe",
+  "username": "johndoe123",
+  "phoneNumber": "1234567890",
+  "email": "johndoe@example.com",
+  "password": "password123",
+  "confirmPassword:"password123",
+  "pin": "1234",
+  "gender": "Male"
+}'
+
+// login
+curl -X POST http://localhost:3000/api/login \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "johndoe@example.com",
+  "password": "password123"
+}'
+
