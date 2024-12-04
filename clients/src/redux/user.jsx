@@ -89,6 +89,7 @@ export const logoutUser = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState: {
+    //user: { username: "Khalid", firstname: "mujahid", lastname: "khalid" },
     user: null,
     balance: 0,
     token: null,

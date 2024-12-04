@@ -47,7 +47,7 @@ function Login() {
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-gray-300">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <ToastContainer />
       {loading && (
         <div className="loading-overlay">
@@ -55,8 +55,8 @@ function Login() {
         </div>
       )}
 
-      <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-700">
-        <h2 className="text-3xl font-extrabold text-yellow-400 text-center mb-6">Login</h2>
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 border border-gray-300">
+        <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-6">Login</h2>
 
         <form onSubmit={formik.handleSubmit} className="space-y-6">
           {/* Email or Username Field */}
@@ -68,10 +68,10 @@ function Login() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.emailOrUsername}
-              className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+              className="w-full p-3 bg-gray-50 text-gray-700 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
             />
             {formik.touched.emailOrUsername && formik.errors.emailOrUsername ? (
-              <div className="text-red-400 text-sm mt-1">{formik.errors.emailOrUsername}</div>
+              <div className="text-red-500 text-sm mt-1">{formik.errors.emailOrUsername}</div>
             ) : null}
           </div>
 
@@ -84,36 +84,36 @@ function Login() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
-              className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+              className="w-full p-3 bg-gray-50 text-gray-700 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
             />
             {formik.touched.password && formik.errors.password ? (
-              <div className="text-red-400 text-sm mt-1">{formik.errors.password}</div>
+              <div className="text-red-500 text-sm mt-1">{formik.errors.password}</div>
             ) : null}
           </div>
 
           {/* Login Button */}
-          <button 
-            type="submit" 
-            className="w-full py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all"
+          <button
+            type="submit"
+            className="w-full py-3 bg-blue-500 text-white rounded-lg font-semibold shadow-md hover:bg-blue-600 hover:shadow-lg transition-all"
             disabled={loading}
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
 
           {/* Register Button */}
-          <button 
-            type="button" 
-            onClick={() => navigate("/register")} 
-            className="w-full py-3 mt-2 bg-gray-700 text-yellow-400 rounded-lg font-semibold shadow-md hover:bg-gray-600 transition-all"
+          <button
+            type="button"
+            onClick={() => navigate("/register")}
+            className="w-full py-3 mt-2 bg-gray-100 text-blue-500 rounded-lg font-semibold shadow-md border border-blue-500 hover:bg-blue-50 transition-all"
           >
             Create Account
           </button>
-          
-          {error && <div className="text-red-400 text-sm mt-2">{error.message || 'Login failed'}</div>}
+
+          {error && <div className="text-red-500 text-sm mt-2">{error.message || 'Login failed'}</div>}
         </form>
 
-        <p className="mt-4 text-center text-gray-400 text-sm">
-          By logging in, you agree to our <span className="text-yellow-400 cursor-pointer">Terms of Service</span> and <span className="text-yellow-400 cursor-pointer">Privacy Policy</span>.
+        <p className="mt-4 text-center text-gray-600 text-sm">
+          By logging in, you agree to our <span className="text-blue-500 cursor-pointer">Terms of Service</span> and <span className="text-blue-500 cursor-pointer">Privacy Policy</span>.
         </p>
       </div>
     </div>
@@ -121,4 +121,5 @@ function Login() {
 }
 
 export default Login;
+
 

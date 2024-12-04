@@ -51,167 +51,166 @@ function Register() {
   });
 
   return (
-    <div className="min-h-screen p-5 flex items-center justify-center bg-gray-900 text-gray-300">
+    <div className="min-h-screen p-5 flex items-center justify-center bg-gray-100">
       <ToastContainer />
       {loading && (
         <div className="loading-overlay">
           <div className="spinner"></div>
         </div>
       )}
-      <div className="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-700">
-        <h2 className="text-3xl font-extrabold text-yellow-400 text-center mb-6">Register</h2>
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 border border-gray-300">
+        <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-6">Register</h2>
 
         <form onSubmit={formik.handleSubmit} className="space-y-6">
-  {/* First Name Field */}
-  <input
-    type="text"
-    name="firstName"
-    placeholder="First Name"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.firstName}
-    className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
-  />
-  {formik.touched.firstName && formik.errors.firstName && (
-    <div className="text-red-400 text-sm mt-1">{formik.errors.firstName}</div>
-  )}
+          {/* First Name Field */}
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.firstName}
+            className="w-full p-3 bg-gray-50 text-gray-800 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all"
+          />
+          {formik.touched.firstName && formik.errors.firstName && (
+            <div className="text-red-500 text-sm mt-1">{formik.errors.firstName}</div>
+          )}
 
-  {/* Last Name Field */}
-  <input
-    type="text"
-    name="lastName"
-    placeholder="Last Name"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.lastName}
-    className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
-  />
-  {formik.touched.lastName && formik.errors.lastName && (
-    <div className="text-red-400 text-sm mt-1">{formik.errors.lastName}</div>
-  )}
+          {/* Last Name Field */}
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.lastName}
+            className="w-full p-3 bg-gray-50 text-gray-800 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all"
+          />
+          {formik.touched.lastName && formik.errors.lastName && (
+            <div className="text-red-500 text-sm mt-1">{formik.errors.lastName}</div>
+          )}
 
-  {/* Username Field */}
-  <input
-    type="text"
-    name="username"
-    placeholder="Username"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.username}
-    className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
-  />
-  {formik.touched.username && formik.errors.username && (
-    <div className="text-red-400 text-sm mt-1">{formik.errors.username}</div>
-  )}
+          {/* Username Field */}
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.username}
+            className="w-full p-3 bg-gray-50 text-gray-800 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all"
+          />
+          {formik.touched.username && formik.errors.username && (
+            <div className="text-red-500 text-sm mt-1">{formik.errors.username}</div>
+          )}
 
-  {/* Phone Number Field */}
-  <input
-    type="text"
-    name="phoneNumber"
-    placeholder="Phone Number"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.phoneNumber}
-    className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
-  />
-  {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-    <div className="text-red-400 text-sm mt-1">{formik.errors.phoneNumber}</div>
-  )}
+          {/* Phone Number Field */}
+          <input
+            type="text"
+            name="phoneNumber"
+            placeholder="Phone Number"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.phoneNumber}
+            className="w-full p-3 bg-gray-50 text-gray-800 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all"
+          />
+          {formik.touched.phoneNumber && formik.errors.phoneNumber && (
+            <div className="text-red-500 text-sm mt-1">{formik.errors.phoneNumber}</div>
+          )}
 
-  {/* Email Field */}
-  <input
-    type="email"
-    name="email"
-    placeholder="Email"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.email}
-    className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
-  />
-  {formik.touched.email && formik.errors.email && (
-    <div className="text-red-400 text-sm mt-1">{formik.errors.email}</div>
-  )}
+          {/* Email Field */}
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+            className="w-full p-3 bg-gray-50 text-gray-800 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all"
+          />
+          {formik.touched.email && formik.errors.email && (
+            <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
+          )}
 
-  {/* Password Field */}
-  <input
-    type="password"
-    name="password"
-    placeholder="Password"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.password}
-    className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
-  />
-  {formik.touched.password && formik.errors.password && (
-    <div className="text-red-400 text-sm mt-1">{formik.errors.password}</div>
-  )}
+          {/* Password Field */}
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+            className="w-full p-3 bg-gray-50 text-gray-800 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all"
+          />
+          {formik.touched.password && formik.errors.password && (
+            <div className="text-red-500 text-sm mt-1">{formik.errors.password}</div>
+          )}
 
-  {/* Confirm Password Field */}
-  <input
-    type="password"
-    name="confirmPassword"
-    placeholder="Confirm Password"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.confirmPassword}
-    className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
-  />
-  {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-    <div className="text-red-400 text-sm mt-1">{formik.errors.confirmPassword}</div>
-  )}
+          {/* Confirm Password Field */}
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.confirmPassword}
+            className="w-full p-3 bg-gray-50 text-gray-800 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all"
+          />
+          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+            <div className="text-red-500 text-sm mt-1">{formik.errors.confirmPassword}</div>
+          )}
 
-  {/* PIN Field */}
-  <input
-    type="text"
-    name="pin"
-    placeholder="4-Digit PIN"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.pin}
-    className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
-  />
-  {formik.touched.pin && formik.errors.pin && (
-    <div className="text-red-400 text-sm mt-1">{formik.errors.pin}</div>
-  )}
+          {/* PIN Field */}
+          <input
+            type="text"
+            name="pin"
+            placeholder="4-Digit PIN"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.pin}
+            className="w-full p-3 bg-gray-50 text-gray-800 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all"
+          />
+          {formik.touched.pin && formik.errors.pin && (
+            <div className="text-red-500 text-sm mt-1">{formik.errors.pin}</div>
+          )}
 
-  {/* Gender Field */}
-  <select
-    name="gender"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={formik.values.gender}
-    className="w-full p-3 bg-gray-700 text-yellow-400 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
-  >
-    <option value="" label="Select gender" />
-    <option value="Male" label="Male" />
-    <option value="Female" label="Female" />
-    <option value="Other" label="Other" />
-  </select>
-  {formik.touched.gender && formik.errors.gender && (
-    <div className="text-red-400 text-sm mt-1">{formik.errors.gender}</div>
-  )}
+          {/* Gender Field */}
+          <select
+            name="gender"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.gender}
+            className="w-full p-3 bg-gray-50 text-gray-800 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all"
+          >
+            <option value="" label="Select gender" />
+            <option value="Male" label="Male" />
+            <option value="Female" label="Female" />
+            <option value="Other" label="Other" />
+          </select>
+          {formik.touched.gender && formik.errors.gender && (
+            <div className="text-red-500 text-sm mt-1">{formik.errors.gender}</div>
+          )}
 
-  {/* Register Button */}
-  <button
-    type="submit"
-    className="w-full py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all"
-    disabled={loading}
-  >
-    {loading ? 'Registering...' : 'Register'}
-  </button>
+          {/* Register Button */}
+          <button
+            type="submit"
+            className="w-full py-3 bg-gradient-to-r from-sky-500 to-sky-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all"
+            disabled={loading}
+          >
+            {loading ? 'Registering...' : 'Register'}
+          </button>
 
-  {/* Already Have an Account Button */}
-  <button
-    type="button"
-    onClick={() => navigate("/login")}
-    className="w-full py-3 mt-2 bg-gray-700 text-yellow-400 rounded-lg font-semibold shadow-md hover:bg-gray-600 transition-all"
-  >
-    Already have an account
-  </button>
+          {/* Already Have an Account Button */}
+          <button
+            type="button"
+            onClick={() => navigate("/login")}
+            className="w-full py-3 mt-2 bg-gray-100 text-sky-500 rounded-lg font-semibold shadow-md border border-sky-500 hover:bg-sky-50 transition-all"
+          >
+            Already have an account
+          </button>
 
-  {error && <div className="text-red-400 text-sm mt-2">{error.message || 'Registration failed'}</div>}
-</form>
-
+          {error && <div className="text-red-500 text-sm mt-2">{error.message || 'Registration failed'}</div>}
+        </form>
       </div>
     </div>
   );

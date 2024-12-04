@@ -1,13 +1,13 @@
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-gray-300 py-6">
+    <footer className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6">
       <div className="container mx-auto px-6">
         {/* Footer Content */}
         <div className="flex flex-col md:flex-row justify-between items-center">
           {/* Left Section */}
           <div className="text-center md:text-left">
-            <h4 className="text-xl font-semibold text-yellow-400">Shabibsa</h4>
-            <p className="mt-2 text-sm">
+            <h4 className="text-2xl font-semibold text-white">Shabibsa</h4>
+            <p className="mt-2 text-sm text-gray-200">
               Simplifying your financial needs with secure and reliable services.
             </p>
           </div>
@@ -18,7 +18,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="text-yellow-400 hover:text-yellow-500 transition"
+                  className="text-white hover:text-blue-200 transition"
                   aria-label="Facebook"
                 >
                   <i className="fab fa-facebook-f text-xl"></i>
@@ -27,7 +27,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="text-yellow-400 hover:text-yellow-500 transition"
+                  className="text-white hover:text-blue-200 transition"
                   aria-label="Twitter"
                 >
                   <i className="fab fa-twitter text-xl"></i>
@@ -36,7 +36,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="text-yellow-400 hover:text-yellow-500 transition"
+                  className="text-white hover:text-blue-200 transition"
                   aria-label="Instagram"
                 >
                   <i className="fab fa-instagram text-xl"></i>
@@ -45,7 +45,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="text-yellow-400 hover:text-yellow-500 transition"
+                  className="text-white hover:text-blue-200 transition"
                   aria-label="LinkedIn"
                 >
                   <i className="fab fa-linkedin-in text-xl"></i>
@@ -56,10 +56,10 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-        <div className="mt-6 border-t border-gray-700"></div>
+        <div className="mt-6 border-t border-blue-300"></div>
 
         {/* Copyright */}
-        <p className="mt-4 text-sm text-center">
+        <p className="mt-4 text-sm text-center text-gray-200">
           © {new Date().getFullYear()} Shabibsa. All rights reserved.
         </p>
       </div>
@@ -68,3 +68,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
