@@ -5,11 +5,18 @@ import { loginUser } from '../redux/user';
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useState } from 'react';
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.user);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -76,9 +83,9 @@ function Login() {
           </div>
 
           {/* Password Field */}
-          <div>
+          <div className="relative">
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Password"
               onChange={formik.handleChange}
@@ -86,6 +93,13 @@ function Login() {
               value={formik.values.password}
               className="w-full p-3 bg-gray-50 text-gray-700 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
             />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-3 flex items-center text-gray-500 focus:outline-none"
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
             {formik.touched.password && formik.errors.password ? (
               <div className="text-red-500 text-sm mt-1">{formik.errors.password}</div>
             ) : null}
@@ -121,5 +135,4 @@ function Login() {
 }
 
 export default Login;
-
 

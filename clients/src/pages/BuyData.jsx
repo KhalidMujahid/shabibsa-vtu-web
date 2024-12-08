@@ -22,7 +22,6 @@ function BuyData() {
     try {
       const response = await axios.get(`${baseURL}/plans/${network}`);
       const data = response.data;
-      console.log(data.data);
 
       const dataPlansSet = new Set();
       const plans = [];
@@ -70,9 +69,9 @@ function BuyData() {
     try {
       const purchaseConfig = {
         method: "post",
-        url: `https://datastationapi.com/api/user/`,
+        url: `${baseURL}/purchase/data`,
         headers: {
-          Authorization: "Token 061fb06b4547e295018387a0c2eaadd178c9c6df",
+          Authorization: "Bearer your_token_here",
           "Content-Type": "application/json",
         },
         data: {
@@ -104,13 +103,13 @@ function BuyData() {
       <ToastContainer />
       <button
         onClick={() => navigate("/dashboard")}
-        className="self-start mb-4 flex items-center bg-gray-800 p-3 rounded-lg shadow hover:bg-gray-700 transition-all"
+        className="self-start mb-4 flex items-center text-yellow-300 hover:text-yellow-400"
       >
-        <span className="text-yellow-300 font-medium">&larr; Back</span>
+        &larr; Back
       </button>
       <h1 className="text-3xl font-bold text-yellow-400 mb-6">Buy Data</h1>
-      <div className="w-full max-w-md p-4 bg-gray-800 text-yellow-300 shadow-md rounded-lg">
-        <label className="block font-medium mb-2">Select Network</label>
+      <div className="w-full max-w-md p-4 bg-gray-800 shadow-md rounded-lg">
+        <label className="block text-yellow-300 font-medium mb-2">Select Network</label>
         <select
           className="w-full p-2 bg-gray-900 border border-gray-700 rounded-md mb-4"
           onChange={handleNetworkChange}
@@ -123,7 +122,7 @@ function BuyData() {
           <option value="9MOBILE_PLAN">9Mobile</option>
         </select>
 
-        <label className="block font-medium mb-2">Data Plan</label>
+        <label className="block text-yellow-300 font-medium mb-2">Data Plan</label>
         <select
           className="w-full p-2 bg-gray-900 border border-gray-700 rounded-md mb-4"
           onChange={(e) => setSelectedDataPlan(e.target.value)}
@@ -137,7 +136,7 @@ function BuyData() {
           ))}
         </select>
 
-        <label className="block font-medium mb-2">Plan</label>
+        <label className="block text-yellow-300 font-medium mb-2">Plan</label>
         {loading ? (
           <div className="flex justify-center items-center py-2">
             <span className="text-yellow-300">Loading plans...</span>
@@ -158,7 +157,7 @@ function BuyData() {
           </select>
         )}
 
-        <label className="block font-medium mb-2">Enter Phone Number</label>
+        <label className="block text-yellow-300 font-medium mb-2">Enter Phone Number</label>
         <input
           type="text"
           className="w-full p-2 bg-gray-900 border border-gray-700 rounded-md mb-4"
@@ -189,13 +188,13 @@ function BuyData() {
             <div className="flex space-x-4 justify-center">
               <button
                 onClick={handleConfirmPurchase}
-                className="w-full bg-yellow-500 text-gray-900 py-2 rounded-lg hover:bg-yellow-600"
+                className="bg-yellow-500 text-gray-900 py-2 px-4 rounded-lg hover:bg-yellow-600"
               >
                 Confirm
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="w-full bg-gray-700 text-yellow-300 py-2 rounded-lg hover:bg-gray-600"
+                className="bg-gray-700 text-yellow-300 py-2 px-4 rounded-lg hover:bg-gray-600"
               >
                 Cancel
               </button>
@@ -208,4 +207,3 @@ function BuyData() {
 }
 
 export default BuyData;
-

@@ -4,24 +4,24 @@ function Airtime2cash() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-900 text-yellow-400 flex flex-col items-center p-6 relative">
+    <div className="min-h-screen bg-gray-100 text-gray-800 flex flex-col items-center p-6 relative">
       {/* Back Button */}
       <button
         onClick={() => navigate("/more")}
-        className="self-start mb-4 text-yellow-500 hover:text-yellow-600"
+        className="self-start mb-4 text-blue-500 hover:text-blue-600"
       >
         &larr; Back
       </button>
 
       {/* Page Title */}
-      <h1 className="text-2xl font-bold mb-6">Transfer Funds</h1>
+      <h1 className="text-2xl font-extrabold mb-6">Transfer Funds</h1>
 
       {/* Feature Information */}
-      <div className="w-full max-w-md p-4 bg-gray-700 rounded-lg shadow-md text-center">
-        <p className="text-yellow-300 font-medium mb-4">
+      <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-lg border border-gray-300 text-center">
+        <p className="text-gray-600 font-medium mb-4">
           Airtime2Cash functionality is coming soon. Stay tuned!
         </p>
-        <div className="w-full bg-gray-800 text-yellow-400 py-3 rounded-md">
+        <div className="w-full bg-blue-500 text-white py-3 rounded-md">
           <p>Feature in progress...</p>
         </div>
       </div>

@@ -42,26 +42,26 @@ function BulkSms() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-yellow-400 flex flex-col items-center p-6 relative">
+    <div className="min-h-screen bg-gray-100 text-gray-800 flex flex-col items-center p-6 relative">
       {/* Back to Dashboard Button */}
       <button
         onClick={() => navigate("/dashboard")}
-        className="self-start mb-4 text-yellow-500 hover:text-yellow-600"
+        className="self-start mb-4 text-blue-500 hover:text-blue-600"
       >
         &larr; Back to Dashboard
       </button>
 
       {/* Page Title */}
-      <h1 className="text-2xl font-bold mb-6">Send Bulk SMS</h1>
+      <h1 className="text-3xl font-extrabold mb-6">Send Bulk SMS</h1>
 
       {/* SMS Form */}
-      <div className="w-full max-w-lg bg-gray-700 text-yellow-400 shadow-md rounded-lg p-6">
+      <div className="w-full max-w-lg bg-white text-gray-800 shadow-lg rounded-lg p-6 border border-gray-300">
         <form onSubmit={handleSendSms} className="space-y-4">
           {/* Recipients Input */}
           <div>
             <label
               htmlFor="recipients"
-              className="block text-sm font-medium text-yellow-300 mb-1"
+              className="block text-sm font-medium text-gray-600 mb-1"
             >
               Recipients (comma-separated numbers)
             </label>
@@ -70,7 +70,7 @@ function BulkSms() {
               id="recipients"
               name="recipients"
               placeholder="e.g., 1234567890, 0987654321"
-              className="w-full border-gray-500 bg-gray-800 text-yellow-300 rounded-lg shadow-sm p-2 focus:outline-none focus:ring focus:ring-yellow-500"
+              className="w-full border-gray-300 bg-gray-50 text-gray-800 rounded-lg shadow-sm p-2 focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400"
               required
             />
           </div>
@@ -79,7 +79,7 @@ function BulkSms() {
           <div>
             <label
               htmlFor="message"
-              className="block text-sm font-medium text-yellow-300 mb-1"
+              className="block text-sm font-medium text-gray-600 mb-1"
             >
               Message
             </label>
@@ -88,7 +88,7 @@ function BulkSms() {
               name="message"
               rows="4"
               placeholder="Type your message here..."
-              className="w-full border-gray-500 bg-gray-800 text-yellow-300 rounded-lg shadow-sm p-2 focus:outline-none focus:ring focus:ring-yellow-500"
+              className="w-full border-gray-300 bg-gray-50 text-gray-800 rounded-lg shadow-sm p-2 focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400"
               required
             ></textarea>
           </div>
@@ -103,8 +103,10 @@ function BulkSms() {
           <div>
             <button
               type="submit"
-              className={`w-full text-gray-900 py-2 px-4 rounded-lg font-medium ${
-                loading ? "bg-gray-500 cursor-not-allowed" : "bg-yellow-500 hover:bg-yellow-600"
+              className={`w-full text-white py-2 px-4 rounded-lg font-medium ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600"
               }`}
               disabled={loading}
             >
