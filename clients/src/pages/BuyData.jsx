@@ -99,19 +99,19 @@ function BuyData() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center p-6">
+    <div className="min-h-screen bg-white flex flex-col items-center p-6">
       <ToastContainer />
       <button
         onClick={() => navigate("/dashboard")}
-        className="self-start mb-4 flex items-center text-yellow-300 hover:text-yellow-400"
+        className="self-start mb-4 flex items-center text-sky-500 hover:text-yellow-400"
       >
         &larr; Back
       </button>
-      <h1 className="text-3xl font-bold text-yellow-400 mb-6">Buy Data</h1>
-      <div className="w-full max-w-md p-4 bg-gray-800 shadow-md rounded-lg">
-        <label className="block text-yellow-300 font-medium mb-2">Select Network</label>
+      <h1 className="text-3xl font-bold text-sky-500 mb-6">Buy Data</h1>
+      <div className="w-full max-w-md p-4 bg-white shadow-md rounded-lg">
+        <label className="block text-sky-500 font-medium mb-2">Select Network</label>
         <select
-          className="w-full p-2 bg-gray-900 border border-gray-700 rounded-md mb-4"
+          className="w-full p-2 bg-white border border-sky-500 rounded-md mb-4"
           onChange={handleNetworkChange}
           value={selectedNetwork}
         >
@@ -122,9 +122,9 @@ function BuyData() {
           <option value="9MOBILE_PLAN">9Mobile</option>
         </select>
 
-        <label className="block text-yellow-300 font-medium mb-2">Data Plan</label>
+        <label className="block text-sky-500 font-medium mb-2">Data Plan</label>
         <select
-          className="w-full p-2 bg-gray-900 border border-gray-700 rounded-md mb-4"
+          className="w-full p-2 bg-white border border-sky-500 rounded-md mb-4"
           onChange={(e) => setSelectedDataPlan(e.target.value)}
           value={selectedDataPlan}
         >
@@ -136,14 +136,14 @@ function BuyData() {
           ))}
         </select>
 
-        <label className="block text-yellow-300 font-medium mb-2">Plan</label>
+        <label className="block text-sky-500 font-medium mb-2">Plan</label>
         {loading ? (
           <div className="flex justify-center items-center py-2">
-            <span className="text-yellow-300">Loading plans...</span>
+            <span className="text-sky-500">Loading plans...</span>
           </div>
         ) : (
           <select
-            className="w-full p-2 bg-gray-900 border border-gray-700 rounded-md mb-4"
+            className="w-full p-2 bg-white border border-sky-500 rounded-md mb-4"
             onChange={(e) => setSelectedPlan(e.target.value)}
             value={selectedPlan}
           >
@@ -157,10 +157,10 @@ function BuyData() {
           </select>
         )}
 
-        <label className="block text-yellow-300 font-medium mb-2">Enter Phone Number</label>
+        <label className="block text-sky-500 font-medium mb-2">Enter Phone Number</label>
         <input
           type="text"
-          className="w-full p-2 bg-gray-900 border border-gray-700 rounded-md mb-4"
+          className="w-full p-2 bg-white border border-sky-500 rounded-md mb-4"
           placeholder="Enter Phone number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
@@ -168,7 +168,7 @@ function BuyData() {
 
         <button
           onClick={handlePurchase}
-          className="w-full bg-yellow-500 text-gray-900 py-2 rounded-md hover:bg-yellow-600"
+          className="w-full bg-sky-500 text-white py-2 rounded-md hover:bg-sky-600"
         >
           Purchase Data
         </button>
@@ -176,25 +176,34 @@ function BuyData() {
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 w-full max-w-sm rounded-lg shadow-lg p-6 text-center">
-            <h2 className="text-2xl font-semibold text-yellow-400 mb-4">Enter 4-Digit PIN</h2>
+          <div className="bg-white w-full max-w-sm rounded-lg shadow-lg p-6 text-center">
+            <h2 className="text-2xl font-semibold text-sky-500 mb-4">Confirm Your Details</h2>
+            <div className="text-left mb-4">
+              <p className="text-sky-500"><strong>Network:</strong> {selectedNetwork || "N/A"}</p>
+              <p className="text-sky-500"><strong>Data Plan:</strong> {selectedDataPlan || "N/A"}</p>
+              <p className="text-sky-500"><strong>Plan Amount:</strong> 
+                {" \u20A6"}{plans.find(plan => plan.id === selectedPlan)?.plan_amount || "N/A"}
+              </p>
+              <p className="text-sky-500"><strong>Phone Number:</strong> {phone || "N/A"}</p>
+            </div>
+            <h2 className="text-xl font-semibold text-sky-500 mb-4">Enter 4-Digit PIN</h2>
             <input
               type="password"
               maxLength="4"
-              className="w-full p-3 bg-gray-900 text-yellow-300 border border-gray-700 rounded-lg text-center text-2xl tracking-widest mb-4"
+              className="w-full p-3 bg-white text-sky-500 border border-sky-400 rounded-lg text-center text-2xl tracking-widest mb-4"
               value={pin}
               onChange={(e) => setPin(e.target.value)}
             />
             <div className="flex space-x-4 justify-center">
               <button
                 onClick={handleConfirmPurchase}
-                className="bg-yellow-500 text-gray-900 py-2 px-4 rounded-lg hover:bg-yellow-600"
+                className="bg-sky-500 text-white py-2 px-4 rounded-lg hover:bg-sky-600"
               >
                 Confirm
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="bg-gray-700 text-yellow-300 py-2 px-4 rounded-lg hover:bg-gray-600"
+                className="bg-gray-300 text-sky-500 py-2 px-4 rounded-lg hover:bg-gray-400"
               >
                 Cancel
               </button>

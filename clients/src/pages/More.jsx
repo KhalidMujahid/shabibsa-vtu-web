@@ -5,8 +5,8 @@ import {
   DesktopComputerIcon,
   GiftIcon,
   UsersIcon,
-  DocumentTextIcon,
 } from "@heroicons/react/outline";
+import { FaSms } from "react-icons/fa";
 
 function More() {
   const navigate = useNavigate();
@@ -17,15 +17,15 @@ function More() {
     //{ label: "Cable Subscription", route: "/cable", icon: DesktopComputerIcon },
     //{ label: "Bonus to Wallet", route: "/bonus", icon: GiftIcon },
     //{ label: "My Referrers", route: "/referrers", icon: UsersIcon },
-    { label: "Result Checker", route: "/exams", icon: DocumentTextIcon },
+    { label: "Bulk SMS", route: "/bluksms", icon: FaSms  },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-yellow-400 flex flex-col items-center p-6 relative">
+    <div className="min-h-screen bg-white-900 text-sky-400 flex flex-col items-center p-6 relative">
       {/* Back Button */}
       <button
         onClick={() => navigate("/dashboard")}
-        className="self-start mb-4 text-yellow-500 hover:text-yellow-600"
+        className="self-start mb-4 text-sky-400 hover:text-sky-600"
       >
         &larr; Back to Dashboard
       </button>
@@ -34,13 +34,13 @@ function More() {
       <h1 className="text-2xl font-bold mb-6">More Services</h1>
 
       {/* Menu Options */}
-      <div className="w-full max-w-md p-4 bg-gray-700 shadow-md rounded-lg">
+      <div className="w-full max-w-md p-4 bg-white-700 shadow-md rounded-lg">
         <ul className="space-y-4">
           {menuOptions.map((option, index) => (
             <li key={index}>
               <button
                 onClick={() => navigate(option.route)}
-                className="w-full flex items-center bg-yellow-500 hover:bg-yellow-600 text-gray-900 py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105"
+                className="w-full flex items-center bg-sky-500 hover:bg-white-600 text-sky-900 py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105"
               >
                 <option.icon className="h-6 w-6 mr-3 text-gray-900" />
                 {option.label}

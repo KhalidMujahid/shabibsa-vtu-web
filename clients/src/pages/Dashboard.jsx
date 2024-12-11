@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { DocumentTextIcon } from "@heroicons/react/outline";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -84,28 +85,30 @@ function Dashboard() {
         </div>
         <p className="text-xs text-gray-600 mt-2">{balance} of ₦1,000,000 saved</p>
       </div>
+      
 
       {/* Quick Actions */}
-      <div className="mt-8 grid grid-cols-3 gap-4 w-11/12 max-w-lg mx-auto">
-        {[
-          { icon: <FaCreditCard />, label: "Fund", bg: "bg-blue-600", link: "/fundwallet" },
-          { icon: <FaMobileAlt />, label: "Airtime", bg: "bg-gray-100", link: "/buyairtime" },
-          { icon: <FaWifi />, label: "Data", bg: "bg-blue-500", link: "/buydata" },
-          { icon: <FaBolt />, label: "Electricity", bg: "bg-gray-200", link: "/bills" },
-          { icon: <FaPaperPlane />, label: "Transfer", bg: "bg-gray-100", link: "/transfer" },
-          { icon: <FaSms />, label: "Bulk SMS", bg: "bg-blue-700", link: "/bluksms" },
-          { icon: <FaEllipsisH />, label: "More", bg: "bg-gray-300", link: "/more" },
-        ].map((action, index) => (
-          <button
-            key={index}
-            onClick={() => navigate(action.link)}
-            className={`flex flex-col items-center justify-center ${action.bg} text-blue-900 p-3 rounded-lg shadow-md hover:scale-105 transition-transform`}
-          >
-            {action.icon}
-            <span className="text-xs mt-1">{action.label}</span>
-          </button>
-        ))}
-      </div>
+<div className="mt-8 grid grid-cols-3 gap-6 w-11/12 max-w-lg mx-auto">
+  {[
+    { icon: <FaCreditCard />, label: "Fund", bg: "bg-gray-300", link: "/fundwallet" },
+    { icon: <FaMobileAlt />, label: "Airtime", bg: "bg-gray-300", link: "/buyairtime" },
+    { icon: <FaWifi />, label: "Data", bg: "bg-gray-300", link: "/buydata" },
+    { icon: <FaBolt />, label: "Electricity", bg: "bg-gray-300", link: "/bills" },
+    { icon: <FaPaperPlane />, label: "Transfer", bg: "bg-gray-300", link: "/transfer" },
+    { icon: <DocumentTextIcon />, label: "Result Checker", bg: "bg-gray-300", link: "/exams" },
+    { icon: <FaEllipsisH />, label: "More", bg: "bg-gray-300", link: "/more" },
+  ].map((action, index) => (
+    <button
+      key={index}
+      onClick={() => navigate(action.link)}
+      className={`flex flex-col items-center justify-center h-24 w-24 ${action.bg} text-blue-900 p-4 rounded-lg shadow-md hover:scale-105 transition-transform`}
+    >
+      {action.icon}
+      <span className="text-xs mt-2">{action.label}</span>
+    </button>
+  ))}
+</div>
+
 
       {/* Recent Transactions */}
       <div className="mt-10 w-11/12 max-w-lg mx-auto bg-white p-4 rounded-lg shadow-lg">

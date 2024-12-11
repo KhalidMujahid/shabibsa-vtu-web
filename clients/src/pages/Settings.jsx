@@ -43,20 +43,20 @@ function Settings() {
   };
 
   return (
-    <div className="font-sans bg-gray-900 text-white min-h-screen">
+    <div className="font-sans bg-white-900 text-white min-h-screen">
       <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold text-yellow-400 mb-6">Settings</h1>
+        <h1 className="text-4xl font-bold text-sky-400 mb-6">Settings</h1>
 
         {/* Password Reset Section */}
-        <section className="bg-gray-800 p-6 rounded-lg shadow-md mb-8">
-          <h2 className="text-2xl font-semibold text-yellow-400 mb-4">Change Password</h2>
+        <section className="bg-white-800 p-6 rounded-lg shadow-md mb-8">
+          <h2 className="text-2xl font-semibold text-sky-400 mb-4">Change Password</h2>
           <form onSubmit={handlePasswordChange} className="space-y-4">
             <input
               type="password"
               placeholder="Current Password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full p-3 bg-gray-700 text-gray-300 rounded-md border border-gray-600"
+              className="w-full p-3 bg-white-700 text-sky-300 rounded-md border border-sky-600"
               required
             />
             <input
@@ -64,7 +64,7 @@ function Settings() {
               placeholder="New Password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full p-3 bg-gray-700 text-gray-300 rounded-md border border-gray-600"
+              className="w-full p-3 bg-white-700 text-sky-300 rounded-md border border-sky-600"
               required
             />
             <input
@@ -72,22 +72,22 @@ function Settings() {
               placeholder="Confirm New Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full p-3 bg-gray-700 text-gray-300 rounded-md border border-gray-600"
+              className="w-full p-3 bg-white-700 text-sky-300 rounded-md border border-sky-600"
               required
             />
             <button
               type="submit"
-              className="bg-yellow-400 text-gray-900 px-6 py-2 rounded-md font-semibold hover:bg-yellow-500 transition"
+              className="bg-sky-400 text-white-900 px-6 py-2 rounded-md font-semibold hover:bg-sky-500 transition"
             >
               Update Password
             </button>
           </form>
-          {message && <p className="mt-4 text-gray-300">{message}</p>}
+          {message && <p className="mt-4 text-sky-300">{message}</p>}
         </section>
 
         {/* Notifications Section */}
-        <section className="bg-gray-800 p-6 rounded-lg shadow-md mb-8">
-          <h2 className="text-2xl font-semibold text-yellow-400 mb-4">Notifications</h2>
+        <section className="bg-white-800 p-6 rounded-lg shadow-md mb-8">
+          <h2 className="text-2xl font-semibold text-sky-400 mb-4">Notifications</h2>
           <div className="flex items-center justify-between">
             <span className="text-gray-300">Enable Notifications</span>
             <button
@@ -104,8 +104,8 @@ function Settings() {
         </section>
 
         {/* Other Settings Section */}
-        <section className="bg-gray-800 p-6 rounded-lg shadow-md mb-8">
-          <h2 className="text-2xl font-semibold text-yellow-400 mb-4">Other Settings</h2>
+        <section className="bg-white-800 p-6 rounded-lg shadow-md mb-8">
+          <h2 className="text-2xl font-semibold text-sky-400 mb-4">Other Settings</h2>
           {/* Profile Update */}
           <form onSubmit={handleProfileUpdate} className="space-y-4">
             <input
@@ -115,7 +115,7 @@ function Settings() {
               onChange={(e) =>
                 setProfileData({ ...profileData, name: e.target.value })
               }
-              className="w-full p-3 bg-gray-700 text-gray-300 rounded-md border border-gray-600"
+              className="w-full p-3 bg-white-700 text-sky-300 rounded-md border border-sky-600"
               required
             />
             <input
@@ -125,7 +125,7 @@ function Settings() {
               onChange={(e) =>
                 setProfileData({ ...profileData, email: e.target.value })
               }
-              className="w-full p-3 bg-gray-700 text-gray-300 rounded-md border border-gray-600"
+              className="w-full p-3 bg-white-700 text-sky-300 rounded-md border border-sky-600"
               required
             />
             <button
