@@ -47,11 +47,11 @@ function Exams() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-yellow-400 flex flex-col items-center p-6 relative">
+    <div className="min-h-screen bg-white-900 text-sky-400 flex flex-col items-center p-6 relative">
       {/* Back Button */}
       <button
         onClick={() => navigate("/more")}
-        className="self-start mb-4 text-yellow-500 hover:text-yellow-600"
+        className="self-start mb-4 text-sky-500 hover:text-sky-600"
       >
         &larr; Back
       </button>
@@ -60,7 +60,7 @@ function Exams() {
       <h1 className="text-2xl font-bold mb-6">Generate Exam Pins</h1>
 
       {/* Form Container */}
-      <div className="w-full max-w-md bg-gray-700 p-6 rounded-lg shadow-md">
+      <div className="w-full max-w-md bg-sky-700 p-6 rounded-lg shadow-md">
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Exam Name Input */}
           <div>
@@ -76,7 +76,7 @@ function Exams() {
               value={examName}
               onChange={(e) => setExamName(e.target.value)}
               placeholder="e.g., WAEC, JAMB, NECO"
-              className="w-full p-2 border-gray-500 bg-gray-800 text-yellow-300 rounded-lg focus:outline-none focus:ring focus:ring-yellow-500"
+              className="w-full p-2 border-sky-500 bg-gray-800 text-white-300 rounded-lg focus:outline-none focus:ring focus:ring-yellow-500"
               required
             />
           </div>
@@ -85,7 +85,7 @@ function Exams() {
           <div>
             <label
               htmlFor="quantity"
-              className="block text-sm font-medium text-yellow-300 mb-1"
+              className="block text-sm font-medium text-white-300 mb-1"
             >
               Quantity
             </label>
@@ -95,7 +95,7 @@ function Exams() {
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
               min="1"
-              className="w-full p-2 border-gray-500 bg-gray-800 text-yellow-300 rounded-lg focus:outline-none focus:ring focus:ring-yellow-500"
+              className="w-full p-2 border-sky-500 bg-white-800 text-sky-300 rounded-lg focus:outline-none focus:ring focus:ring-yellow-500"
               required
             />
           </div>

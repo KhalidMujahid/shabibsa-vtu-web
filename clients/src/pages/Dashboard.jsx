@@ -28,6 +28,7 @@ function Dashboard() {
     "Scheduled Maintenance on Sunday",
   ]);
   const [showBalance, setShowBalance] = useState(false);
+  const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
     if (error) {
@@ -40,7 +41,40 @@ function Dashboard() {
   return (
     <div className="min-h-screen bg-white text-blue-900 flex flex-col">
       <ToastContainer />
-      {loading && <div className="loading-overlay"><div className="spinner"></div></div>}
+      {loading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+            <h2 className="text-xl font-bold text-blue-600">Welcome, {user?.firstname || "User"}!</h2>
+            <p className="mt-4 text-gray-700">
+              Shabibsa Data provides a variety of VTU (Virtual Top-Up) services including airtime, data, electricity bill payments, and more. For any inquiries or assistance, please visit our support page.
+            </p>
+            <div className="mt-6 flex justify-end space-x-4">
+              <button
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                onClick={() => setShowModal(false)}
+              >
+                Close
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                onClick={() => {
+                  setShowModal(false);
+                  navigate("/support");
+                }}
+              >
+                Visit Support
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Header */}
       <header className="w-full flex justify-between items-center p-4 bg-blue-600 text-white shadow-lg">
@@ -85,30 +119,28 @@ function Dashboard() {
         </div>
         <p className="text-xs text-gray-600 mt-2">{balance} of ₦1,000,000 saved</p>
       </div>
-      
 
       {/* Quick Actions */}
-<div className="mt-8 grid grid-cols-3 gap-6 w-11/12 max-w-lg mx-auto">
-  {[
-    { icon: <FaCreditCard />, label: "Fund", bg: "bg-gray-300", link: "/fundwallet" },
-    { icon: <FaMobileAlt />, label: "Airtime", bg: "bg-gray-300", link: "/buyairtime" },
-    { icon: <FaWifi />, label: "Data", bg: "bg-gray-300", link: "/buydata" },
-    { icon: <FaBolt />, label: "Electricity", bg: "bg-gray-300", link: "/bills" },
-    { icon: <FaPaperPlane />, label: "Transfer", bg: "bg-gray-300", link: "/transfer" },
-    { icon: <DocumentTextIcon />, label: "Result Checker", bg: "bg-gray-300", link: "/exams" },
-    { icon: <FaEllipsisH />, label: "More", bg: "bg-gray-300", link: "/more" },
-  ].map((action, index) => (
-    <button
-      key={index}
-      onClick={() => navigate(action.link)}
-      className={`flex flex-col items-center justify-center h-24 w-24 ${action.bg} text-blue-900 p-4 rounded-lg shadow-md hover:scale-105 transition-transform`}
-    >
-      {action.icon}
-      <span className="text-xs mt-2">{action.label}</span>
-    </button>
-  ))}
-</div>
-
+      <div className="mt-8 grid grid-cols-3 gap-6 w-11/12 max-w-lg mx-auto">
+        {[
+          { icon: <FaCreditCard />, label: "Fund", bg: "bg-gray-300", link: "/fundwallet" },
+          { icon: <FaMobileAlt />, label: "Airtime", bg: "bg-gray-300", link: "/buyairtime" },
+          { icon: <FaWifi />, label: "Data", bg: "bg-gray-300", link: "/buydata" },
+          { icon: <FaBolt />, label: "Electricity", bg: "bg-gray-300", link: "/bills" },
+          { icon: <FaPaperPlane />, label: "Transfer", bg: "bg-gray-300", link: "/transfer" },
+          { icon: <DocumentTextIcon />, label: "Result Checker", bg: "bg-gray-300", link: "/exams" },
+          { icon: <FaEllipsisH />, label: "More", bg: "bg-gray-300", link: "/more" },
+        ].map((action, index) => (
+          <button
+            key={index}
+            onClick={() => navigate(action.link)}
+            className={`flex flex-col items-center justify-center h-24 w-24 ${action.bg} text-blue-900 p-4 rounded-lg shadow-md hover:scale-105 transition-transform`}
+          >
+            {action.icon}
+            <span className="text-xs mt-2">{action.label}</span>
+          </button>
+        ))}
+      </div>
 
       {/* Recent Transactions */}
       <div className="mt-10 w-11/12 max-w-lg mx-auto bg-white p-4 rounded-lg shadow-lg">
@@ -134,4 +166,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-

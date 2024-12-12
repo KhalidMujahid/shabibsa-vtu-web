@@ -25,7 +25,7 @@ function Support() {
       <div className="space-y-6 w-full max-w-md">
         {/* WhatsApp */}
         <a
-          href="https://wa.me/+2348038923044"
+          href="https://wa.me/+2348032904452"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center bg-sky-500 text-white-900 p-4 rounded-lg shadow-md hover:bg-white-600 transition-all"
@@ -36,7 +36,7 @@ function Support() {
 
         {/* Email */}
         <a
-          href="mailto:banaconnect@gmail.com"
+          href="mailto:shabibsadata@gmail.com"
           className="flex items-center bg-sky-800 text-white-300 p-4 rounded-lg shadow-md hover:bg-sky-700 transition-all"
         >
           <FaEnvelope size={24} className="mr-3 text-white-400" />
@@ -45,7 +45,7 @@ function Support() {
 
         {/* Phone */}
         <a
-          href="tel:+2348038923044"
+          href="tel:+2348032904452"
           className="flex items-center bg-sky-800 text-sky-300 p-4 rounded-lg shadow-md hover:bg-sky-700 transition-all"
         >
           <FaPhone size={24} className="mr-3 text-yellow-400" />

@@ -6,7 +6,7 @@ import {
   GiftIcon,
   UsersIcon,
 } from "@heroicons/react/outline";
-import { FaSms } from "react-icons/fa";
+//import { FaSms } from "react-icons/fa";
 
 function More() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function More() {
     //{ label: "Cable Subscription", route: "/cable", icon: DesktopComputerIcon },
     //{ label: "Bonus to Wallet", route: "/bonus", icon: GiftIcon },
     //{ label: "My Referrers", route: "/referrers", icon: UsersIcon },
-    { label: "Bulk SMS", route: "/bluksms", icon: FaSms  },
+    //{ label: "Bulk SMS", route: "/bluksms", icon: FaSms  },
   ];
 
   return (
