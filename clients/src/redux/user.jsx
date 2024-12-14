@@ -91,6 +91,7 @@ const userSlice = createSlice({
   initialState: {
     //user: { username: "Khalid", firstname: "mujahid", lastname: "khalid" },
     user: null,
+    notif: true,
     balance: 0,
     token: null,
     transactions: [],

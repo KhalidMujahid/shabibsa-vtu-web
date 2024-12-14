@@ -62,7 +62,7 @@ function Exams() {
       {/* Form Container */}
       <div className="w-full max-w-md bg-sky-700 p-6 rounded-lg shadow-md">
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Exam Name Input */}
+          {/* Exam Name Dropdown */}
           <div>
             <label
               htmlFor="examName"
@@ -70,15 +70,20 @@ function Exams() {
             >
               Exam Name
             </label>
-            <input
-              type="text"
+            <select
               id="examName"
               value={examName}
               onChange={(e) => setExamName(e.target.value)}
-              placeholder="e.g., WAEC, JAMB, NECO"
               className="w-full p-2 border-sky-500 bg-gray-800 text-white-300 rounded-lg focus:outline-none focus:ring focus:ring-yellow-500"
               required
-            />
+            >
+              <option value="" disabled>
+                Select Exam
+              </option>
+              <option value="WAEC">WAEC</option>
+              <option value="NECO">NECO</option>
+              <option value="NABTEB">NABTEB</option>
+            </select>
           </div>
 
           {/* Quantity Input */}
@@ -129,4 +134,3 @@ function Exams() {
 }
 
 export default Exams;
-

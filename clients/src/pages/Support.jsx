@@ -1,4 +1,4 @@
-import { FaWhatsapp, FaEnvelope, FaPhone, FaArrowLeft } from "react-icons/fa";
+import { FaWhatsapp, FaEnvelope, FaPhone, FaArrowLeft, FaFacebook } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 function Support() {
@@ -20,7 +20,7 @@ function Support() {
       <p className="text-sky-800 text-center mb-10">
         Need assistance? Reach out to us through any of the options below.
       </p>
-      
+
       {/* Contact Options */}
       <div className="space-y-6 w-full max-w-md">
         {/* WhatsApp */}
@@ -50,6 +50,17 @@ function Support() {
         >
           <FaPhone size={24} className="mr-3 text-yellow-400" />
           <span className="font-semibold text-lg">Phone</span>
+        </a>
+
+        {/* Facebook */}
+        <a
+          href="https://www.facebook.com/profile.php?id=61551644067953&mibextid=ZbWKwL"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center bg-blue-600 text-white-900 p-4 rounded-lg shadow-md hover:bg-blue-500 transition-all"
+        >
+          <FaFacebook size={24} className="mr-3 text-white-400" />
+          <span className="font-semibold text-lg">Facebook</span>
         </a>
       </div>
 
