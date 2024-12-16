@@ -2,7 +2,7 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6">
       <div className="container mx-auto px-6">
-        {/* Footer Content tel:08032904452, mail:shabibsadata@gmail.com, address: NO.46 Fadikpe/kutriko road before railway line,minna niger state*/}
+        {/* Footer Content */}
         <div className="flex flex-col md:flex-row justify-between items-center">
           {/* Left Section */}
           <div className="text-center md:text-left">
@@ -12,29 +12,36 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Social Media Links */}
-          <div className="mt-4 md:mt-0">
-            <ul className="flex justify-center space-x-6">
-              <li>
-                <a
-                  href="https://www.facebook.com/profile.php?id=61551644067953&mibextid=ZbWKwL"
-                  className="text-white hover:text-blue-200 transition"
-                  aria-label="Facebook"
-                >
-                  <i className="fab fa-facebook-f text-xl"></i>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.instagram.com/shabibsa_enterprises?igsh=YzljYTk1ODg3Zg=="
-                  className="text-white hover:text-blue-200 transition"
-                  aria-label="Instagram"
-                >
-                  <i className="fab fa-instagram text-xl"></i>
-                </a>
-              </li>
-            </ul>
+          {/* Contact Information */}
+          <div className="mt-4 md:mt-0 text-center md:text-right">
+            <p className="text-sm text-gray-200">Phone: <a href="tel:+08032904452" className="hover:underline">08032904452</a></p>
+            <p className="text-sm text-gray-200">Email: <a href="mailto:shabibsadata@gmail.com" className="hover:underline">shabibsadata@gmail.com</a></p>
+            <p className="text-sm text-gray-200">Address: NO.46 Fadikpe/Kutriko Road, Before Railway Line, Minna, Niger State</p>
           </div>
+        </div>
+
+        {/* Social Media Links */}
+        <div className="mt-4 md:mt-0">
+          <ul className="flex justify-center space-x-6">
+            <li>
+              <a
+                href="https://www.facebook.com/profile.php?id=61551644067953&mibextid=ZbWKwL"
+                className="text-white hover:text-blue-200 transition"
+                aria-label="Facebook"
+              >
+                <i className="fab fa-facebook-f text-xl"></i>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.instagram.com/shabibsa_enterprises?igsh=YzljYTk1ODg3Zg=="
+                className="text-white hover:text-blue-200 transition"
+                aria-label="Instagram"
+              >
+                <i className="fab fa-instagram text-xl"></i>
+              </a>
+            </li>
+          </ul>
         </div>
 
         {/* Divider */}
