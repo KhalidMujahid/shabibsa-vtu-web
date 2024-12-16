@@ -18,79 +18,75 @@ function Transaction() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-white-900 p-6">
-      {/* Back Button */}
-      <button
-        onClick={() => navigate(-1)}
-        className="flex items-center py-2 px-4 bg-white-800 text-sky-300 rounded-lg shadow hover:bg-white-700 transition-all mb-6"
-      >
-        <span className="text-sky-400 font-medium">Back</span>
-      </button>
+    <div className="min-h-screen bg-gray-100 text-gray-800">
+      <div className="container mx-auto px-6 py-12">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 py-2 px-4 bg-gray-200 text-gray-600 rounded-lg shadow hover:bg-gray-300 transition-all mb-8"
+        >
+          <span className="text-lg font-medium">← Back</span>
+        </button>
 
-      {/* Title */}
-      <h1 className="text-3xl font-bold text-sky-400 mb-6">Transaction History</h1>
+        {/* Title */}
+        <h1 className="text-4xl font-bold text-gray-900 mb-8">Transaction History</h1>
 
-      {/* Search Bar */}
-      <div className="w-full max-w-md mb-6">
-        <input
-          type="text"
-          placeholder="Search Transactions"
-          className="w-full p-3 rounded-lg bg-white-800 text-sky-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
+        {/* Search Bar */}
+        <div className="w-full max-w-md mb-8">
+          <input
+            type="text"
+            placeholder="Search Transactions..."
+            className="w-full p-4 bg-white border rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
 
-      {/* Transactions Table */}
-      <div className="w-full max-w-2xl overflow-x-auto">
-        <table className="w-full bg-white-800 text-sky-300 rounded-lg shadow-md">
-          <thead>
-            <tr className="bg-gray-700">
-              <th className="p-4 text-left">Date</th>
-              <th className="p-4 text-left">Description</th>
-              <th className="p-4 text-right">Amount</th>
-              <th className="p-4 text-right">Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredTransactions.length > 0 ? (
-              filteredTransactions.map((transaction) => (
-                <tr
-                  key={transaction.id}
-                  className={
-                    transaction.type === "credit"
-                      ? "bg-gray-800 hover:bg-green-700"
-                      : "bg-gray-800 hover:bg-red-700"
-                  }
+        {/* Transactions List */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredTransactions.length > 0 ? (
+            filteredTransactions.map((transaction) => (
+              <div
+                key={transaction.id}
+                className={`p-6 rounded-lg shadow hover:shadow-md transition ${
+                  transaction.type === "credit" ? "bg-green-100" : "bg-red-100"
+                }`}
+              >
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {transaction.description}
+                </h3>
+                <p className="text-gray-500 text-sm mt-1">{transaction.date}</p>
+                <p
+                  className={`text-xl font-bold mt-4 ${
+                    transaction.type === "credit" ? "text-green-600" : "text-red-600"
+                  }`}
                 >
-                  <td className="p-4">{transaction.date}</td>
-                  <td className="p-4">{transaction.description}</td>
-                  <td className="p-4 text-right">
-                    {transaction.type === "credit"
-                      ? `+${transaction.amount.toFixed(2)} USD`
-                      : `-${transaction.amount.toFixed(2)} USD`}
-                  </td>
-                  <td className="p-4 text-right capitalize">{transaction.type}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="p-4 text-center text-gray-500">
-                  No transactions found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+                  {transaction.type === "credit"
+                    ? `+${transaction.amount.toFixed(2)} USD`
+                    : `-${transaction.amount.toFixed(2)} USD`}
+                </p>
+                <p className="text-sm text-gray-500 capitalize mt-2">
+                  Type: {transaction.type}
+                </p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 col-span-full text-center">
+              No transactions found.
+            </p>
+          )}
+        </div>
 
-      {/* New Transaction Button */}
-      <button
-        onClick={() => alert("New transaction form goes here")}
-        className="mt-8 py-3 px-6 bg-gradient-to-r from-sky-500 to-sky-600 text-sky-900 font-semibold rounded-lg shadow hover:shadow-lg transition-all"
-      >
-        New Transaction
-      </button>
+        {/* New Transaction Button */}
+        <div className="mt-12 text-center">
+          <button
+            onClick={() => alert("New transaction form goes here")}
+            className="py-3 px-6 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-semibold rounded-lg shadow hover:shadow-lg transition"
+          >
+            New Transaction
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
