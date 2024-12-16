@@ -7,7 +7,7 @@ function Airtime2cash() {
     <div className="min-h-screen bg-gray-100 text-gray-800 flex flex-col items-center p-6 relative">
       {/* Back Button */}
       <button
-        onClick={() => navigate("/more")}
+        onClick={() => navigate("/dashboard")}
         className="self-start mb-4 text-blue-500 hover:text-blue-600"
       >
         &larr; Back

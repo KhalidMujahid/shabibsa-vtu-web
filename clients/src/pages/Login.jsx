@@ -61,6 +61,8 @@ function Login() {
           <div className="spinner"></div>
         </div>
       )}
+      
+      {/*Add logo*/}
 
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 border border-gray-300">
         <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-6">Login</h2>

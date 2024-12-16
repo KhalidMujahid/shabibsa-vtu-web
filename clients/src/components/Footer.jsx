@@ -2,7 +2,7 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6">
       <div className="container mx-auto px-6">
-        {/* Footer Content */}
+        {/* Footer Content tel:08032904452, mail:shabibsadata@gmail.com, address: NO.46 Fadikpe/kutriko road before railway line,minna niger state*/}
         <div className="flex flex-col md:flex-row justify-between items-center">
           {/* Left Section */}
           <div className="text-center md:text-left">
@@ -17,7 +17,7 @@ const Footer = () => {
             <ul className="flex justify-center space-x-6">
               <li>
                 <a
-                  href="#"
+                  href="https://www.facebook.com/profile.php?id=61551644067953&mibextid=ZbWKwL"
                   className="text-white hover:text-blue-200 transition"
                   aria-label="Facebook"
                 >
@@ -28,27 +28,9 @@ const Footer = () => {
                 <a
                   href="#"
                   className="text-white hover:text-blue-200 transition"
-                  aria-label="Twitter"
-                >
-                  <i className="fab fa-twitter text-xl"></i>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-white hover:text-blue-200 transition"
                   aria-label="Instagram"
                 >
                   <i className="fab fa-instagram text-xl"></i>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-white hover:text-blue-200 transition"
-                  aria-label="LinkedIn"
-                >
-                  <i className="fab fa-linkedin-in text-xl"></i>
                 </a>
               </li>
             </ul>

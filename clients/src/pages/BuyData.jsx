@@ -1,7 +1,7 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { baseURL } from "../services/baseURL";
 
@@ -99,19 +99,19 @@ function BuyData() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center p-6">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
       <ToastContainer />
       <button
         onClick={() => navigate("/dashboard")}
-        className="self-start mb-4 flex items-center text-sky-500 hover:text-yellow-400"
+        className="self-start mb-4 flex items-center text-blue-600 hover:text-blue-800"
       >
         &larr; Back
       </button>
-      <h1 className="text-3xl font-bold text-sky-500 mb-6">Buy Data</h1>
-      <div className="w-full max-w-md p-4 bg-white shadow-md rounded-lg">
-        <label className="block text-sky-500 font-medium mb-2">Select Network</label>
+      <h1 className="text-3xl font-bold text-blue-700 mb-6">Buy Data</h1>
+      <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
+        <label className="block text-blue-700 font-medium mb-2">Select Network</label>
         <select
-          className="w-full p-2 bg-white border border-sky-500 rounded-md mb-4"
+          className="w-full p-3 bg-white border border-blue-500 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
           onChange={handleNetworkChange}
           value={selectedNetwork}
         >
@@ -122,9 +122,9 @@ function BuyData() {
           <option value="9MOBILE_PLAN">9Mobile</option>
         </select>
 
-        <label className="block text-sky-500 font-medium mb-2">Data Plan</label>
+        <label className="block text-blue-700 font-medium mb-2">Data Plan</label>
         <select
-          className="w-full p-2 bg-white border border-sky-500 rounded-md mb-4"
+          className="w-full p-3 bg-white border border-blue-500 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
           onChange={(e) => setSelectedDataPlan(e.target.value)}
           value={selectedDataPlan}
         >
@@ -136,31 +136,30 @@ function BuyData() {
           ))}
         </select>
 
-        <label className="block text-sky-500 font-medium mb-2">Plan</label>
+        <label className="block text-blue-700 font-medium mb-2">Plan</label>
         {loading ? (
           <div className="flex justify-center items-center py-2">
-            <span className="text-sky-500">Loading plans...</span>
+            <div className="loader ease-linear rounded-full border-4 border-t-4 border-blue-200 h-6 w-6"></div>
           </div>
         ) : (
           <select
-            className="w-full p-2 bg-white border border-sky-500 rounded-md mb-4"
+            className="w-full p-3 bg-white border border-blue-500 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
             onChange={(e) => setSelectedPlan(e.target.value)}
             value={selectedPlan}
           >
             <option value="">Select Plan</option>
             {plans.map((plan, id) => (
               <option key={id} value={plan.id}>
-                {"\u20A6"}
-                {plan.plan_amount} - {plan.plan} ({plan.month_validate})
+                {`₦${plan.plan_amount}`} - {plan.plan} ({plan.month_validate})
               </option>
             ))}
           </select>
         )}
 
-        <label className="block text-sky-500 font-medium mb-2">Enter Phone Number</label>
+        <label className="block text-blue-700 font-medium mb-2">Enter Phone Number</label>
         <input
           type="text"
-          className="w-full p-2 bg-white border border-sky-500 rounded-md mb-4"
+          className="w-full p-3 bg-white border border-blue-500 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Enter Phone number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
@@ -168,7 +167,7 @@ function BuyData() {
 
         <button
           onClick={handlePurchase}
-          className="w-full bg-sky-500 text-white py-2 rounded-md hover:bg-sky-600"
+          className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
         >
           Purchase Data
         </button>
@@ -176,34 +175,34 @@ function BuyData() {
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white w-full max-w-sm rounded-lg shadow-lg p-6 text-center">
-            <h2 className="text-2xl font-semibold text-sky-500 mb-4">Confirm Your Details</h2>
+          <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-6 text-center">
+            <h2 className="text-2xl font-semibold text-blue-700 mb-4">Confirm Your Details</h2>
             <div className="text-left mb-4">
-              <p className="text-sky-500"><strong>Network:</strong> {selectedNetwork || "N/A"}</p>
-              <p className="text-sky-500"><strong>Data Plan:</strong> {selectedDataPlan || "N/A"}</p>
-              <p className="text-sky-500"><strong>Plan Amount:</strong> 
-                {" \u20A6"}{plans.find(plan => plan.id === selectedPlan)?.plan_amount || "N/A"}
+              <p className="text-blue-700"><strong>Network:</strong> {selectedNetwork || "N/A"}</p>
+              <p className="text-blue-700"><strong>Data Plan:</strong> {selectedDataPlan || "N/A"}</p>
+              <p className="text-blue-700"><strong>Plan Amount:</strong> 
+                {`₦${plans.find(plan => plan.id === selectedPlan)?.plan_amount || "N/A"}`}
               </p>
-              <p className="text-sky-500"><strong>Phone Number:</strong> {phone || "N/A"}</p>
+              <p className="text-blue-700"><strong>Phone Number:</strong> {phone || "N/A"}</p>
             </div>
-            <h2 className="text-xl font-semibold text-sky-500 mb-4">Enter 4-Digit PIN</h2>
+            <h2 className="text-xl font-semibold text-blue-700 mb-4">Enter 4-Digit PIN</h2>
             <input
               type="password"
               maxLength="4"
-              className="w-full p-3 bg-white text-sky-500 border border-sky-400 rounded-lg text-center text-2xl tracking-widest mb-4"
+              className="w-full p-3 bg-white text-blue-700 border border-blue-400 rounded-lg text-center text-2xl tracking-widest mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
               value={pin}
               onChange={(e) => setPin(e.target.value)}
             />
             <div className="flex space-x-4 justify-center">
               <button
                 onClick={handleConfirmPurchase}
-                className="bg-sky-500 text-white py-2 px-4 rounded-lg hover:bg-sky-600"
+                className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
               >
                 Confirm
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="bg-gray-300 text-sky-500 py-2 px-4 rounded-lg hover:bg-gray-400"
+                className="bg-gray-300 text-blue-600 py-2 px-4 rounded-lg hover:bg-gray-400 transition"
               >
                 Cancel
               </button>
@@ -216,3 +215,4 @@ function BuyData() {
 }
 
 export default BuyData;
+

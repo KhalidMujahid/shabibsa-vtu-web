@@ -31,7 +31,6 @@ function Exams() {
       if (response.ok) {
         const data = await response.json();
         setSuccessMessage("Exam pins generated successfully!");
-        console.log("Backend response:", data);
         setExamName("");
         setQuantity(1);
       } else {
@@ -40,33 +39,32 @@ function Exams() {
       }
     } catch (error) {
       setErrorMessage("An unexpected error occurred. Please try again.");
-      console.error("Error during fetch:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-white-900 text-sky-400 flex flex-col items-center p-6 relative">
+    <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col items-center p-6">
       {/* Back Button */}
       <button
-        onClick={() => navigate("/more")}
-        className="self-start mb-4 text-sky-500 hover:text-sky-600"
+        onClick={() => navigate("/dashboard")}
+        className="self-start mb-4 text-blue-600 hover:text-blue-800 flex items-center"
       >
         &larr; Back
       </button>
 
       {/* Page Title */}
-      <h1 className="text-2xl font-bold mb-6">Generate Exam Pins</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-700">Generate Exam Pins</h1>
 
       {/* Form Container */}
-      <div className="w-full max-w-md bg-sky-700 p-6 rounded-lg shadow-md">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Exam Name Dropdown */}
           <div>
             <label
               htmlFor="examName"
-              className="block text-sm font-medium text-yellow-300 mb-1"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
               Exam Name
             </label>
@@ -74,7 +72,7 @@ function Exams() {
               id="examName"
               value={examName}
               onChange={(e) => setExamName(e.target.value)}
-              className="w-full p-2 border-sky-500 bg-gray-800 text-white-300 rounded-lg focus:outline-none focus:ring focus:ring-yellow-500"
+              className="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required
             >
               <option value="" disabled>
@@ -90,7 +88,7 @@ function Exams() {
           <div>
             <label
               htmlFor="quantity"
-              className="block text-sm font-medium text-white-300 mb-1"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
               Quantity
             </label>
@@ -100,17 +98,23 @@ function Exams() {
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
               min="1"
-              className="w-full p-2 border-sky-500 bg-white-800 text-sky-300 rounded-lg focus:outline-none focus:ring focus:ring-yellow-500"
+              className="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required
             />
           </div>
 
           {/* Error Message */}
-          {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
+          {errorMessage && (
+            <div className="text-red-600 bg-red-100 p-3 rounded-lg text-sm">
+              {errorMessage}
+            </div>
+          )}
 
           {/* Success Message */}
           {successMessage && (
-            <p className="text-green-500 text-sm">{successMessage}</p>
+            <div className="text-green-600 bg-green-100 p-3 rounded-lg text-sm">
+              {successMessage}
+            </div>
           )}
 
           {/* Submit Button */}
@@ -118,10 +122,10 @@ function Exams() {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full p-2 rounded-lg text-gray-900 font-medium ${
+              className={`w-full py-3 rounded-lg text-white font-medium transition ${
                 loading
-                  ? "bg-gray-500 cursor-not-allowed"
-                  : "bg-yellow-500 hover:bg-yellow-600"
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
               }`}
             >
               {loading ? "Generating..." : "Generate Pins"}
@@ -134,3 +138,4 @@ function Exams() {
 }
 
 export default Exams;
+

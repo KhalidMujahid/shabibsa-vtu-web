@@ -4,6 +4,8 @@ import {
   FaHeadset,
   FaSignOutAlt,
   FaChevronRight,
+  FaBell,
+  FaHome,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
@@ -21,6 +23,20 @@ function Menu() {
 
   return (
     <div className="min-h-screen bg-white p-6 flex flex-col items-center">
+    {/* Header */}
+      <header className="w-full flex justify-between items-center p-4 bg-white-600 text-white">
+        <button
+          onClick={() => navigate("/dashboard")}
+        >
+            <FaHome
+                size={24} 
+                className="text-sky-500"
+            />
+        </button>
+        <div className="relative">
+        </div>
+      </header>
+
       <h1 className="text-3xl font-bold text-sky-500 mb-6">Menu</h1>
 
       {/* Menu Options */}
@@ -73,9 +89,6 @@ function Menu() {
           <FaChevronRight size={20} className="text-white" />
         </button>
       </div>
-
-      {/* NavBar */}
-      <NavBar />
 
       {/* Footer */}
       <div className="mt-6 w-full text-center">

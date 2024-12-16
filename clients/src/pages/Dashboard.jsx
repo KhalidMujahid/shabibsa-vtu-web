@@ -1,7 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import NavBar from "../components/NavBar";
+import {
+  AiOutlineMenu,
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineBell,
+} from "react-icons/ai";
 import {
   FaMobileAlt,
   FaCreditCard,
@@ -9,55 +14,61 @@ import {
   FaBolt,
   FaPaperPlane,
   FaSms,
-  FaEllipsisH,
+  FaTv,
   FaEye,
   FaEyeSlash,
   FaBell,
+  FaFileAlt,
+  FaMoneyBillWave,
+  FaComments,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { DocumentTextIcon } from "@heroicons/react/outline";
+import { useSelector } from "react-redux";
 
-function Dashboard() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user, transactions, loading, error } = useSelector((state) => state.user);
-  const [notifications] = useState([
-    "Transaction Successful",
-    "New Feature: Bulk SMS Service",
-    "Scheduled Maintenance on Sunday",
-  ]);
+const Dashboard = () => {
+  const { user,balance } = useSelector((state) => state.user);
   const [showBalance, setShowBalance] = useState(false);
   const [showModal, setShowModal] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (error) {
-      toast.error(error.message || "An error occurred while loading the page.");
+    if (!user) {
+      toast.error("Error loading user data!");
     }
-  }, [error]);
+  }, [user]);
 
-  const balance = user?.balance || 0;
+  const toggleBalance = () => setShowBalance(!showBalance);
+
+  const handleNavigate = (path) => navigate(path);
 
   return (
-    <div className="min-h-screen bg-white text-blue-900 flex flex-col">
+    <div className="min-h-screen bg-gray-100 text-gray-800">
       <ToastContainer />
-      {loading && (
-        <div className="loading-overlay">
-          <div className="spinner"></div>
-        </div>
-      )}
 
-      {/* Modal */}
+      {/* Header */}
+      <header className="w-full bg-white shadow-md p-4 flex justify-between items-center">
+        <button onClick={() => handleNavigate("/menu") }>
+          <AiOutlineMenu size={24} className="text-blue-600 cursor-pointer"/>
+        </button>
+        <h1 className="text-lg font-semibold text-blue-800">Dashboard</h1>
+        <div className="relative">
+          <AiOutlineBell size={24} className="text-blue-600 cursor-pointer" />
+          <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">3</span>
+        </div>
+      </header>
+
+      {/* Welcome Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-            <h2 className="text-xl font-bold text-blue-600">Welcome, {user?.firstname || "User"}!</h2>
-            <p className="mt-4 text-gray-700">
-              Shabibsa Data provides a variety of VTU (Virtual Top-Up) services including airtime, data, electricity bill payments, and more. For any inquiries or assistance, please visit our support page.
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+            <h2 className="text-xl font-semibold text-blue-700 mb-4">Welcome, {user?.firstname}!</h2>
+            <p className="text-gray-600 mb-6">
+              Discover seamless services including airtime, data, bill payments, and more. For
+              assistance, visit our support page.
             </p>
-            <div className="mt-6 flex justify-end space-x-4">
+            <div className="flex justify-end space-x-4">
               <button
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
                 onClick={() => setShowModal(false)}
               >
                 Close
@@ -66,7 +77,7 @@ function Dashboard() {
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 onClick={() => {
                   setShowModal(false);
-                  navigate("/support");
+                  handleNavigate("/support");
                 }}
               >
                 Visit Support
@@ -76,93 +87,56 @@ function Dashboard() {
         </div>
       )}
 
-      {/* Header */}
-      <header className="w-full flex justify-between items-center p-4 bg-blue-600 text-white shadow-lg">
-        <h1 className="text-xl font-bold">Dashboard</h1>
-        <div className="relative">
-          <FaBell
-            size={24}
-            className="cursor-pointer hover:text-blue-300 transition-colors"
-            onClick={() => alert("Viewing all notifications")}
-          />
-          {notifications.length > 0 && (
-            <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2">
-              {notifications.length}
-            </span>
-          )}
-        </div>
-      </header>
-
-      {/* Balance Card */}
-      <div className="mt-6 mx-auto w-11/12 max-w-lg bg-white p-6 rounded-xl shadow-lg hover:shadow-blue-500/50 transition-shadow">
-        <div className="flex justify-between items-center">
-          <div>
-            <h2 className="text-lg font-semibold">{user?.firstname} {user?.lastname}</h2>
-            <p className="text-sm text-gray-600">@{user?.username}</p>
+      {/* Main Content */}
+      <div className="p-4 space-y-6">
+        {/* Balance Card */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-lg font-semibold">{user?.firstname} {user?.lastname}</h2>
+              <p className="text-sm text-gray-500">@{user?.username}</p>
+            </div>
+            <button
+              onClick={toggleBalance}
+              className="text-blue-600 hover:text-blue-700"
+              aria-label="Toggle Balance Visibility"
+            >
+              {showBalance ? <AiOutlineEyeInvisible size={24} /> : <AiOutlineEye size={24} />}
+            </button>
           </div>
-          <button
-            className="text-blue-600 hover:text-blue-500"
-            onClick={() => setShowBalance(!showBalance)}
-          >
-            {showBalance ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
-          </button>
+          <div className="mt-4">
+            <h3 className="text-sm text-gray-500">Available Balance</h3>
+            <p className="text-3xl font-bold">{showBalance ? `₦${balance.toLocaleString()}` : "****"}</p>
+          </div>
         </div>
-        <div className="mt-4">
-          <h3 className="text-sm font-light text-gray-600">Total Balance</h3>
-          <p className="text-4xl font-bold">{showBalance ? `₦${balance.toLocaleString()}` : "****"}</p>
+
+        {/* Quick Actions */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {[
+              { icon: <FaCreditCard size={24} />, label: "Fund", bg: "bg-gray-300", link: "/fundwallet" },
+          { icon: <FaMobileAlt size={24} />, label: "Airtime", bg: "bg-gray-300", link: "/buyairtime" },
+          { icon: <FaWifi size={24} />, label: "Data", bg: "bg-gray-300", link: "/buydata" },
+          { icon: <FaBolt size={24} />, label: "Electricity", bg: "bg-gray-300", link: "/bills" },
+          { icon: <FaPaperPlane size={24} />, label: "Transfer", bg: "bg-gray-300", link: "/transfer" },
+          { icon: <FaFileAlt size={24} />, label: "Result Checker", bg: "bg-gray-300", link: "/exams" },
+          { icon: <FaTv size={24} />, label: "TV subscription", bg: "bg-gray-300", link: "/cable" },
+          { icon: <FaMoneyBillWave size={24} />, label: "Airtime to Cash", bg: "bg-gray-300", link: "/airtime2cash" },
+          { icon: <FaComments size={24} />, label: "Bulk SMS", bg: "bg-gray-300", link: "/bluksms" },
+          ].map((action, index) => (
+            <button
+              key={index}
+              className="flex flex-col items-center bg-white p-4 rounded-lg shadow hover:bg-blue-50 transition"
+              onClick={() => handleNavigate(action.link)}
+            >
+              <div className="text-blue-600 mb-2">{action.icon}</div>
+              <span className="text-sm font-medium text-gray-700">{action.label}</span>
+            </button>
+          ))}
         </div>
-        <div className="mt-4 bg-gray-200 h-2 rounded-full overflow-hidden">
-          <div
-            className="bg-blue-600 h-2"
-            style={{ width: `${(balance / 1000000) * 100}%` }}
-          ></div>
-        </div>
-        <p className="text-xs text-gray-600 mt-2">{balance} of ₦1,000,000 saved</p>
       </div>
-
-      {/* Quick Actions */}
-      <div className="mt-8 grid grid-cols-3 gap-6 w-11/12 max-w-lg mx-auto">
-        {[
-          { icon: <FaCreditCard />, label: "Fund", bg: "bg-gray-300", link: "/fundwallet" },
-          { icon: <FaMobileAlt />, label: "Airtime", bg: "bg-gray-300", link: "/buyairtime" },
-          { icon: <FaWifi />, label: "Data", bg: "bg-gray-300", link: "/buydata" },
-          { icon: <FaBolt />, label: "Electricity", bg: "bg-gray-300", link: "/bills" },
-          { icon: <FaPaperPlane />, label: "Transfer", bg: "bg-gray-300", link: "/transfer" },
-          { icon: <DocumentTextIcon />, label: "Result Checker", bg: "bg-gray-300", link: "/exams" },
-          { icon: <FaEllipsisH />, label: "More", bg: "bg-gray-300", link: "/more" },
-        ].map((action, index) => (
-          <button
-            key={index}
-            onClick={() => navigate(action.link)}
-            className={`flex flex-col items-center justify-center h-24 w-24 ${action.bg} text-blue-900 p-4 rounded-lg shadow-md hover:scale-105 transition-transform`}
-          >
-            {action.icon}
-            <span className="text-xs mt-2">{action.label}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Recent Transactions */}
-      <div className="mt-10 w-11/12 max-w-lg mx-auto bg-white p-4 rounded-lg shadow-lg">
-        <h2 className="text-lg font-semibold text-blue-600">Recent Transactions</h2>
-        {loading ? (
-          <p className="text-gray-600 mt-4">Loading transactions...</p>
-        ) : transactions?.length ? (
-          <ul className="mt-4 space-y-2">
-            {transactions.map((tx, index) => (
-              <li key={index} className="text-sm text-blue-600">
-                {tx.description} - ₦{tx.amount.toLocaleString()}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-gray-600 mt-4">No transactions found.</p>
-        )}
-      </div>
-
-      <NavBar />
     </div>
   );
-}
+};
 
 export default Dashboard;
+

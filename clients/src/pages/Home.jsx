@@ -100,7 +100,7 @@ const Home = () => {
               WELCOME TO <span className="text-yellow-300">Shabibsa</span>
             </h1>
             <p className="mt-4 text-lg max-w-lg mx-auto">
-              Seamlessly handle your financial obligations with Shabibsa.
+              This is a telecommunication industry playing a major role in distribution, selling affordable and most cheapest data,airtime, DSTV,GOTV and Startime subscriptions.
             </p>
             <div className="mt-6 flex justify-center space-x-4">
               <button
@@ -122,14 +122,28 @@ const Home = () => {
         {/* Services Section */}
         <section className="py-20 bg-gray-100" id="services">
           <div className="container mx-auto text-center">
+          {/* to be changed*/}
             <h2 className="text-4xl font-semibold text-blue-700">Our Expertise Field</h2>
             <p className="mt-2 text-gray-600">Explore our amazing services.</p>
+            
+            <div className="container mx-auto text-center">
+               <h2 className="text-4xl font-semibold text-blue-700">About Us</h2>
+               <p className="mt-2 text-gray-600">We offer instant recharge of Airtime,Data bundle, cable TV(DSTV,GOTV and Startime) Electricity bill payment, Result checker (WAEC,NECO and NABTEB) E-PIN token and Airtime to cash.</p>
+               <p className="mt-2 text-gray-600">In addition we use cutting-edge technology to run our services.Our data delivery and wallet funding is automated, Airtime top-up and data purchase are automated and get delivered to you almost instantly.</p>
+            </div>
+            
+            <div className="container mx-auto text-center">
+              <h2 className="text-4xl font-semibold text-blue-700">Secure Data</h2>
+              <p className="mt-2 text-gray-600">We are a fully optimised platform. for reliablity and dependbility. we get 100% value for any transaction you carry with us.</p>
+            </div>
+            
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
               {[
-                { title: "DATA BUNDLE", description: "Affordable browsing data bundles." },
-                { title: "AIRTIME TOPUP", description: "Recharge safely at low rates." },
-                { title: "TV SUBSCRIPTION", description: "Activate cable plans easily." },
-                { title: "AIRTIME 2 CASH", description: "Convert airtime to cash." },
+                { title: "DATA BUNDLE", description: "Enjoy more data to browse, chat and download your favourite video with Shabibsa Data bundle at affordable data plan." },
+                { title: "AIRTIME TOPUP", description: "Get your Airtime instantly online from any network (MTN,GLO, 9Mobile, Airtel using Shabibsa." },
+                { title: "TV SUBSCRIPTION", description: "You can make startimes, DSTV,GOTV subscriptions, with Shabibsa at any time." },
+                { title: "Electricity Bill", description: "You don't have to be in darkness with Shabibsa you are covered." },
+                { title: "Bulk Sms", description: "For your wedding, naming ceremony,birthday,walima, and other events. you are covered with Shabibsa" },
               ].map((service, index) => (
                 <div
                   key={index}
@@ -142,6 +156,14 @@ const Home = () => {
             </div>
           </div>
         </section>
+        
+        
+        {/* add data prices */}
+        
+        <div>
+          <h5>24/7 support</h5>
+          <p>Our customer are premium to us, hence satisfaction is our topmost priority.Our customer service is just a click away</p>
+        </div>
 
         {/* Contact Us Section */}
         <section className="py-20 bg-gray-50" id="contact">
