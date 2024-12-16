@@ -26,7 +26,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="https://www.instagram.com/shabibsa_enterprises?igsh=YzljYTk1ODg3Zg=="
                   className="text-white hover:text-blue-200 transition"
                   aria-label="Instagram"
                 >

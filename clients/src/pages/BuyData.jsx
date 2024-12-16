@@ -172,6 +172,12 @@ function BuyData() {
           Purchase Data
         </button>
       </div>
+      
+      <div className="mt-16 text-gray-500 text-center">
+        <p className="text-sm">
+          Use this to check your balance: *323*2#, *310#, *461*4#, or *460*261#.
+        </p>
+      </div>
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
