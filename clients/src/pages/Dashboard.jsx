@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Carousel from "../components/Carousel";
 import {
   AiOutlineMenu,
   AiOutlineEye,
@@ -30,6 +31,7 @@ const Dashboard = () => {
   const [showBalance, setShowBalance] = useState(false);
   const [showModal, setShowModal] = useState(true);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     if (!user) {
@@ -109,6 +111,9 @@ const Dashboard = () => {
             <p className="text-3xl font-bold">{showBalance ? `₦${balance.toLocaleString()}` : "****"}</p>
           </div>
         </div>
+        
+        <Carousel user={user} />
+
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">

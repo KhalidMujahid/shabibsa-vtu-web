@@ -5,6 +5,7 @@ import { baseURL } from "../services/baseURL";
 function BulkSms() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [sender,setSender] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -24,7 +25,7 @@ function BulkSms() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ recipients, message }),
+        body: JSON.stringify({ recipients, message,sender }),
       });
 
       if (response.ok) {
@@ -57,6 +58,26 @@ function BulkSms() {
       {/* SMS Form */}
       <div className="w-full max-w-lg bg-white text-gray-800 shadow-lg rounded-lg p-6 border border-gray-300">
         <form onSubmit={handleSendSms} className="space-y-4">
+        {/* Sender Input */}
+          <div>
+            <label
+              htmlFor="sender"
+              className="block text-sm font-medium text-gray-600 mb-1"
+            >
+              Sender Name
+            </label>
+            <input
+              type="text"
+              id="sender"
+              name="sender"
+              value={sender}
+              onChange={(e) => setSender(e.target.value)}
+              placeholder="Sender name"
+              className="w-full border-gray-300 bg-gray-50 text-gray-800 rounded-lg shadow-sm p-2 focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400"
+              required
+            />
+          </div>
+
           {/* Recipients Input */}
           <div>
             <label
