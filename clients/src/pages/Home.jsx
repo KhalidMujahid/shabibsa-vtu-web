@@ -35,7 +35,7 @@ const Home = () => {
             <img
               src={shabibsadata} 
               alt="Shabibsa Data"
-              className="h-10 w-10 rounded-full object-cover"
+              className="h-15 w-12"
             />
             <h1 className="text-1xl font-bold text-white font-poppins tracking-wide">ShabibsaData</h1>
           </div>
