@@ -86,6 +86,18 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
+export const resetPassword = createAsyncThunk(
+  'user/resetPassword',
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/password-reset', { email });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -99,7 +111,11 @@ const userSlice = createSlice({
     error: null,
     success: false,
   },
-  reducers: {},
+  reducers: {
+    toggleLog: (state,action) => {
+      state.notif = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -176,9 +192,24 @@ const userSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      //forget password
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        // Handle any success state if needed
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
+
+export const { toggleLog } = userSlice.actions;
 
 export default userSlice.reducer;
 

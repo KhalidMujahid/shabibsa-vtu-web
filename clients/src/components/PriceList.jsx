@@ -1,5 +1,3 @@
-import { FaShoppingCart } from 'react-icons/fa';
-
 const PriceList = () => {
   const data = [
     {
@@ -66,7 +64,7 @@ const PriceList = () => {
                 ))}
               </div>
               <a href="#" className="inline-block py-2 w-100 px-6 text-white bg-indigo-600 rounded-full hover:bg-indigo-700">
-                Purchase <FaShoppingCart size="10" />
+                Purchase
               </a>
             </div>
           </div>

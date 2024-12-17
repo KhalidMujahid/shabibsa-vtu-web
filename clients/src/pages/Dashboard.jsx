@@ -14,22 +14,19 @@ import {
   FaWifi,
   FaBolt,
   FaPaperPlane,
-  FaSms,
   FaTv,
-  FaEye,
-  FaEyeSlash,
-  FaBell,
   FaFileAlt,
   FaMoneyBillWave,
   FaComments,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { toggleLog } from "../redux/user";
 
 const Dashboard = () => {
-  const { user,balance } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { user,balance,notif } = useSelector((state) => state.user);
   const [showBalance, setShowBalance] = useState(false);
-  const [showModal, setShowModal] = useState(true);
   const navigate = useNavigate();
 
 
@@ -60,25 +57,24 @@ const Dashboard = () => {
       </header>
 
       {/* Welcome Modal */}
-      {showModal && (
+      {notif && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
             <h2 className="text-xl font-semibold text-blue-700 mb-4">Welcome, {user?.firstname}!</h2>
             <p className="text-gray-600 mb-6">
-              Discover seamless services including airtime, data, bill payments, and more. For
-              assistance, visit our support page.
+              All services are going smothly like speed of light. Please if you have any issue vist our support, <br /> <span className="text-red-500">NOTE:</span> we do not have manual funding
             </p>
             <div className="flex justify-end space-x-4">
               <button
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-                onClick={() => setShowModal(false)}
+                onClick={() => dispatch(toggleLog(false))}
               >
                 Close
               </button>
               <button
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 onClick={() => {
-                  setShowModal(false);
+                  dispatch(toggleLog(false))
                   handleNavigate("/support");
                 }}
               >

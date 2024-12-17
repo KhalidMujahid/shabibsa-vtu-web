@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import PriceList from "../components/PriceList";
-import { FaClock } from 'react-icons/fa';
+import { FaClock, FaMobileAlt, FaWifi, FaTv, FaBolt, FaSms } from "react-icons/fa";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Home = () => {
       {/* Navbar */}
       <nav className="bg-gradient-to-r from-blue-600 to-blue-800 py-4 shadow-md fixed w-full z-10">
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-white">Shabibsa</h1>
+          <h1 className="text-2xl font-bold text-white">ShabibsaData</h1>
           <button
             onClick={toggleMobileMenu}
             className="text-white md:hidden focus:outline-none"
@@ -98,11 +98,11 @@ const Home = () => {
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 py-32 flex items-center justify-center text-center text-white">
           <div className="container mx-auto">
-            <h1 className="text-5xl font-extrabold">
-              WELCOME TO <span className="text-yellow-300">Shabibsa</span> Data
-            </h1>
-            <p className="mt-4 text-lg max-w-lg mx-auto">
-              This is a telecommunication industry playing a major role in distribution, selling affordable and most cheapest data,airtime, DSTV,GOTV and Startime subscriptions.
+            <h2 className="text-3xl md:text-5xl font-semibold">
+              WELCOME <br /> <span className="text-yellow-300">Shabibsa</span> Data
+            </h2>
+            <p className="mt-4 max-w-lg mx-auto text-lg md:text-xl">
+              We are a telecommunication industry playing a major role in the distribution and sale of affordable data, airtime, DSTV, GOTV, and Startime subscriptions.
             </p>
             <div className="mt-6 flex justify-center space-x-4">
               <button
@@ -121,60 +121,68 @@ const Home = () => {
           </div>
         </section>
 
+        {/* About Us Section */}
+        <section className="py-20 bg-gradient-to-r from-blue-500 via-blue-400 to-blue-300 text-white" id="aboutus">
+          <div className="container mx-auto text-center px-6">
+            <h2 className="text-4xl font-semibold text-white mb-6">About Us</h2>
+            <div className="bg-white p-8 rounded-xl shadow-xl max-w-3xl mx-auto">
+              <p className="text-lg text-gray-700">
+                We offer instant recharge for Airtime, Data bundles, Cable TV (DSTV, GOTV, and Startime), Electricity bill payments, and Result checkers (WAEC, NECO, NABTEB). Additionally, we provide cutting-edge technology for running our services, ensuring fast, reliable, and convenient access to these essential services.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Services Section */}
-        <section className="py-20 bg-gray-100" id="services">
+        <section className="py-20 bg-gray-50" id="services">
           <div className="container mx-auto text-center">
-          {/* to be changed*/}
-            <h2 className="text-4xl font-semibold text-blue-700">Our Expertise Field</h2>
-            <p className="mt-2 text-gray-600">Explore our amazing services.</p>
-            
-            <div className="container mx-auto text-center">
-               <h2 className="text-4xl font-semibold text-blue-700">About Us</h2>
-               <p className="mt-2 text-gray-600">We offer instant recharge of Airtime,Data bundle, cable TV(DSTV,GOTV and Startime) Electricity bill payment, Result checker (WAEC,NECO and NABTEB) E-PIN token and Airtime to cash.</p>
-               <p className="mt-2 text-gray-600">In addition we use cutting-edge technology to run our services.Our data delivery and wallet funding is automated, Airtime top-up and data purchase are automated and get delivered to you almost instantly.</p>
-            </div>
-            
-            <div className="container mx-auto text-center">
-              <h2 className="text-4xl font-semibold text-blue-700">Secure Data</h2>
-              <p className="mt-2 text-gray-600">We are a fully optimised platform. for reliablity and dependbility. we get 100% value for any transaction you carry with us.</p>
-            </div>
-            
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-              {[
-                { title: "DATA BUNDLE", description: "Enjoy more data to browse, chat and download your favourite video with Shabibsa Data bundle at affordable data plan." },
-                { title: "AIRTIME TOPUP", description: "Get your Airtime instantly online from any network (MTN,GLO, 9Mobile, Airtel using Shabibsa." },
-                { title: "TV SUBSCRIPTION", description: "You can make startimes, DSTV,GOTV subscriptions, with Shabibsa at any time." },
-                { title: "Electricity Bill", description: "You don't have to be in darkness with Shabibsa you are covered." },
-                { title: "Bulk Sms", description: "For your wedding, naming ceremony,birthday,walima, and other events. you are covered with Shabibsa" },
-              ].map((service, index) => (
+            <h2 className="text-4xl font-semibold text-blue-700">Our Expertise</h2>
+            <p className="mt-2 text-lg text-gray-600">Explore our amazing services that we offer with top-notch quality and reliability.</p>
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+              {[{ title: "Data Bundles", description: "Affordable data plans for browsing, chatting, and downloading.", icon: <FaWifi size={30} className="text-blue-600" /> },
+              { title: "Airtime Top-up", description: "Instant top-up for all major networks.", icon: <FaMobileAlt size={30} className="text-blue-600" /> },
+              { title: "TV Subscriptions", description: "Subscription services for DSTV, GOTV, and Startime.", icon: <FaTv size={30} className="text-blue-600" /> },
+              { title: "Electricity Bill", description: "Pay your electricity bills instantly.", icon: <FaBolt size={30} className="text-blue-600" /> },
+              { title: "Bulk SMS", description: "Bulk messaging for events like weddings, birthdays, and more.", icon: <FaSms size={30} className="text-blue-600" /> }].map((service, index) => (
                 <div
                   key={index}
-                  className="bg-white p-6 rounded-lg shadow-lg hover:scale-105 transform transition"
+                  className="bg-white p-6 rounded-lg shadow-xl hover:scale-105 transform transition-all duration-500 ease-in-out hover:shadow-2xl hover:translate-y-3"
                 >
-                  <h4 className="text-2xl font-semibold text-blue-600">{service.title}</h4>
+                  <div className="flex items-center justify-center mb-4">
+                    {service.icon}
+                  </div>
+                  <h4 className="text-xl font-semibold text-blue-600">{service.title}</h4>
                   <p className="mt-2 text-gray-600">{service.description}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
-        
-        
-        {/* add data prices */}
-        
+
+        {/* Price List */}
         <PriceList />
-        
-         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-5">
-            <div className="text-center bg-white shadow-lg rounded-lg p-6 max-w-md">
-                <h5 className="text-4xl font-semibold text-blue-700 flex items-center justify-center">
-                    <FaClock className="mr-2" />
-                    24/7 Support
-                </h5>
-                <p className="mt-5 text-gray-600">
-                    Our customers are premium to us, hence satisfaction is our topmost priority. Our customer service is just a click away.
-                </p>
+
+        {/* 24/7 Support Section */}
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-5">
+          <div className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-300 p-6 rounded-lg shadow-xl transform transition-all duration-500 hover:scale-105 hover:shadow-2xl max-w-md mx-auto">
+            <div className="flex justify-center items-center mb-4">
+              <div className="bg-white p-4 rounded-full shadow-md">
+                <FaClock className="text-blue-600 text-4xl" />
+              </div>
             </div>
-        </div> 
+            <h5 className="text-3xl font-semibold text-white text-center mb-3">
+              24/7 Support
+            </h5>
+            <p className="text-lg text-white text-center">
+              We prioritize customer satisfaction. Our support team is always available for assistance, anytime, anywhere.
+            </p>
+            <div className="mt-6 text-center">
+              <button className="bg-white text-blue-700 px-6 py-2 rounded-md shadow-md hover:bg-blue-600 hover:text-white transition-all duration-300">
+                Contact Support
+              </button>
+            </div>
+          </div>
+        </div>
 
         {/* Contact Us Section */}
         <section className="py-20 bg-gray-50" id="contact">
@@ -187,7 +195,7 @@ const Home = () => {
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder="Your Name"
-                className="w-full p-3 bg-white text-gray-800 rounded-md border border-blue-400"
+                className="w-full p-3 bg-white text-gray-800 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
               <input
                 type="email"
@@ -195,18 +203,18 @@ const Home = () => {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="Your Email"
-                className="w-full p-3 bg-white text-gray-800 rounded-md border border-blue-400"
+                className="w-full p-3 bg-white text-gray-800 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
               <textarea
                 name="message"
                 value={formData.message}
                 onChange={handleInputChange}
                 placeholder="Your Message"
-                className="w-full p-3 bg-white text-gray-800 rounded-md border border-blue-400"
+                className="w-full p-3 bg-white text-gray-800 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
               <button
                 type="submit"
-                className="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700"
+                className="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700 transition"
               >
                 Send Message
               </button>
@@ -220,4 +228,3 @@ const Home = () => {
 };
 
 export default Home;
-

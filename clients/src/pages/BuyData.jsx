@@ -174,7 +174,7 @@ function BuyData() {
       </div>
       
       <div className="mt-16 text-gray-500 text-center">
-        <p className="text-sm">
+        <p className="text-lg">
           Use this to check your balance: *323*2#, *310#, *461*4#, or *460*261#.
         </p>
       </div>

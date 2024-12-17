@@ -261,6 +261,7 @@ userApi.post('/logout', (req, res) => {
   res.status(200).json({ message: 'Logged out successfully' });
 });
 
+//forget password
 
 userApi.get("/delete",async (req,res) => {
    await User.deleteMany({});

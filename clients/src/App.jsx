@@ -17,6 +17,7 @@ import More from "./pages/More";
 import Settings from "./pages/Settings";
 import Airtime2cash from "./pages/Airtime2cash";
 import Exams from "./pages/Exams";
+import ForgetPassword from "./pages/ForgetPassword";
 import { useSelector } from "react-redux";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -29,138 +30,147 @@ function App() {
       <div>
         <Routes>
           <Route index element={user ? <Navigate to="/dashboard" replace /> : <Home />} />
-          
+
           <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
           <Route path="/register" element={<Register />} />
-          
+
           {/* Protected routes */}
-          <Route 
-            path="/dashboard" 
+          <Route
+            path="/dashboard"
             element={
               <ProtectedRoute>
                 <Dashboard />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/profile" 
+          <Route
+            path="/profile"
             element={
               <ProtectedRoute>
                 <Profile />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/menu" 
+          <Route
+            path="/menu"
             element={
               <ProtectedRoute>
                 <Menu />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/buydata" 
+          <Route
+            path="/buydata"
             element={
               <ProtectedRoute>
                 <BuyData />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/buyairtime" 
+          <Route
+            path="/buyairtime"
             element={
               <ProtectedRoute>
                 <BuyAirtime />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/fundwallet" 
+          <Route
+            path="/fundwallet"
             element={
               <ProtectedRoute>
                 <FundWallet />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/bluksms" 
+          <Route
+            path="/bluksms"
             element={
               <ProtectedRoute>
                 <BulkSms />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/transfer" 
+          <Route
+            path="/transfer"
             element={
               <ProtectedRoute>
                 <Transfer />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/bills" 
+          <Route
+            path="/bills"
             element={
               <ProtectedRoute>
                 <Bills />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path="/transactions" 
+          <Route
+            path="/transactions"
             element={
               <ProtectedRoute>
                 <Transaction />
               </ProtectedRoute>
-            } 
+            }
           />
-          
-          <Route 
-            path="/more" 
+
+          <Route
+            path="/more"
             element={
               <ProtectedRoute>
                 <More />
               </ProtectedRoute>
-            } 
+            }
           />
-          
-          <Route 
-            path="/support" 
+
+          <Route
+            path="/support"
             element={
               <ProtectedRoute>
                 <Support />
               </ProtectedRoute>
-            } 
+            }
           />
-          
-          <Route 
-            path="/airtime2cash" 
+
+          <Route
+            path="/airtime2cash"
             element={
               <ProtectedRoute>
                 <Airtime2cash />
               </ProtectedRoute>
-            } 
+            }
           />
-          
-          <Route 
-            path="/settings" 
+
+          <Route
+            path="/settings"
             element={
               <ProtectedRoute>
                 <Settings />
               </ProtectedRoute>
-            } 
+            }
           />
-          
-          <Route 
-            path="/exams" 
+
+          <Route
+            path="/exams"
             element={
               <ProtectedRoute>
                 <Exams />
               </ProtectedRoute>
-            } 
+            }
           />
-         
-          <Route path="*" element={user ? <Navigate to="/dashboard" replace/> : <Home />} />
+
+          <Route
+            path="/forgotpassword"
+            element={
+
+              <ForgetPassword />
+
+            }
+          />
+
+          <Route path="*" element={user ? <Navigate to="/dashboard" replace /> : <Home />} />
         </Routes>
       </div>
     </Router>

@@ -1,3 +1,4 @@
+// src/pages/Login.js
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,14 +62,11 @@ function Login() {
           <div className="spinner"></div>
         </div>
       )}
-      
-      {/*Add logo*/}
 
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 border border-gray-300">
         <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-6">Login</h2>
 
         <form onSubmit={formik.handleSubmit} className="space-y-6">
-          {/* Email or Username Field */}
           <div>
             <input
               type="text"
@@ -84,7 +82,6 @@ function Login() {
             ) : null}
           </div>
 
-          {/* Password Field */}
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -107,7 +104,6 @@ function Login() {
             ) : null}
           </div>
 
-          {/* Login Button */}
           <button
             type="submit"
             className="w-full py-3 bg-blue-500 text-white rounded-lg font-semibold shadow-md hover:bg-blue-600 hover:shadow-lg transition-all"
@@ -116,7 +112,17 @@ function Login() {
             {loading ? 'Logging in...' : 'Login'}
           </button>
 
-          {/* Register Button */}
+          <div className="mt-2 text-left">
+            <a
+              onClick={() => navigate("/forgotpassword")}
+              className="text-blue-500 font-semibold text-sm relative inline-block"
+            >
+              Forgot password?
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-500 transform scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
+            </a>
+          </div>
+
+
           <button
             type="button"
             onClick={() => navigate("/register")}
@@ -137,4 +143,3 @@ function Login() {
 }
 
 export default Login;
-
