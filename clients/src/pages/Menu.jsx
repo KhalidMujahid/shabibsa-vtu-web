@@ -3,12 +3,12 @@ import {
   FaHistory,
   FaHeadset,
   FaSignOutAlt,
-  FaBell,
   FaHome,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../redux/user";
+import shabibsadata from "../assets/shabibsadata.png";
 
 function Menu() {
   const navigate = useNavigate();
@@ -23,21 +23,20 @@ function Menu() {
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header */}
       <header className="w-full flex justify-between items-center p-4 bg-white shadow-md">
+        {/* Home Button */}
         <button
           onClick={() => navigate("/dashboard")}
           className="text-sky-600 hover:text-sky-700 transition"
         >
           <FaHome size={28} />
         </button>
-        <div className="relative">
-          <button className="text-sky-600 hover:text-sky-700 transition">
-            <FaBell size={28} />
-          </button>
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-            3
-          </span>
+
+        {/* Logo */}
+        <div className="relative flex items-center justify-center">
+          <img src={shabibsadata} alt="Shabibsa Data" className="h-10 md:h-12 object-contain rounded-full" />
         </div>
       </header>
+
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center py-8 px-4">

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
+import shabibsadata from '../assets/shabibsadata.png';  // Adjust the logo path accordingly
 
 function Login() {
   const dispatch = useDispatch();
@@ -64,6 +65,16 @@ function Login() {
       )}
 
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 border border-gray-300">
+        {/* Logo Section */}
+        <div className="flex justify-center mb-8">
+          <img
+            src={shabibsadata}
+            alt="Shabibsa Data"
+            className="h-16 w-16 md:h-20 md:w-20 object-cover rounded-full"
+          />
+
+        </div>
+
         <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-6">Login</h2>
 
         <form onSubmit={formik.handleSubmit} className="space-y-6">
@@ -121,7 +132,6 @@ function Login() {
               <span className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-500 transform scale-x-0 transition-all duration-300 group-hover:scale-x-100"></span>
             </a>
           </div>
-
 
           <button
             type="button"

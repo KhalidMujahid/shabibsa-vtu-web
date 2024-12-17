@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Carousel from "../components/Carousel";
+import shabibsadata from "../assets/shabibsadata.png";
 import {
   AiOutlineMenu,
   AiOutlineEye,
@@ -20,12 +21,12 @@ import {
   FaComments,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toggleLog } from "../redux/user";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { user,balance,notif } = useSelector((state) => state.user);
+  const { user, balance, notif } = useSelector((state) => state.user);
   const [showBalance, setShowBalance] = useState(false);
   const navigate = useNavigate();
 
@@ -45,16 +46,28 @@ const Dashboard = () => {
       <ToastContainer />
 
       {/* Header */}
-      <header className="w-full bg-white shadow-md p-4 flex justify-between items-center">
-        <button onClick={() => handleNavigate("/menu") }>
-          <AiOutlineMenu size={24} className="text-blue-600 cursor-pointer"/>
+      <header className="w-full bg-white shadow-lg p-4 flex justify-between items-center rounded-2xl">
+        {/* Menu Button */}
+        <button
+          onClick={() => handleNavigate("/menu")}
+          className="flex items-center justify-center bg-blue-50 p-3 rounded-full hover:bg-blue-200 transition-all duration-300 ease-in-out"
+        >
+          <AiOutlineMenu size={24} className="text-blue-600 cursor-pointer" />
         </button>
-        <h1 className="text-lg font-semibold text-blue-800">Dashboard</h1>
-        <div className="relative">
-          <AiOutlineBell size={24} className="text-blue-600 cursor-pointer" />
-          <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">3</span>
+
+        {/* Title */}
+        <h1 className="text-xl font-semibold text-blue-800 flex items-center justify-center flex-grow tracking-tight">
+          Dashboard
+        </h1>
+
+        {/* Logo */}
+        <div className="relative flex items-center justify-center ml-4 p-2 bg-blue-50 rounded-full shadow-md">
+          <img src={shabibsadata} alt="Shabibsa Data" className="h-10 md:h-12 object-contain rounded-full" />
         </div>
       </header>
+
+
+
 
       {/* Welcome Modal */}
       {notif && (
@@ -107,22 +120,22 @@ const Dashboard = () => {
             <p className="text-3xl font-bold">{showBalance ? `₦${balance.toLocaleString()}` : "****"}</p>
           </div>
         </div>
-        
+
         <Carousel user={user} />
 
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {[
-              { icon: <FaCreditCard size={24} />, label: "Fund", bg: "bg-gray-300", link: "/fundwallet" },
-          { icon: <FaMobileAlt size={24} />, label: "Airtime", bg: "bg-gray-300", link: "/buyairtime" },
-          { icon: <FaWifi size={24} />, label: "Data", bg: "bg-gray-300", link: "/buydata" },
-          { icon: <FaBolt size={24} />, label: "Electricity", bg: "bg-gray-300", link: "/bills" },
-          { icon: <FaPaperPlane size={24} />, label: "Transfer", bg: "bg-gray-300", link: "/transfer" },
-          { icon: <FaFileAlt size={24} />, label: "Result Checker", bg: "bg-gray-300", link: "/exams" },
-          { icon: <FaTv size={24} />, label: "TV subscription", bg: "bg-gray-300", link: "/cable" },
-          { icon: <FaMoneyBillWave size={24} />, label: "Airtime to Cash", bg: "bg-gray-300", link: "/airtime2cash" },
-          { icon: <FaComments size={24} />, label: "Bulk SMS", bg: "bg-gray-300", link: "/bluksms" },
+            { icon: <FaCreditCard size={24} />, label: "Fund", bg: "bg-gray-300", link: "/fundwallet" },
+            { icon: <FaMobileAlt size={24} />, label: "Airtime", bg: "bg-gray-300", link: "/buyairtime" },
+            { icon: <FaWifi size={24} />, label: "Data", bg: "bg-gray-300", link: "/buydata" },
+            { icon: <FaBolt size={24} />, label: "Electricity", bg: "bg-gray-300", link: "/bills" },
+            { icon: <FaPaperPlane size={24} />, label: "Transfer", bg: "bg-gray-300", link: "/transfer" },
+            { icon: <FaFileAlt size={24} />, label: "Result Checker", bg: "bg-gray-300", link: "/exams" },
+            { icon: <FaTv size={24} />, label: "TV subscription", bg: "bg-gray-300", link: "/cable" },
+            { icon: <FaMoneyBillWave size={24} />, label: "Airtime to Cash", bg: "bg-gray-300", link: "/airtime2cash" },
+            { icon: <FaComments size={24} />, label: "Bulk SMS", bg: "bg-gray-300", link: "/bluksms" },
           ].map((action, index) => (
             <button
               key={index}
