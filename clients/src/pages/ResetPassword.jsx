@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,10 @@ function ResetPassword() {
     const email = location.state?.email;
     const navigate = useNavigate();
     const { loading, success, error } = useSelector((state) => state.user);
+
+    // Password visibility state
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -32,7 +36,6 @@ function ResetPassword() {
                 const resultAction = await dispatch(resetPassword({ password: values.newPassword, email }));
                 if (resetPassword.fulfilled.match(resultAction)) {
                     toast.success('Password reset successfully!');
-                    navigate('/login');
                 } else {
                     toast.error(error || 'Failed to reset password. Please try again.');
                 }
@@ -65,48 +68,71 @@ function ResetPassword() {
                         </div>
                     ) : (
                         <form onSubmit={formik.handleSubmit} className="space-y-6">
-                            <div>
+                            {/* New Password Field */}
+                            <div className="relative">
                                 <input
-                                    type="password"
+                                    type={showNewPassword ? 'text' : 'password'}
                                     name="newPassword"
                                     placeholder="Enter new password"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.newPassword}
                                     disabled={loading}
-                                    className={`w-full p-3 bg-gray-50 text-gray-700 rounded-lg border ${formik.touched.newPassword && formik.errors.newPassword
+                                    className={`w-full p-3 bg-gray-50 text-gray-700 rounded-lg border ${
+                                        formik.touched.newPassword && formik.errors.newPassword
                                             ? 'border-red-500'
                                             : 'border-gray-300'
-                                        } focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all`}
+                                    } focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all`}
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowNewPassword(!showNewPassword)}
+                                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                                >
+                                    {showNewPassword ? 'Hide' : 'Show'}
+                                </button>
                                 {formik.touched.newPassword && formik.errors.newPassword && (
                                     <div className="text-red-500 text-sm mt-1">{formik.errors.newPassword}</div>
                                 )}
                             </div>
-                            <div>
+
+                            {/* Confirm Password Field */}
+                            <div className="relative">
                                 <input
-                                    type="password"
+                                    type={showConfirmPassword ? 'text' : 'password'}
                                     name="confirmPassword"
                                     placeholder="Confirm new password"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.confirmPassword}
                                     disabled={loading}
-                                    className={`w-full p-3 bg-gray-50 text-gray-700 rounded-lg border ${formik.touched.confirmPassword && formik.errors.confirmPassword
+                                    className={`w-full p-3 bg-gray-50 text-gray-700 rounded-lg border ${
+                                        formik.touched.confirmPassword && formik.errors.confirmPassword
                                             ? 'border-red-500'
                                             : 'border-gray-300'
-                                        } focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all`}
+                                    } focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all`}
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                                >
+                                    {showConfirmPassword ? 'Hide' : 'Show'}
+                                </button>
                                 {formik.touched.confirmPassword && formik.errors.confirmPassword && (
                                     <div className="text-red-500 text-sm mt-1">{formik.errors.confirmPassword}</div>
                                 )}
                             </div>
+
+                            {/* Submit Button */}
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className={`w-full py-3 ${loading ? 'bg-blue-300' : 'bg-blue-500'
-                                    } text-white rounded-lg font-semibold shadow-md hover:${loading ? 'bg-blue-300' : 'bg-blue-600'
-                                    } hover:shadow-lg transition-all`}
+                                className={`w-full py-3 ${
+                                    loading ? 'bg-blue-300' : 'bg-blue-500'
+                                } text-white rounded-lg font-semibold shadow-md hover:${
+                                    loading ? 'bg-blue-300' : 'bg-blue-600'
+                                } hover:shadow-lg transition-all`}
                             >
                                 {loading ? 'Resetting...' : 'Reset Password'}
                             </button>
