@@ -34,19 +34,12 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const handlePageLoad = () => {
+    const introDuration = 1000; 
+    const timer = setTimeout(() => {
       setIsLoaded(true);
-    };
+    }, introDuration);
 
-    if (document.readyState === "complete") {
-      handlePageLoad();
-    } else {
-      window.addEventListener("load", handlePageLoad);
-    }
-
-    return () => {
-      window.removeEventListener("load", handlePageLoad);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   return (
