@@ -255,6 +255,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
       .addCase(verifyOtp.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -266,6 +267,22 @@ const userSlice = createSlice({
       .addCase(verifyOtp.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      // Reset Password
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.success = false;
       });
   },
 });
