@@ -1,12 +1,24 @@
 const { Router } = require("express");
+const nodemailer = require("nodemailer");
 const { body, validationResult } = require("express-validator");
 const Transaction = require('../models/Transaction');
 const { authenticateToken } = require('../middlewares/auth');
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const crypto = require("crypto");
 
 const userApi = Router();
+
+const otpStore = {};
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "shabibsadata@gmail.com",
+    pass: process.env.EMAIL_PASSWORD
+  },
+});
 
 //login route
 userApi.post(
@@ -109,7 +121,7 @@ userApi.post('/refresh-token', (req, res) => {
       // httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 3600000, 
+      maxAge: 3600000,
     });
 
     res.status(200).json({ message: 'Token refreshed' });
@@ -170,9 +182,9 @@ userApi.post("/register", registerValidationRules, async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "User already exists with this email" });
     }
-    
+
     const existUserName = await User.findOne({ username });
-    if(existUserName){
+    if (existUserName) {
       return res.status(400).json({ message: "User already exists with this username" });
     }
 
@@ -200,7 +212,7 @@ userApi.post("/register", registerValidationRules, async (req, res) => {
 userApi.get('/transactions', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
-    
+
     const transactions = await Transaction.find({ userId });
 
     if (!transactions.length) {
@@ -252,8 +264,8 @@ userApi.post('/logout', (req, res) => {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
   });
-  
-   res.clearCookie('refreshToken', {
+
+  res.clearCookie('refreshToken', {
     // httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
@@ -263,8 +275,102 @@ userApi.post('/logout', (req, res) => {
 
 //forget password
 
-userApi.get("/delete",async (req,res) => {
-   await User.deleteMany({});
+userApi.post("/forgetpassword", async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) return res.status(400).json({ message: "Email is required! " });
+
+    //check email if exit in database
+    const emailExit = await User.findOne({ email });
+    if (!emailExit) return res.status(400).json({ message: "Email does not exit!" });
+
+    // Generate a random OTP
+    const otp = crypto.randomInt(100000, 999999);
+
+    // Save OTP in the store with a short expiry time (e.g., 5 minutes)
+    otpStore[email] = { otp, expires: Date.now() + 5 * 60 * 1000 };
+
+    // Send OTP via email
+    const mailOptions = {
+      from: "shabibsadata@gmail.com",
+      to: emailExit.email,
+      subject: "Your Password Reset OTP",
+      text: `Hello ${emailExit.firstName} ${emailExit.lastName},\n\nYour OTP for password reset is: ${otp}\n\nThis OTP will expire in 5 minutes.`,
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      res.json({ message: "OTP sent to your email." });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ message: "Failed to send email. Please try again later." });
+    }
+
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Endpoint to verify OTP
+userApi.post("/verify-otp", (req, res) => {
+  const { email, otp } = req.body;
+
+  const otpData = otpStore[email];
+
+  if (!otpData) {
+    return res.status(400).json({ message: "Invalid or expired OTP." });
+  }
+
+  if (otpData.otp.toString() !== otp) {
+    return res.status(400).json({ message: "Incorrect OTP." });
+  }
+
+  if (Date.now() > otpData.expires) {
+    delete otpStore[email];
+    return res.status(400).json({ message: "OTP has expired." });
+  }
+
+  // OTP is valid
+  delete otpStore[email];
+  res.json({ message: "OTP verified successfully. Proceed to reset your password." });
+});
+
+// update password route
+userApi.post("/password-reset", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if email and newPassword are provided
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and new password are required!" });
+    }
+
+    // Fetch the user by email
+    const emailUser = await User.findOne({ email });
+    if (!emailUser) {
+      return res.status(400).json({ message: "User not found!" });
+    }
+
+    if (password.length < 8) {
+      return res.status(400).json({ message: "Password must be at least 8 characters long." });
+    }
+
+    // Update the user's password
+    emailUser.password = password;
+    await emailUser.save();
+
+    // Respond with success
+    return res.status(200).json({ message: "Password has been successfully reset!" });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+userApi.get("/delete", async (req, res) => {
+  await User.deleteMany({});
 });
 
 module.exports = userApi;

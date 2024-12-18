@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const userApi = require("./routes/userApi");
 const itemsApi = require("./routes/items");
 const connectDB = require("./db/db");
@@ -14,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware setup
 app.use(helmet());
-//app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+//app.use(cors({ origin: "http://localhost:5000", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
