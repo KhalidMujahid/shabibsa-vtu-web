@@ -19,172 +19,198 @@ import Airtime2cash from "./pages/Airtime2cash";
 import Exams from "./pages/Exams";
 import ForgetPassword from "./pages/ForgetPassword";
 import VerifyOtp from './pages/VerifyOtp';
-import { useSelector } from "react-redux";
-
 import ProtectedRoute from "./components/ProtectedRoute";
-import ResetPassword from './pages/ResetPassword';
+import ResetPassword from './pages/ResetPassword'; 
 import { ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import Intro from './pages/Intro';
 
 function App() {
   const { user } = useSelector((state) => state.user);
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const handlePageLoad = () => {
+      setIsLoaded(true);
+    };
+
+    if (document.readyState === "complete") {
+      handlePageLoad();
+    } else {
+      window.addEventListener("load", handlePageLoad);
+    }
+
+    return () => {
+      window.removeEventListener("load", handlePageLoad);
+    };
+  }, []);
+
   return (
     <Router>
       <div>
-        <ToastContainer /> 
+        {/* Show the Intro page until the app is fully loaded */}
+        {!isLoaded ? (
+          <Intro />
+        ) : (
+          <>
+            <ToastContainer />
 
-        <Routes>
-          <Route index element={user ? <Navigate to="/dashboard" replace /> : <Home />} />
+            <Routes>
+              <Route index element={user ? <Navigate to="/dashboard" replace /> : <Home />} />
 
-          <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
-          <Route path="/register" element={<Register />} />
+              <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
+              <Route path="/register" element={<Register />} />
 
-          {/* Protected routes */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/menu"
-            element={
-              <ProtectedRoute>
-                <Menu />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/buydata"
-            element={
-              <ProtectedRoute>
-                <BuyData />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/buyairtime"
-            element={
-              <ProtectedRoute>
-                <BuyAirtime />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/fundwallet"
-            element={
-              <ProtectedRoute>
-                <FundWallet />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/bluksms"
-            element={
-              <ProtectedRoute>
-                <BulkSms />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/transfer"
-            element={
-              <ProtectedRoute>
-                <Transfer />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/bills"
-            element={
-              <ProtectedRoute>
-                <Bills />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/transactions"
-            element={
-              <ProtectedRoute>
-                <Transaction />
-              </ProtectedRoute>
-            }
-          />
+              {/* Protected routes */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/menu"
+                element={
+                  <ProtectedRoute>
+                    <Menu />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/buydata"
+                element={
+                  <ProtectedRoute>
+                    <BuyData />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/buyairtime"
+                element={
+                  <ProtectedRoute>
+                    <BuyAirtime />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/fundwallet"
+                element={
+                  <ProtectedRoute>
+                    <FundWallet />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/bluksms"
+                element={
+                  <ProtectedRoute>
+                    <BulkSms />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/transfer"
+                element={
+                  <ProtectedRoute>
+                    <Transfer />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/bills"
+                element={
+                  <ProtectedRoute>
+                    <Bills />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/transactions"
+                element={
+                  <ProtectedRoute>
+                    <Transaction />
+                  </ProtectedRoute>
+                }
+              />
 
-          <Route
-            path="/more"
-            element={
-              <ProtectedRoute>
-                <More />
-              </ProtectedRoute>
-            }
-          />
+              <Route
+                path="/more"
+                element={
+                  <ProtectedRoute>
+                    <More />
+                  </ProtectedRoute>
+                }
+              />
 
-          <Route
-            path="/support"
-            element={
-              <ProtectedRoute>
-                <Support />
-              </ProtectedRoute>
-            }
-          />
+              <Route
+                path="/support"
+                element={
+                  <ProtectedRoute>
+                    <Support />
+                  </ProtectedRoute>
+                }
+              />
 
-          <Route
-            path="/airtime2cash"
-            element={
-              <ProtectedRoute>
-                <Airtime2cash />
-              </ProtectedRoute>
-            }
-          />
+              <Route
+                path="/airtime2cash"
+                element={
+                  <ProtectedRoute>
+                    <Airtime2cash />
+                  </ProtectedRoute>
+                }
+              />
 
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <Settings />
-              </ProtectedRoute>
-            }
-          />
+              <Route
+                path="/settings"
+                element={
+                  <ProtectedRoute>
+                    <Settings />
+                  </ProtectedRoute>
+                }
+              />
 
-          <Route
-            path="/exams"
-            element={
-              <ProtectedRoute>
-                <Exams />
-              </ProtectedRoute>
-            }
-          />
+              <Route
+                path="/exams"
+                element={
+                  <ProtectedRoute>
+                    <Exams />
+                  </ProtectedRoute>
+                }
+              />
 
-          <Route
-            path="/forgotpassword"
-            element={<ForgetPassword />}
-          />
+              <Route
+                path="/forgotpassword"
+                element={<ForgetPassword />}
+              />
 
-          <Route
-            path="/verify-otp"
-            element={<VerifyOtp />}
-          />
+              <Route
+                path="/verify-otp"
+                element={<VerifyOtp />}
+              />
 
-          <Route
-            path="/reset-password"
-            element={<ResetPassword />}
-          />
+              <Route
+                path="/reset-password"
+                element={<ResetPassword />}
+              />
 
-          <Route path="*" element={user ? <Navigate to="/dashboard" replace /> : <Home />} />
-        </Routes>
+              <Route path="*" element={user ? <Navigate to="/dashboard" replace /> : <Home />} />
+            </Routes>
+          </>
+        )}
       </div>
     </Router>
   );
