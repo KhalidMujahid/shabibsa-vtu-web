@@ -18,9 +18,14 @@ import Settings from "./pages/Settings";
 import Airtime2cash from "./pages/Airtime2cash";
 import Exams from "./pages/Exams";
 import ForgetPassword from "./pages/ForgetPassword";
+import VerifyOtp from './pages/VerifyOtp';
 import { useSelector } from "react-redux";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import ResetPassword from './pages/ResetPassword';
+import { ToastContainer } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -28,6 +33,8 @@ function App() {
   return (
     <Router>
       <div>
+        <ToastContainer /> 
+
         <Routes>
           <Route index element={user ? <Navigate to="/dashboard" replace /> : <Home />} />
 
@@ -163,11 +170,17 @@ function App() {
 
           <Route
             path="/forgotpassword"
-            element={
+            element={<ForgetPassword />}
+          />
 
-              <ForgetPassword />
+          <Route
+            path="/verify-otp"
+            element={<VerifyOtp />}
+          />
 
-            }
+          <Route
+            path="/reset-password"
+            element={<ResetPassword />}
           />
 
           <Route path="*" element={user ? <Navigate to="/dashboard" replace /> : <Home />} />
@@ -178,4 +191,3 @@ function App() {
 }
 
 export default App;
-
