@@ -4,7 +4,7 @@ import shabibsadata from "../assets/shabibsadata.png";
 function Intro() {
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const introDuration = 3000;
+    const introDuration = 2000;
 
     useEffect(() => {
         const timer = setTimeout(() => {

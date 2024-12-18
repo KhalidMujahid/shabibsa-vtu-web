@@ -34,7 +34,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const introDuration = 1000; 
+    const introDuration = 2000; 
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, introDuration);
