@@ -21,7 +21,6 @@ import ForgetPassword from "./pages/ForgetPassword";
 import VerifyOtp from './pages/VerifyOtp';
 import ProtectedRoute from "./components/ProtectedRoute";
 import ResetPassword from './pages/ResetPassword'; 
-import { ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useState, useEffect } from "react";
@@ -50,8 +49,6 @@ function App() {
           <Intro />
         ) : (
           <>
-            <ToastContainer />
-
             <Routes>
               <Route index element={user ? <Navigate to="/dashboard" replace /> : <Home />} />
 
