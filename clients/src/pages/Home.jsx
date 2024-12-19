@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import PriceList from "../components/PriceList";
-import shabibsadata from "../assets/shabibsadata.png";
+import shabibsadata from "../assets/logo.png";
 import { FaClock, FaMobileAlt, FaWifi, FaTv, FaBolt, FaSms } from "react-icons/fa";
 
 const Home = () => {
