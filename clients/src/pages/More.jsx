@@ -2,9 +2,6 @@ import { useNavigate } from "react-router-dom";
 import {
   CashIcon,
   ChatAlt2Icon,
-  DesktopComputerIcon,
-  GiftIcon,
-  UsersIcon,
 } from "@heroicons/react/outline";
 //import { FaSms } from "react-icons/fa";
 

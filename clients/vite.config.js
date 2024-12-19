@@ -7,33 +7,38 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png', 'offline.html'],
+      includeAssets: ['favicon.ico', 'robots.txt', 'offline.html','apple-touch-icon.png'],
       manifest: {
         name: 'Shabibsa Data',
         short_name: 'Shabibsa Data',
-        description: 'Shabibsa Data web app vtu',
-        theme_color: '#ffffff',
+        description: 'Shabibsa Data Home of VTU', 
+        theme_color: '#000000',
+        background_color: '#ffffff',
         icons: [
           {
-            src: 'icons/shabibsadata.png',
+            src: '/icons/shabibsadata.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: 'icons/shabibsadata.png',
+            src: '/icons/shabibsadata.png',
             sizes: '512x512',
             type: 'image/png',
           },
+          {
+            src: '/icons/shabibsadata.png',
+            sizes: '384x384', 
+            type: 'image/png',
+          }
         ],
-        start_url: '/',
+        start_url: '/', 
         display: 'standalone',
-        background_color: '#ffffff',
       },
       workbox: {
         runtimeCaching: [
           {
             urlPattern: /\/$/,
-            handler: 'NetworkFirst',
+            handler: 'NetworkFirst', 
             options: {
               cacheName: 'offline-cache',
               expiration: {
@@ -43,7 +48,7 @@ export default defineConfig({
           },
           {
             urlPattern: /offline\.html$/,
-            handler: 'CacheFirst',
+            handler: 'CacheFirst', 
             options: {
               cacheName: 'offline-page-cache',
             },
@@ -52,7 +57,7 @@ export default defineConfig({
       },
     }),
   ],
-  server:{
+  server: {
     port: 5000,
   }
 });

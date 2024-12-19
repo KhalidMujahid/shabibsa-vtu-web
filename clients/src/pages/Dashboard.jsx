@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Carousel from "../components/Carousel";
-import shabibsadata from "../assets/shabibsadata.png";
+import shabibsadata from "../assets/logo.png";
 import {
   AiOutlineMenu,
   AiOutlineEye,

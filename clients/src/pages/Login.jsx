@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
-import shabibsadata from '../assets/shabibsadata.png';  
+import shabibsadata from '../assets/logo.png';  
 
 function Login() {
   const dispatch = useDispatch();

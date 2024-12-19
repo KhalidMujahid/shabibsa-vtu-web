@@ -8,7 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../redux/user";
-import shabibsadata from "../assets/shabibsadata.png";
+import shabibsadata from "../assets/logo.png";
 
 function Menu() {
   const navigate = useNavigate();
