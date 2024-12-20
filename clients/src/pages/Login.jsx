@@ -41,12 +41,11 @@ function Login() {
     }),
     onSubmit: async (values) => {
       try {
+        // Dispatch the loginUser action
         const resultAction = await dispatch(loginUser(values));
 
+        // Check if the login was successful
         if (loginUser.fulfilled.match(resultAction)) {
-          // localStorage.setItem('user', JSON.stringify(values));
-          // localStorage.setItem('token', token);
-
           toast.success("Login successful!");
           navigate("/dashboard");
         } else if (loginUser.rejected.match(resultAction)) {
@@ -75,7 +74,6 @@ function Login() {
             alt="Shabibsa Data"
             className="h-16 w-16 md:h-20 md:w-20 object-cover rounded-full"
           />
-
         </div>
 
         <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-6">Login</h2>

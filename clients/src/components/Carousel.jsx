@@ -25,10 +25,10 @@ const Carousel = ({ user }) => {
               <p className="text-xs font-light tracking-wider">Account Number</p>
               <div className="flex items-center">
                 <p className="text-lg font-bold tracking-widest">
-                  {user?.accountNumber || "234 5678 9012 3456"}
+                  {user?.user?.accountNumber || user?.accountNumber || "234 5678 9012 3456"}
                 </p>
                 <button
-                  onClick={() => handleCopy(user?.accountNumber || "234 5678 9012 3456")}
+                  onClick={() => handleCopy(user?.accountNumber || user?.user?.accountNumber || "234 5678 9012 3456")}
                   className="ml-3 text-blue-200 hover:text-blue-300 transition"
                   title="Copy Account Number"
                 >
@@ -41,13 +41,13 @@ const Carousel = ({ user }) => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-base font-semibold">
-                  {user.firstname.toUpperCase()} {user.lastname.toUpperCase()}
+                  {user?.user?.firstname.toUpperCase() || user?.firstname.toUpperCase()} {user?.user?.lastname.toUpperCase() || user?.lastname.toUpperCase()}
                 </p>
               </div>
               {/* User Initials */}
               <div className="bg-white text-blue-700 rounded-full w-10 h-10 flex items-center justify-center font-bold">
-                {user.firstname[0].toUpperCase()}
-                {user.lastname[0].toUpperCase()}
+                {user?.user?.firstname[0].toUpperCase() || user.firstname[0].toUpperCase()}
+                {user?.user?.lastname[0].toUpperCase() || user.firstname[0].toUpperCase()}
               </div>
             </div>
           </div>

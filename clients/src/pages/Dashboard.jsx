@@ -7,7 +7,6 @@ import {
   AiOutlineMenu,
   AiOutlineEye,
   AiOutlineEyeInvisible,
-  AiOutlineBell,
 } from "react-icons/ai";
 import {
   FaMobileAlt,
@@ -22,7 +21,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleLog } from "../redux/user";
+import { loadUser, toggleLog } from "../redux/user";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -40,6 +39,18 @@ const Dashboard = () => {
   const toggleBalance = () => setShowBalance(!showBalance);
 
   const handleNavigate = (path) => navigate(path);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+
+    if (user && token) {
+      const parsedUser = JSON.parse(user);
+      dispatch(loadUser({ user: parsedUser, token }));
+    } else {
+      navigate("/login");
+    }
+  }, [dispatch, navigate]);
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800">
@@ -73,7 +84,7 @@ const Dashboard = () => {
       {notif && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
-            <h2 className="text-xl font-semibold text-blue-700 mb-4">Welcome, {user?.firstname}!</h2>
+            <h2 className="text-xl font-semibold text-blue-700 mb-4">Welcome, {user?.firstname || user.user?.firstname}!</h2>
             <p className="text-gray-600 mb-6">
               All services are going smothly like speed of light. Please if you have any issue vist our support, <br /> <span className="text-red-500">NOTE:</span> we do not have manual funding
             </p>
@@ -104,8 +115,8 @@ const Dashboard = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-lg font-semibold">{user?.firstname} {user?.lastname}</h2>
-              <p className="text-sm text-gray-500">@{user?.username}</p>
+              <h2 className="text-lg font-semibold">{user.user?.firstname || user?.firstname} {user.user?.lastname || user?.lastname}</h2>
+              <p className="text-sm text-gray-500">@{user?.username || user.user?.username}</p>
             </div>
             <button
               onClick={toggleBalance}
@@ -117,7 +128,7 @@ const Dashboard = () => {
           </div>
           <div className="mt-4">
             <h3 className="text-sm text-gray-500">Available Balance</h3>
-            <p className="text-3xl font-bold">{showBalance ? `₦${balance.toLocaleString()}` : "****"}</p>
+            <p className="text-3xl font-bold">{showBalance ? `₦${balance.toLocaleString() || user.balance.toLocaleString()}` : "****"}</p>
           </div>
         </div>
 

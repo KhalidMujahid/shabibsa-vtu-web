@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import shabibsadata from "../assets/shabibsadata.png";
+import { loadUser } from "../redux/user"; 
+import { useDispatch } from "react-redux";
 
 function Intro() {
     const [isLoaded, setIsLoaded] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate(); 
 
     const introDuration = 2000;
 
@@ -15,6 +20,18 @@ function Intro() {
             clearTimeout(timer);
         };
     }, []);
+
+    useEffect(() => {
+        const user = localStorage.getItem("user");
+        const token = localStorage.getItem("token");
+
+        if (user && token) {
+            const parsedUser = JSON.parse(user); 
+            dispatch(loadUser({ user: parsedUser, token }));
+        } else {
+            navigate("/login");
+        }
+    }, [dispatch, navigate]);
 
     return (
         <>

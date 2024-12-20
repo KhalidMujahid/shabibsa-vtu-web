@@ -88,9 +88,9 @@ export const logoutUser = createAsyncThunk(
 
 export const resetPassword = createAsyncThunk(
   'user/resetPassword',
-  async ({ email,password }, { rejectWithValue }) => {
+  async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await apiCall.post('/password-reset', { email,password });
+      const response = await apiCall.post('/password-reset', { email, password });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -102,7 +102,7 @@ export const sendOtp = createAsyncThunk(
   'user/sendOtp',
   async ({ email }, { rejectWithValue }) => {
     try {
-      const response = await apiCall.post('/forgetpassword', { email }); 
+      const response = await apiCall.post('/forgetpassword', { email });
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -155,9 +155,13 @@ const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
-      // localStorage.removeItem('user');
-      // localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     },
+    loadUser: (state, action) => {
+      state.user = action.payload;
+      state.token = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -185,6 +189,9 @@ const userSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        localStorage.setItem('token', action.payload.token);
+
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -293,7 +300,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { toggleLog,resetState,logout } = userSlice.actions;
+export const { toggleLog, resetState, logout, loadUser } = userSlice.actions;
 
 export default userSlice.reducer;
 
