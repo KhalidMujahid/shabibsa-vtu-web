@@ -44,8 +44,8 @@ function Login() {
         const resultAction = await dispatch(loginUser(values));
 
         if (loginUser.fulfilled.match(resultAction)) {
-          localStorage.setItem('user', JSON.stringify(values));
-          localStorage.setItem('token', token);
+          // localStorage.setItem('user', JSON.stringify(values));
+          // localStorage.setItem('token', token);
 
           toast.success("Login successful!");
           navigate("/dashboard");
