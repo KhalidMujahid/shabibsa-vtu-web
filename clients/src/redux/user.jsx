@@ -127,11 +127,11 @@ export const verifyOtp = createAsyncThunk(
 );
 
 const initialState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem('user')) || null,
   //user: { username: "Khalid", firstname: "mujahid", lastname: "khalid",email: "binkha@gmail.com",accountNumber: "234 5678 9012 3456" },
   notif: true,
   balance: 0,
-  token: null,
+  token: localStorage.getItem('token') || null,
   transactions: [],
   loading: false,
   error: null,
@@ -151,6 +151,12 @@ const userSlice = createSlice({
       state.emailSent = false;
       state.otpVerified = false;
       state.error = null;
+    },
+    logout: (state) => {
+      state.user = null;
+      state.token = null;
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     },
   },
   extraReducers: (builder) => {
@@ -287,7 +293,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { toggleLog,resetState } = userSlice.actions;
+export const { toggleLog,resetState,logout } = userSlice.actions;
 
 export default userSlice.reducer;
 

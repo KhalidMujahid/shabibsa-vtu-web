@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../redux/user";
+import { logoutUser,logout } from "../redux/user";
 import shabibsadata from "../assets/logo.png";
 
 function Menu() {
@@ -16,6 +16,9 @@ function Menu() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    dispatch(logout());
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     navigate("/login");
   };
 

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
-import shabibsadata from '../assets/logo.png';  
+import shabibsadata from '../assets/logo.png';
 
 function Login() {
   const dispatch = useDispatch();
@@ -44,6 +44,9 @@ function Login() {
         const resultAction = await dispatch(loginUser(values));
 
         if (loginUser.fulfilled.match(resultAction)) {
+          localStorage.setItem('user', JSON.stringify(values));
+          localStorage.setItem('token', token);
+
           toast.success("Login successful!");
           navigate("/dashboard");
         } else if (loginUser.rejected.match(resultAction)) {
