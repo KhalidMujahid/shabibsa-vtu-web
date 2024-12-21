@@ -58,7 +58,6 @@ const Dashboard = () => {
       navigator
         .share({
           title: "Dashboard",
-          text: "Shabibsa Data",
           url: window.location.href,
         })
         .then(() => toast.success("Shared link copied successfully"))
