@@ -29,7 +29,7 @@ function Intro() {
             const parsedUser = JSON.parse(user); 
             dispatch(loadUser({ user: parsedUser, token }));
         } else {
-            navigate("/login");
+            navigate("/");
         }
     }, [dispatch, navigate]);
 

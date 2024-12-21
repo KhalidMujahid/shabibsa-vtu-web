@@ -18,6 +18,7 @@ import {
   FaFileAlt,
   FaMoneyBillWave,
   FaComments,
+  FaShareAlt,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -28,7 +29,6 @@ const Dashboard = () => {
   const { user, balance, notif } = useSelector((state) => state.user);
   const [showBalance, setShowBalance] = useState(false);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     if (!user) {
@@ -52,13 +52,28 @@ const Dashboard = () => {
     }
   }, [dispatch, navigate]);
 
+  
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "Dashboard",
+          text: "Shabibsa Data",
+          url: window.location.href,
+        })
+        .then(() => toast.success("Shared link copied successfully"))
+        .catch((error) => console.error("Error sharing:", error));
+    } else {
+      toast.info("Share functionality is not supported on this device.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800">
       <ToastContainer />
 
       {/* Header */}
       <header className="w-full bg-white shadow-lg p-4 flex justify-between items-center rounded-2xl">
-        {/* Menu Button */}
         <button
           onClick={() => handleNavigate("/menu")}
           className="flex items-center justify-center bg-blue-50 p-3 rounded-full hover:bg-blue-200 transition-all duration-300 ease-in-out"
@@ -66,27 +81,27 @@ const Dashboard = () => {
           <AiOutlineMenu size={24} className="text-blue-600 cursor-pointer" />
         </button>
 
-        {/* Title */}
         <h1 className="text-xl font-semibold text-blue-800 flex items-center justify-center flex-grow tracking-tight">
           Dashboard
         </h1>
 
-        {/* Logo */}
         <div className="relative flex items-center justify-center ml-4 p-2 bg-blue-50 rounded-full shadow-md">
           <img src={shabibsadata} alt="Shabibsa Data" className="h-10 md:h-12 object-contain rounded-full" />
         </div>
       </header>
 
-
-
-
       {/* Welcome Modal */}
       {notif && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-md">
-            <h2 className="text-xl font-semibold text-blue-700 mb-4">Welcome, {user?.firstname || user.user?.firstname}!</h2>
+            <h2 className="text-xl font-semibold text-blue-700 mb-4">
+              Welcome, {user?.firstname || user.user?.firstname}!
+            </h2>
             <p className="text-gray-600 mb-6">
-              All services are going smothly like speed of light. Please if you have any issue vist our support, <br /> <span className="text-red-500">NOTE:</span> we do not have manual funding
+              All services are going smoothly like speed of light. Please if
+              you have any issues, visit our support. <br />{" "}
+              <span className="text-red-500">NOTE:</span> we do not have manual
+              funding.
             </p>
             <div className="flex justify-end space-x-4">
               <button
@@ -98,7 +113,7 @@ const Dashboard = () => {
               <button
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 onClick={() => {
-                  dispatch(toggleLog(false))
+                  dispatch(toggleLog(false));
                   handleNavigate("/support");
                 }}
               >
@@ -111,29 +126,40 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <div className="p-4 space-y-6">
-        {/* Balance Card */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-lg font-semibold">{user.user?.firstname || user?.firstname} {user.user?.lastname || user?.lastname}</h2>
-              <p className="text-sm text-gray-500">@{user?.username || user.user?.username}</p>
+              <h2 className="text-lg font-semibold">
+                {user.user?.firstname || user?.firstname}{" "}
+                {user.user?.lastname || user?.lastname}
+              </h2>
+              <p className="text-sm text-gray-500">
+                @{user?.username || user.user?.username}
+              </p>
             </div>
             <button
               onClick={toggleBalance}
               className="text-blue-600 hover:text-blue-700"
               aria-label="Toggle Balance Visibility"
             >
-              {showBalance ? <AiOutlineEyeInvisible size={24} /> : <AiOutlineEye size={24} />}
+              {showBalance ? (
+                <AiOutlineEyeInvisible size={24} />
+              ) : (
+                <AiOutlineEye size={24} />
+              )}
             </button>
           </div>
           <div className="mt-4">
             <h3 className="text-sm text-gray-500">Available Balance</h3>
-            <p className="text-3xl font-bold">{showBalance ? `₦${balance.toLocaleString() || user.balance.toLocaleString()}` : "****"}</p>
+            <p className="text-3xl font-bold">
+              {showBalance
+                ? `₦${balance.toLocaleString() || user.balance.toLocaleString()}`
+                : "****"}
+            </p>
           </div>
         </div>
 
         <Carousel user={user} />
-
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -159,9 +185,17 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
+
+      {/* Floating Share Button */}
+      <button
+        onClick={handleShare}
+        className="fixed bottom-6 left-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300"
+        aria-label="Share"
+      >
+        <FaShareAlt size={24} />
+      </button>
     </div>
   );
 };
 
 export default Dashboard;
-
