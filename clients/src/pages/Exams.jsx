@@ -22,9 +22,14 @@ function Exams() {
     };
 
     try {
+      const token = localStorage.getItem("token");
+
       const response = await fetch(`${baseURL}/exams`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
         body: JSON.stringify(payload),
       });
 
@@ -42,7 +47,8 @@ function Exams() {
     } finally {
       setLoading(false);
     }
-  };
+};
+
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col items-center p-6">

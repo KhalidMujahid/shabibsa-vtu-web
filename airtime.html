@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Airtime Plans</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Admin Navbar -->
+    <nav class="bg-blue-600 p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-white text-2xl font-semibold">Admin Dashboard - Airtime Plans</a>
+        </div>
+    </nav>
+
+    <!-- Admin Panel -->
+    <div class="max-w-7xl mx-auto p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Manage Airtime Plans</h2>
+
+        <!-- Add/Edit Airtime Plan Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Add or Edit Airtime Plan</h3>
+            <form id="airtime-plan-form" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col">
+                        <label for="network" class="text-gray-700">Network</label>
+                        <input type="text" id="network" class="p-2 border rounded-md" placeholder="Enter Network" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="plan-id" class="text-gray-700">Plan ID</label>
+                        <input type="text" id="plan-id" class="p-2 border rounded-md" placeholder="Enter Plan ID" required>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500">
+                        Add Plan
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Existing Airtime Plans List -->
+        <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Existing Airtime Plans</h3>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left">Plan ID</th>
+                            <th class="px-4 py-2 text-left">Network</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="airtime-plan-list">
+                        <!-- Airtime plans will be inserted here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage for demo (could be replaced with a database in a real app)
+        let airtimePlans = [
+            { id: '001', network: 'MTN' },
+            { id: '002', network: 'Airtel' },
+        ];
+
+        // Display existing airtime plans
+        function displayAirtimePlans() {
+            const tableBody = document.getElementById('airtime-plan-list');
+            tableBody.innerHTML = ''; // Clear table before inserting new data
+
+            airtimePlans.forEach(plan => {
+                const row = document.createElement('tr');
+                row.classList.add('border-t');
+
+                row.innerHTML = `
+                    <td class="px-4 py-2">${plan.id}</td>
+                    <td class="px-4 py-2">${plan.network}</td>
+                    <td class="px-4 py-2">
+                        <button class="bg-yellow-500 text-white py-1 px-3 rounded-md hover:bg-yellow-400" onclick="editAirtimePlan('${plan.id}')">Edit</button>
+                        <button class="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-400 ml-2" onclick="deleteAirtimePlan('${plan.id}')">Delete</button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Add or Edit Airtime Plan
+        document.getElementById('airtime-plan-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent page reload on form submit
+
+            const network = document.getElementById('network').value;
+            const planId = document.getElementById('plan-id').value;
+
+            // Validate input
+            if (!network || !planId) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            const existingPlanIndex = airtimePlans.findIndex(plan => plan.id === planId);
+
+            if (existingPlanIndex !== -1) {
+                // If the plan already exists, edit it
+                airtimePlans[existingPlanIndex] = { id: planId, network };
+            } else {
+                // If it's a new plan, add it
+                airtimePlans.push({ id: planId, network });
+            }
+
+            // Clear the form and display updated data
+            document.getElementById('airtime-plan-form').reset();
+            displayAirtimePlans();
+        });
+
+        // Edit Airtime Plan
+        function editAirtimePlan(planId) {
+            const plan = airtimePlans.find(p => p.id === planId);
+            if (plan) {
+                document.getElementById('network').value = plan.network;
+                document.getElementById('plan-id').value = plan.id;
+            }
+        }
+
+        // Delete Airtime Plan
+        function deleteAirtimePlan(planId) {
+            airtimePlans = airtimePlans.filter(plan => plan.id !== planId);
+            displayAirtimePlans();
+        }
+
+        // Initialize page with existing data
+        displayAirtimePlans();
+    </script>
+
+</body>
+
+</html>

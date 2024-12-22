@@ -163,15 +163,15 @@ const Dashboard = () => {
         {/* Quick Actions */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {[
-            { icon: <FaCreditCard size={24} />, label: "Fund", bg: "bg-gray-300", link: "/fundwallet" },
             { icon: <FaMobileAlt size={24} />, label: "Airtime", bg: "bg-gray-300", link: "/buyairtime" },
             { icon: <FaWifi size={24} />, label: "Data", bg: "bg-gray-300", link: "/buydata" },
+            { icon: <FaCreditCard size={24} />, label: "Fund", bg: "bg-gray-300", link: "/fundwallet" },
             { icon: <FaBolt size={24} />, label: "Electricity", bg: "bg-gray-300", link: "/bills" },
             { icon: <FaPaperPlane size={24} />, label: "Transfer", bg: "bg-gray-300", link: "/transfer" },
             { icon: <FaFileAlt size={24} />, label: "Result Checker", bg: "bg-gray-300", link: "/exams" },
             { icon: <FaTv size={24} />, label: "TV subscription", bg: "bg-gray-300", link: "/cable" },
-            { icon: <FaMoneyBillWave size={24} />, label: "Airtime to Cash", bg: "bg-gray-300", link: "/airtime2cash" },
             { icon: <FaComments size={24} />, label: "Bulk SMS", bg: "bg-gray-300", link: "/bluksms" },
+            { icon: <FaMoneyBillWave size={24} />, label: "Airtime to Cash", bg: "bg-gray-300", link: "/airtime2cash" },
           ].map((action, index) => (
             <button
               key={index}
@@ -188,7 +188,7 @@ const Dashboard = () => {
       {/* Floating Share Button */}
       <button
         onClick={handleShare}
-        className="fixed bottom-6 left-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300"
+        className="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300"
         aria-label="Share"
       >
         <FaShareAlt size={24} />

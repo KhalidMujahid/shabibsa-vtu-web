@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Exam Entries</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Admin Navbar -->
+    <nav class="bg-blue-600 p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-white text-2xl font-semibold">Admin Dashboard - Exam Entries</a>
+        </div>
+    </nav>
+
+    <!-- Admin Panel -->
+    <div class="max-w-7xl mx-auto p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Manage Exam Entries</h2>
+
+        <!-- Add/Edit Exam Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Add or Edit Exam Entry</h3>
+            <form id="exam-form" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col">
+                        <label for="exam-name" class="text-gray-700">Exam Name</label>
+                        <input type="text" id="exam-name" class="p-2 border rounded-md" placeholder="Enter Exam Name" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="plan-id" class="text-gray-700">Plan ID</label>
+                        <input type="text" id="plan-id" class="p-2 border rounded-md" placeholder="Enter Plan ID" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="amount" class="text-gray-700">Amount</label>
+                        <input type="number" id="amount" class="p-2 border rounded-md" placeholder="Enter Amount" required>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500">
+                        Add Entry
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Existing Exam Entries List -->
+        <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Existing Exam Entries</h3>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left">Exam Name</th>
+                            <th class="px-4 py-2 text-left">Plan ID</th>
+                            <th class="px-4 py-2 text-left">Amount</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exam-list">
+                        <!-- Exam entries will be inserted here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage for demo (could be replaced with a database in a real app)
+        let examEntries = [
+            { examName: 'Maths', planId: 'MATH123', amount: 100 },
+            { examName: 'Science', planId: 'SCI456', amount: 150 },
+        ];
+
+        // Display existing exam entries
+        function displayExamEntries() {
+            const tableBody = document.getElementById('exam-list');
+            tableBody.innerHTML = ''; // Clear table before inserting new data
+
+            examEntries.forEach(entry => {
+                const row = document.createElement('tr');
+                row.classList.add('border-t');
+
+                row.innerHTML = `
+                    <td class="px-4 py-2">${entry.examName}</td>
+                    <td class="px-4 py-2">${entry.planId}</td>
+                    <td class="px-4 py-2">${entry.amount}</td>
+                    <td class="px-4 py-2">
+                        <button class="bg-yellow-500 text-white py-1 px-3 rounded-md hover:bg-yellow-400" onclick="editExamEntry('${entry.examName}')">Edit</button>
+                        <button class="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-400 ml-2" onclick="deleteExamEntry('${entry.examName}')">Delete</button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Add or Edit Exam Entry
+        document.getElementById('exam-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent page reload on form submit
+
+            const examName = document.getElementById('exam-name').value;
+            const planId = document.getElementById('plan-id').value;
+            const amount = document.getElementById('amount').value;
+
+            // Validate input
+            if (!examName || !planId || !amount) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            const existingEntryIndex = examEntries.findIndex(entry => entry.examName === examName);
+
+            if (existingEntryIndex !== -1) {
+                // If the entry already exists, edit it
+                examEntries[existingEntryIndex] = { examName, planId, amount: parseInt(amount) };
+            } else {
+                // If it's a new entry, add it
+                examEntries.push({ examName, planId, amount: parseInt(amount) });
+            }
+
+            // Clear the form and display updated data
+            document.getElementById('exam-form').reset();
+            displayExamEntries();
+        });
+
+        // Edit Exam Entry
+        function editExamEntry(examName) {
+            const entry = examEntries.find(e => e.examName === examName);
+            if (entry) {
+                document.getElementById('exam-name').value = entry.examName;
+                document.getElementById('plan-id').value = entry.planId;
+                document.getElementById('amount').value = entry.amount;
+            }
+        }
+
+        // Delete Exam Entry
+        function deleteExamEntry(examName) {
+            examEntries = examEntries.filter(entry => entry.examName !== examName);
+            displayExamEntries();
+        }
+
+        // Initialize page with existing data
+        displayExamEntries();
+    </script>
+
+</body>
+
+</html>

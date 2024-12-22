@@ -7,7 +7,7 @@ import { baseURL } from "../services/baseURL";
 
 function BuyAirtime() {
   const navigate = useNavigate();
-  const [networks] = useState(["MTN", "Airtel", "GLO", "9Mobile"]);
+  const [networks] = useState(["MTN", "GLO", "Airtel", "9Mobile"]);
   const [selectedNetwork, setSelectedNetwork] = useState("");
   const [amount, setAmount] = useState("");
   const [phone, setPhone] = useState("");
@@ -26,14 +26,26 @@ function BuyAirtime() {
   const handleConfirmPurchase = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`${baseURL}/purchase/airtime`, {
-        network: selectedNetwork,
-        amount,
-        phone,
-        pin,
-      });
-
+      const purchaseConfig = {
+        method: "post",
+        url: `${baseURL}/airtime/buy`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        data: {
+          provider: selectedNetwork,
+          amount,
+          phone,
+          pin,
+        },
+      };
+  
+      // Make the POST request to purchase airtime
+      const response = await axios(purchaseConfig);
+  
       toast.success("Airtime purchase successful!", { position: "top-center" });
+      
+      // Reset form fields and close modal
       setShowModal(false);
       setSelectedNetwork("");
       setAmount("");
@@ -41,11 +53,20 @@ function BuyAirtime() {
       setPin("");
     } catch (error) {
       console.error("Error purchasing airtime:", error);
-      toast.error("Failed to complete the purchase. Please try again.", { position: "top-center" });
+  
+      // Check if the error response contains data (backend error response)
+      if (error.response && error.response.data) {
+        const errorMessage = error.response.data.error || "Failed to complete the purchase. Please try again.";  // Customize depending on backend format
+        toast.error(errorMessage, { position: "top-center" });
+      } else {
+        // Handle unexpected errors (e.g., network issues)
+        toast.error("An unexpected error occurred. Please try again.", { position: "top-center" });
+      }
     } finally {
-      setLoading(false);
+      setLoading(false);  // Always stop loading when done
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
@@ -66,7 +87,7 @@ function BuyAirtime() {
         >
           <option value="">Select Network</option>
           {networks.map((network, index) => (
-            <option key={index} value={network}>{network}</option>
+            <option key={index} value={index + 1}>{network}</option>
           ))}
         </select>
 

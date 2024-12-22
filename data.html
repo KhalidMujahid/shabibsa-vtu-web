@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Data Plans</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Admin Navbar -->
+    <nav class="bg-blue-600 p-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-white text-2xl font-semibold">Admin Dashboard - Data Plans</a>
+        </div>
+    </nav>
+
+    <!-- Admin Panel -->
+    <div class="max-w-7xl mx-auto p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Manage Data Plans</h2>
+
+        <!-- Add/Edit Data Plan Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Add or Edit Data Plan</h3>
+            <form id="data-plan-form" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col">
+                        <label for="plan-id" class="text-gray-700">Plan ID</label>
+                        <input type="text" id="plan-id" class="p-2 border rounded-md" placeholder="Enter Plan ID" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="network" class="text-gray-700">Network</label>
+                        <input type="text" id="network" class="p-2 border rounded-md" placeholder="Enter Network" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="plan-type" class="text-gray-700">Plan Type</label>
+                        <input type="text" id="plan-type" class="p-2 border rounded-md" placeholder="Enter Plan Type" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="plan-name" class="text-gray-700">Plan Name</label>
+                        <input type="text" id="plan-name" class="p-2 border rounded-md" placeholder="Enter Plan Name" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="amount" class="text-gray-700">Amount</label>
+                        <input type="number" id="amount" class="p-2 border rounded-md" placeholder="Enter Amount" required>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500">
+                        Add Plan
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Existing Data Plans List -->
+        <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Existing Data Plans</h3>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left">Plan ID</th>
+                            <th class="px-4 py-2 text-left">Network</th>
+                            <th class="px-4 py-2 text-left">Plan Type</th>
+                            <th class="px-4 py-2 text-left">Plan Name</th>
+                            <th class="px-4 py-2 text-left">Amount</th>
+                            <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-plan-list">
+                        <!-- Data plans will be inserted here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage for demo (could be replaced with a database in a real app)
+        let dataPlans = [
+            { id: '001', network: 'MTN', type: 'Prepaid', name: '1GB', amount: 1000 },
+            { id: '002', network: 'Airtel', type: 'Postpaid', name: '2GB', amount: 2000 },
+        ];
+
+        // Display existing data plans
+        function displayDataPlans() {
+            const tableBody = document.getElementById('data-plan-list');
+            tableBody.innerHTML = ''; // Clear table before inserting new data
+
+            dataPlans.forEach(plan => {
+                const row = document.createElement('tr');
+                row.classList.add('border-t');
+
+                row.innerHTML = `
+                    <td class="px-4 py-2">${plan.id}</td>
+                    <td class="px-4 py-2">${plan.network}</td>
+                    <td class="px-4 py-2">${plan.type}</td>
+                    <td class="px-4 py-2">${plan.name}</td>
+                    <td class="px-4 py-2">${plan.amount}</td>
+                    <td class="px-4 py-2">
+                        <button class="bg-yellow-500 text-white py-1 px-3 rounded-md hover:bg-yellow-400" onclick="editDataPlan('${plan.id}')">Edit</button>
+                        <button class="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-400 ml-2" onclick="deleteDataPlan('${plan.id}')">Delete</button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Add or Edit Data Plan
+        document.getElementById('data-plan-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent page reload on form submit
+
+            const id = document.getElementById('plan-id').value;
+            const network = document.getElementById('network').value;
+            const type = document.getElementById('plan-type').value;
+            const name = document.getElementById('plan-name').value;
+            const amount = document.getElementById('amount').value;
+
+            // Validate input
+            if (!id || !network || !type || !name || !amount) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            const existingPlanIndex = dataPlans.findIndex(plan => plan.id === id);
+
+            if (existingPlanIndex !== -1) {
+                // If the plan already exists, edit it
+                dataPlans[existingPlanIndex] = { id, network, type, name, amount };
+            } else {
+                // If it's a new plan, add it
+                dataPlans.push({ id, network, type, name, amount });
+            }
+
+            // Clear the form and display updated data
+            document.getElementById('data-plan-form').reset();
+            displayDataPlans();
+        });
+
+        // Edit Data Plan
+        function editDataPlan(planId) {
+            const plan = dataPlans.find(p => p.id === planId);
+            if (plan) {
+                document.getElementById('plan-id').value = plan.id;
+                document.getElementById('network').value = plan.network;
+                document.getElementById('plan-type').value = plan.type;
+                document.getElementById('plan-name').value = plan.name;
+                document.getElementById('amount').value = plan.amount;
+            }
+        }
+
+        // Delete Data Plan
+        function deleteDataPlan(planId) {
+            dataPlans = dataPlans.filter(plan => plan.id !== planId);
+            displayDataPlans();
+        }
+
+        // Initialize page with existing data
+        displayDataPlans();
+    </script>
+
+</body>
+
+</html>

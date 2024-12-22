@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { baseURL } from "../services/baseURL";
+
 
 function BuyData() {
   const navigate = useNavigate();
@@ -16,33 +17,37 @@ function BuyData() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [pin, setPin] = useState("");
-
+  
+  let networks = ["MTN","AIRTEL","GLO","9MOBILE"];
+  
   const fetchPlans = async (network) => {
     setLoading(true);
     try {
       const response = await axios.get(`${baseURL}/plans/${network}`);
       const data = response.data;
-
-      const dataPlansSet = new Set();
-      const plans = [];
-
-      for (const key in data.data) {
-        dataPlansSet.add(key);
-      }
-
-      for (const planType of dataPlansSet) {
-        data.data[planType].map((plan) => {
-          const { plan_type, ...rest } = plan;
-          plans.push(rest);
-        });
-      }
-
-      setDataPlans([...dataPlansSet]);
-      setPlans(plans);
+      setDataPlans(data.plans);
       toast.success("Plans loaded successfully!", { position: "top-center" });
     } catch (error) {
       console.error("Error fetching plans:", error);
       toast.error("Failed to load plans. Please try again.", { position: "top-center" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchDataPlans = async () => {
+    if (!selectedNetwork || !selectedDataPlan) {
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}/plans/${selectedNetwork}/${selectedDataPlan}`);
+      const data = response.data.plan;
+      setPlans(data);
+      toast.success("Data plans loaded successfully!", { position: "top-center" });
+    } catch (error) {
+      console.error("Error fetching data plans:", error);
+      toast.error("Failed to load data plans. Please try again.", { position: "top-center" });
     } finally {
       setLoading(false);
     }
@@ -54,7 +59,16 @@ function BuyData() {
     setSelectedPlan("");
     setSelectedDataPlan("");
     setPlans([]);
-    if (network) fetchPlans(network);
+    setDataPlans([]);
+    if (network) {
+      fetchPlans(network);
+    }
+  };
+
+  const handleDataPlanChange = (e) => {
+    const dataPlan = e.target.value;
+    setSelectedDataPlan(dataPlan);
+    fetchDataPlans();
   };
 
   const handlePurchase = () => {
@@ -69,22 +83,21 @@ function BuyData() {
     try {
       const purchaseConfig = {
         method: "post",
-        url: `${baseURL}/purchase/data`,
+        url: `${baseURL}/data/buy`,
         headers: {
-          Authorization: "Bearer your_token_here",
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         data: {
-          network: selectedNetwork,
+          provider: selectedNetwork,
           planId: selectedPlan,
           phone,
           pin,
         },
       };
-
-      await axios(purchaseConfig);
+  
+      const response = await axios(purchaseConfig);
       toast.success("Data purchase successful!", { position: "top-center" });
-
+  
       setShowModal(false);
       setPin("");
       setPhone("");
@@ -93,10 +106,23 @@ function BuyData() {
       setSelectedDataPlan("");
       setPlans([]);
     } catch (error) {
-      console.error("Error purchasing data:", error);
-      toast.error("Failed to purchase data. Please try again.", { position: "top-center" });
+      if (error.response && error.response.data) {
+        const errorMessage = error.response.data.error || "An error occurred. Please try again.";
+        toast.error(errorMessage, { position: "top-center" });
+      } else {
+        toast.error("An unexpected error occurred.", { position: "top-center" });
+      }
     }
   };
+  
+  useEffect(() => {
+    if (selectedNetwork && selectedDataPlan) {
+      fetchDataPlans();
+    }
+  }, [selectedNetwork, selectedDataPlan]);
+
+  // Find the selected plan data based on selectedPlan
+  const selectedPlanData = plans.find((plan) => plan.planId === selectedPlan);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
@@ -116,22 +142,22 @@ function BuyData() {
           value={selectedNetwork}
         >
           <option value="">Select Network</option>
-          <option value="MTN_PLAN">MTN</option>
-          <option value="GLO_PLAN">GLO</option>
-          <option value="AIRTEL_PLAN">Airtel</option>
-          <option value="9MOBILE_PLAN">9Mobile</option>
+          <option value="1">MTN</option>
+          <option value="2">Airtel</option>
+          <option value="3">GLO</option>
+          <option value="4">9Mobile</option>
         </select>
 
         <label className="block text-blue-700 font-medium mb-2">Data Plan</label>
         <select
           className="w-full p-3 bg-white border border-blue-500 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          onChange={(e) => setSelectedDataPlan(e.target.value)}
+          onChange={handleDataPlanChange}
           value={selectedDataPlan}
         >
           <option value="">Select Data Plan</option>
-          {dataPlan.map((planType, index) => (
-            <option key={index} value={planType}>
-              {planType}
+          {dataPlan.map((plan,index) => (
+            <option key={index} value={plan.planId}>
+              {plan.planType}
             </option>
           ))}
         </select>
@@ -148,9 +174,9 @@ function BuyData() {
             value={selectedPlan}
           >
             <option value="">Select Plan</option>
-            {plans.map((plan, id) => (
-              <option key={id} value={plan.id}>
-                {`₦${plan.plan_amount}`} - {plan.plan} ({plan.month_validate})
+            {plans.map((plan,index) => (
+              <option key={index} value={plan.planId}>
+                {plan.planName} - ₦{plan.amount}
               </option>
             ))}
           </select>
@@ -172,7 +198,7 @@ function BuyData() {
           Purchase Data
         </button>
       </div>
-      
+
       <div className="mt-16 text-gray-500 text-center">
         <p className="text-lg">
           Use this to check your balance: *323*2#, *310#, *461*4#, or *460*261#.
@@ -184,10 +210,10 @@ function BuyData() {
           <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-6 text-center">
             <h2 className="text-2xl font-semibold text-blue-700 mb-4">Confirm Your Details</h2>
             <div className="text-left mb-4">
-              <p className="text-blue-700"><strong>Network:</strong> {selectedNetwork || "N/A"}</p>
-              <p className="text-blue-700"><strong>Data Plan:</strong> {selectedDataPlan || "N/A"}</p>
-              <p className="text-blue-700"><strong>Plan Amount:</strong> 
-                {`₦${plans.find(plan => plan.id === selectedPlan)?.plan_amount || "N/A"}`}
+              <p className="text-blue-700"><strong>Network: </strong> {networks[selectedNetwork - 1] || "N/A"}</p>
+              {/* <p className="text-blue-700"><strong>Data Plan: </strong> {dataPlan[selectedDataPlan].planType || "N/A"}</p> */}
+              <p className="text-blue-700"><strong>Plan Amount: </strong>
+                {`₦${selectedDataPlan}` || "N/A"}
               </p>
               <p className="text-blue-700"><strong>Phone Number:</strong> {phone || "N/A"}</p>
             </div>
@@ -221,4 +247,3 @@ function BuyData() {
 }
 
 export default BuyData;
-

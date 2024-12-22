@@ -6,6 +6,8 @@ function BulkSms() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [sender,setSender] = useState("");
+  const [message,setMessage] = useState("");
+  const [number,setNumber] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -15,17 +17,14 @@ function BulkSms() {
     setError("");
     setSuccess("");
 
-    const recipients = e.target.recipients.value.split(",").map((num) => num.trim());
-    const message = e.target.message.value;
-
     try {
       // Send to backend
-      const response = await fetch(`${baseURL}/bulksms`, {
+      const response = await fetch(`${baseURL}/bluksms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ recipients, message,sender }),
+        body: JSON.stringify({ number, message,sender }),
       });
 
       if (response.ok) {
@@ -81,16 +80,18 @@ function BulkSms() {
           {/* Recipients Input */}
           <div>
             <label
-              htmlFor="recipients"
+              htmlFor="number"
               className="block text-sm font-medium text-gray-600 mb-1"
             >
-              Recipients (comma-separated numbers)
+              Number
             </label>
             <input
               type="text"
               id="recipients"
               name="recipients"
-              placeholder="e.g., 1234567890, 0987654321"
+              value={number}
+              onChange={(e) => setNumber(e.target.value)}
+              placeholder="e.g. 0987654321"
               className="w-full border-gray-300 bg-gray-50 text-gray-800 rounded-lg shadow-sm p-2 focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400"
               required
             />
@@ -111,6 +112,8 @@ function BulkSms() {
               placeholder="Type your message here..."
               className="w-full border-gray-300 bg-gray-50 text-gray-800 rounded-lg shadow-sm p-2 focus:outline-none focus:ring focus:ring-blue-400 focus:border-blue-400"
               required
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
             ></textarea>
           </div>
 
