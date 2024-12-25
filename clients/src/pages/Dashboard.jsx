@@ -99,8 +99,6 @@ const Dashboard = () => {
             <p className="text-gray-600 mb-6">
               All services are going smoothly like speed of light. Please if
               you have any issues, visit our support. <br />{" "}
-              <span className="text-red-500">NOTE:</span> we do not have manual
-              funding.
             </p>
             <div className="flex justify-end space-x-4">
               <button
