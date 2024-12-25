@@ -98,7 +98,7 @@ const Dashboard = () => {
             </h2>
             <p className="text-gray-600 mb-6">
               All services are going smoothly like speed of light. Please if
-              you have any issues, visit our support. <br />{" "}
+              you have any issues, visit our support. <br />
             </p>
             <div className="flex justify-end space-x-4">
               <button
