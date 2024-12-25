@@ -63,10 +63,10 @@ function FundWallet() {
           <div className="flex items-center justify-between bg-blue-50 p-4 rounded-lg mb-4">
             <div>
               <p className="text-sm text-gray-500">Account Number</p>
-              <p className="text-lg font-semibold text-blue-600">394933939</p>
+              <p className="text-lg font-semibold text-blue-600">5343824684</p>
             </div>
             <button
-              onClick={() => handleCopy("394933939")}
+              onClick={() => handleCopy("5343824684")}
               className="text-blue-600 hover:text-blue-800 transition-colors"
               aria-label="Copy Account Number"
             >
@@ -76,7 +76,7 @@ function FundWallet() {
 
           {/* Account Name */}
           <p className="text-sm text-gray-600 text-center">
-            Account Name: <span className="font-semibold">User</span>
+            Account Name: <span className="font-semibold">Shabibsa Enterprices</span>
           </p>
         </div>
       </div>
