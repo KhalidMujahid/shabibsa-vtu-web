@@ -25,10 +25,10 @@ const Carousel = ({ user }) => {
               <p className="text-xs font-light tracking-wider">Account Number</p>
               <div className="flex items-center">
                 <p className="text-lg font-bold tracking-widest">
-                  {user?.user?.accountNumber || user?.accountNumber || "234 5678 9012 3456"}
+                  5343824684
                 </p>
                 <button
-                  onClick={() => handleCopy(user?.accountNumber || user?.user?.accountNumber || "234 5678 9012 3456")}
+                  onClick={() => handleCopy("5343824684")}
                   className="ml-3 text-blue-200 hover:text-blue-300 transition"
                   title="Copy Account Number"
                 >
@@ -41,7 +41,7 @@ const Carousel = ({ user }) => {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-base font-semibold">
-                  {user?.user?.firstname.toUpperCase() || user?.firstname.toUpperCase()} {user?.user?.lastname.toUpperCase() || user?.lastname.toUpperCase()}
+                 Shabibsa Enterpirces
                 </p>
               </div>
               {/* User Initials */}
