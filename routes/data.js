@@ -88,15 +88,15 @@ dataRouter.post("/data/buy", authenticateToken, async (req, res) => {
             return res.status(400).json({ error: "Plan not found" });
         }
 
-        // Check user's balance
-        if (user.balance < plan.amount) {
-            return res.status(400).json({ error: "Insufficient funds. Please fund your wallet." });
-        }
-
-        // Verify user's PIN
+          // Verify user's PIN
         const isPinValid = await bcrypt.compare(pin, user.pin);
         if (!isPinValid) {
             return res.status(400).json({ error: "Invalid PIN" });
+        }
+
+        // Check user's balance
+        if (user.balance < plan.amount) {
+            return res.status(400).json({ error: "Insufficient funds. Please fund your wallet." });
         }
 
         // Prepare payload for the external API
