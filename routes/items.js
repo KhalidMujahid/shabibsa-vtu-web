@@ -221,7 +221,6 @@ itemsApi.post("/admin", async (req, res, next) => {
 itemsApi.post('/add/exam', async (req, res) => {
   const { examName, planId, amount } = req.body;
 
-  // Input Validation
   if (!examName || !planId || !amount) {
     return res.status(400).json({ message: 'All fields are required.' });
   }
