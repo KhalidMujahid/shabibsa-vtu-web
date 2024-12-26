@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { baseURL } from "../services/baseURL"; // Import the baseURL for the API
 
 function Bills() {
   const navigate = useNavigate();
@@ -8,6 +9,9 @@ function Bills() {
   const [meterNumber, setMeterNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [transactionPin, setTransactionPin] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
 
   const handleSubmit = () => {
     // Validation
@@ -16,12 +20,51 @@ function Bills() {
       return;
     }
 
-    // Proceed with form submission (add payment logic here)
+    // Show modal to enter PIN
+    setShowModal(true);
+  };
+
+  const handlePinSubmit = async () => {
+    // Validate transaction PIN (4 digits)
+    if (transactionPin.length !== 4 || isNaN(transactionPin)) {
+      alert("Please enter a valid 4-digit PIN.");
+      return;
+    }
+
+
     setLoading(true);
-    setTimeout(() => {
-      alert("Bill payment successful!");
+    setPaymentStatus(""); 
+
+    try {
+      const response = await fetch(`${baseURL}/bills`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          disco,
+          meterType,
+          meterNumber,
+          amount,
+          transactionPin,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Success handling
+        setPaymentStatus({ type: "success", message: "Bill payment successful!" });
+      } else {
+        // Error handling
+        setPaymentStatus({ type: "error", message: data.message || "Something went wrong. Please try again." });
+      }
+    } catch (error) {
+      setPaymentStatus({ type: "error", message: "Network error. Please try again." });
+    } finally {
       setLoading(false);
-    }, 2000);
+      setShowModal(false); // Close the modal
+    }
   };
 
   return (
@@ -35,9 +78,7 @@ function Bills() {
       </button>
 
       {/* Header */}
-      <h1 className="text-3xl font-extrabold text-gray-800 mb-8">
-        Bills Payment
-      </h1>
+      <h1 className="text-3xl font-extrabold text-gray-800 mb-8">Bills Payment</h1>
 
       {/* Bill Payment Form */}
       <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-lg text-center border border-gray-300">
@@ -94,9 +135,7 @@ function Bills() {
         {/* Submit Button */}
         <button
           onClick={handleSubmit}
-          className={`w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition duration-300 ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition duration-300 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
           disabled={loading}
         >
           {loading ? (
@@ -105,7 +144,48 @@ function Bills() {
             "Pay Bill"
           )}
         </button>
+
+        {/* Payment Status Message */}
+        {paymentStatus && (
+          <div
+            className={`mt-4 p-4 rounded-md ${paymentStatus.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+          >
+            {paymentStatus.message}
+          </div>
+        )}
       </div>
+
+      {/* Transaction PIN Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-80">
+            <h2 className="text-xl font-semibold mb-4">Enter Transaction PIN</h2>
+            <input
+              type="password"
+              value={transactionPin}
+              onChange={(e) => setTransactionPin(e.target.value)}
+              maxLength={4}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
+              placeholder="Enter 4-digit PIN"
+              autoFocus
+            />
+            <div className="flex justify-between">
+              <button
+                onClick={() => setShowModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handlePinSubmit}
+                className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
