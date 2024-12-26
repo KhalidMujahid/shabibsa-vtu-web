@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../services/baseURL";
 
@@ -6,11 +6,39 @@ function Exams() {
   const navigate = useNavigate();
   const [examName, setExamName] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [totalAmount, setTotalAmount] = useState(0); // State for total amount
+  const [amount, setAmount] = useState(0); // Add state for amount
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [pin, setPin] = useState(""); 
+  const [exams, setExams] = useState([]); // State to store the exams fetched from API
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const abortControllerRef = useRef(null);
+
+  useEffect(() => {
+    setTotalAmount(quantity * amount);
+  }, [quantity, amount]);
+
+  // Fetch exams data when the component mounts
+  useEffect(() => {
+    const fetchExams = async () => {
+      try {
+        const response = await fetch(`${baseURL}/exams`);
+        if (response.ok) {
+          const data = await response.json();
+          setExams(data.exams);
+        } else {
+          setErrorMessage("Failed to load exams.");
+        }
+      } catch (error) {
+        setErrorMessage("An error occurred while fetching the exams.");
+      }
+    };
+
+    fetchExams();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,8 +60,12 @@ function Exams() {
     const payload = {
       exam_name: examName,
       quantity: quantity,
+      amount: amount, // Include amount in the payload
       pin: pin, // Add PIN to the payload
     };
+
+    // Create a new AbortController for the current request
+    abortControllerRef.current = new AbortController();
 
     try {
       const token = localStorage.getItem("token");
@@ -45,6 +77,7 @@ function Exams() {
           "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
+        signal: abortControllerRef.current.signal,
       });
 
       if (response.ok) {
@@ -53,12 +86,17 @@ function Exams() {
         setExamName("");
         setQuantity(1);
         setPin(""); // Reset PIN after successful submission
+        setAmount(0); // Reset amount
       } else {
         const errorData = await response.json();
         setErrorMessage(errorData.error || "Failed to generate exam pins.");
       }
     } catch (error) {
-      setErrorMessage("An unexpected error occurred. Please try again.");
+      if (error.name === "AbortError") {
+        console.log("Request was cancelled.");
+      } else {
+        setErrorMessage("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -68,8 +106,36 @@ function Exams() {
   };
 
   const closeModal = () => {
+    // Reset PIN input and close the modal
     setIsModalOpen(false);
+    setLoading(false);
     setPin(""); // Reset PIN input when modal closes
+
+    // Abort the ongoing request if any
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      setLoading(false); // Stop loading state if the request is cancelled
+      setErrorMessage("Request has been cancelled.");
+    }
+  };
+
+  const handleExamChange = async (e) => {
+    const selectedExam = e.target.value;
+    setExamName(selectedExam);
+    
+    try {
+      const response = await fetch(`${baseURL}/exams/amount?examName=${selectedExam}`);
+      if (response.ok) {
+        const data = await response.json();
+        setAmount(data.amount);
+      } else {
+        setErrorMessage("Failed to fetch the amount.");
+        setAmount(0);
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred while fetching the amount.");
+      setAmount(0);
+    }
   };
 
   return (
@@ -99,16 +165,22 @@ function Exams() {
             <select
               id="examName"
               value={examName}
-              onChange={(e) => setExamName(e.target.value)}
+              onChange={handleExamChange} // Handle exam name change
               className="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required
             >
               <option value="" disabled>
                 Select Exam
               </option>
-              <option value="WAEC">WAEC</option>
-              <option value="NECO">NECO</option>
-              <option value="NABTEB">NABTEB</option>
+              {exams.length > 0 ? (
+                exams.map((exam) => (
+                  <option key={exam._id} value={exam.examName}>
+                    {exam.examName}
+                  </option>
+                ))
+              ) : (
+                <option disabled>No exams available</option>
+              )}
             </select>
           </div>
 
@@ -131,6 +203,25 @@ function Exams() {
             />
           </div>
 
+          {/* Amount (Non-editable, only shown when an exam is selected) */}
+          {examName && (
+            <div>
+              <label
+                htmlFor="totalAmount"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Amount
+              </label>
+              <input
+                type="number"
+                id="totalAmount"
+                value={totalAmount}
+                readOnly
+                className="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+          )}
+
           {/* Error Message */}
           {errorMessage && (
             <div className="text-red-600 bg-red-100 p-3 rounded-lg text-sm">
@@ -150,11 +241,7 @@ function Exams() {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 rounded-lg text-white font-medium transition ${
-                loading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
-              }`}
+              className={`w-full py-3 rounded-lg text-white font-medium transition ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}
             >
               {loading ? "Generating..." : "Generate Pins"}
             </button>

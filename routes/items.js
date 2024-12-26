@@ -42,7 +42,42 @@ itemsApi.post("/bluksms", async (req, res, next) => {
   }
 });
 
-//exams route
+//exams route get request
+itemsApi.get("/exams", async (req, res, next) => {
+  try {
+    const exams = await Exam.find();
+    if (!exams || exams.length === 0) {
+      return res.status(404).json({ error: "No exams found" });
+    }
+
+    return res.status(200).json({ exams });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//exams amount route get request
+itemsApi.get("/exams/amount", async (req, res, next) => {
+  try {
+    const { examName } = req.query;
+
+    if (!examName) {
+      return res.status(400).json({ error: "Exam name is required." });
+    }
+
+    const exam = await Exam.findOne({ examName });
+
+    if (!exam) {
+      return res.status(404).json({ error: "Exam not found." });
+    }
+
+    return res.status(200).json({ amount: exam.amount });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//exams route post
 itemsApi.post("/exams", authenticateToken, async (req, res, next) => {
   try {
     const { exam_name, quantity, pin } = req.body;
