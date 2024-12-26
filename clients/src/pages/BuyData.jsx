@@ -5,7 +5,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { baseURL } from "../services/baseURL";
 
-
 function BuyData() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
@@ -17,9 +16,9 @@ function BuyData() {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [pin, setPin] = useState("");
-  
-  let networks = ["MTN","AIRTEL","GLO","9MOBILE"];
-  
+
+  let networks = ["MTN", "AIRTEL", "GLO", "9MOBILE"];
+
   const fetchPlans = async (network) => {
     setLoading(true);
     try {
@@ -76,16 +75,19 @@ function BuyData() {
       toast.error("Please complete all fields before purchasing.", { position: "top-center" });
       return;
     }
+    setLoading(true);
     setShowModal(true);
   };
 
   const handleConfirmPurchase = async () => {
+    setLoading(true);
+
     try {
       const purchaseConfig = {
         method: "post",
         url: `${baseURL}/data/buy`,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         data: {
           provider: selectedNetwork,
@@ -94,10 +96,11 @@ function BuyData() {
           pin,
         },
       };
-  
+
       const response = await axios(purchaseConfig);
       toast.success("Data purchase successful!", { position: "top-center" });
-  
+
+      // Clear all inputs after successful purchase
       setShowModal(false);
       setPin("");
       setPhone("");
@@ -105,6 +108,7 @@ function BuyData() {
       setSelectedPlan("");
       setSelectedDataPlan("");
       setPlans([]);
+      setDataPlans([]);
     } catch (error) {
       if (error.response && error.response.data) {
         const errorMessage = error.response.data.error || "An error occurred. Please try again.";
@@ -112,16 +116,18 @@ function BuyData() {
       } else {
         toast.error("An unexpected error occurred.", { position: "top-center" });
       }
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
-  
+
   useEffect(() => {
     if (selectedNetwork && selectedDataPlan) {
       fetchDataPlans();
     }
   }, [selectedNetwork, selectedDataPlan]);
 
-  // Find the selected plan data based on selectedPlan
+ 
   const selectedPlanData = plans.find((plan) => plan.planId === selectedPlan);
 
   return (
@@ -155,7 +161,7 @@ function BuyData() {
           value={selectedDataPlan}
         >
           <option value="">Select Data Plan</option>
-          {dataPlan.map((plan,index) => (
+          {dataPlan.map((plan, index) => (
             <option key={index} value={plan.planId}>
               {plan.planType}
             </option>
@@ -174,7 +180,7 @@ function BuyData() {
             value={selectedPlan}
           >
             <option value="">Select Plan</option>
-            {plans.map((plan,index) => (
+            {plans.map((plan, index) => (
               <option key={index} value={plan.planId}>
                 {plan.planName} - ₦{plan.amount}
               </option>
@@ -194,8 +200,13 @@ function BuyData() {
         <button
           onClick={handlePurchase}
           className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
+          disabled={loading} 
         >
-          Purchase Data
+          {loading ? (
+            <div className="loader ease-linear rounded-full border-4 border-t-4 border-blue-200 h-6 w-6 mx-auto"></div>
+          ) : (
+            "Purchase Data"
+          )}
         </button>
       </div>
 
@@ -211,7 +222,6 @@ function BuyData() {
             <h2 className="text-2xl font-semibold text-blue-700 mb-4">Confirm Your Details</h2>
             <div className="text-left mb-4">
               <p className="text-blue-700"><strong>Network: </strong> {networks[selectedNetwork - 1] || "N/A"}</p>
-              {/* <p className="text-blue-700"><strong>Data Plan: </strong> {dataPlan[selectedDataPlan].planType || "N/A"}</p> */}
               <p className="text-blue-700"><strong>Plan Amount: </strong>
                 {`₦${selectedDataPlan}` || "N/A"}
               </p>
