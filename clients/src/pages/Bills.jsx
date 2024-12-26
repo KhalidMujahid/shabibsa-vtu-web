@@ -74,7 +74,7 @@ function Bills() {
         onClick={() => navigate("/dashboard")}
         className="self-start mb-6 flex items-center text-blue-500 hover:text-blue-600 transition-colors"
       >
-        &larr; Back to Dashboard
+        &larr; Back
       </button>
 
       {/* Header */}

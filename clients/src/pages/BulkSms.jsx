@@ -48,7 +48,7 @@ function BulkSms() {
         onClick={() => navigate("/dashboard")}
         className="self-start mb-4 text-blue-500 hover:text-blue-600"
       >
-        &larr; Back to Dashboard
+        &larr; Back
       </button>
 
       {/* Page Title */}

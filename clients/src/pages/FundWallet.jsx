@@ -33,7 +33,7 @@ function FundWallet() {
         className="self-start mb-8 flex items-center text-blue-600 hover:text-blue-800 transition-colors"
       >
         <FiArrowLeft size={24} />
-        <span className="ml-2 text-lg font-semibold">Back to Dashboard</span>
+        <span className="ml-2 text-lg font-semibold">Back </span>
       </button>
 
       {/* Header */}

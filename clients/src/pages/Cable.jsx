@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { baseURL } from "../services/baseURL";
+import { FiArrowLeft } from "react-icons/fi";
 
 const Cable = () => {
   const [cable, setCable] = useState("");
@@ -11,7 +11,6 @@ const Cable = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pin, setPin] = useState("");
-  const navigate = useNavigate(); // Initialize useNavigate hook
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -83,19 +82,15 @@ const Cable = () => {
     setPin(""); // Clear the PIN field
   };
 
-  // Navigate to the dashboard when the button is clicked
-  const handleBackToDashboard = () => {
-    navigate("/dashboard"); // This will take the user to the dashboard page
-  };
-
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col items-center p-6">
       {/* Back Button */}
       <button
-        onClick={handleBackToDashboard}
-        className="mb-6 py-2 px-4 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+        onClick={() => navigate("/dashboard")}
+        className="self-start mb-8 flex items-center text-blue-600 hover:text-blue-800 transition-colors"
       >
-        Back to Dashboard
+        <FiArrowLeft size={24} />
+        <span className="ml-2 text-lg font-semibold">Back </span>
       </button>
 
       <h1 className="text-3xl font-bold mb-6 text-gray-700">Cable Information</h1>
