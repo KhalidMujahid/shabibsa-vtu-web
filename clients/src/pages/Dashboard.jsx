@@ -167,7 +167,7 @@ const Dashboard = () => {
             { icon: <FaBolt size={24} />, label: "Electricity", bg: "bg-gray-300", link: "/bills" },
             { icon: <FaPaperPlane size={24} />, label: "Transfer", bg: "bg-gray-300", link: "/transfer" },
             { icon: <FaFileAlt size={24} />, label: "Result Checker", bg: "bg-gray-300", link: "/exams" },
-            { icon: <FaTv size={24} />, label: "TV subscription", bg: "bg-gray-300", link: "/cable" },
+            { icon: <FaTv size={24} />, label: "TV subscription", bg: "bg-gray-300", link: "/cables" },
             { icon: <FaComments size={24} />, label: "Bulk SMS", bg: "bg-gray-300", link: "/bluksms" },
             { icon: <FaMoneyBillWave size={24} />, label: "Airtime to Cash", bg: "bg-gray-300", link: "/airtime2cash" },
           ].map((action, index) => (

@@ -20,12 +20,13 @@ import Exams from "./pages/Exams";
 import ForgetPassword from "./pages/ForgetPassword";
 import VerifyOtp from './pages/VerifyOtp';
 import ProtectedRoute from "./components/ProtectedRoute";
-import ResetPassword from './pages/ResetPassword'; 
+import ResetPassword from './pages/ResetPassword';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Intro from './pages/Intro';
+import Cable from './pages/Cable';
 
 function App() {
   const { user } = useSelector((state) => state.user);
@@ -33,7 +34,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const introDuration = 2000; 
+    const introDuration = 2000;
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, introDuration);
@@ -133,6 +134,15 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Transaction />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/cables"
+                element={
+                  <ProtectedRoute>
+                    <Cable />
                   </ProtectedRoute>
                 }
               />

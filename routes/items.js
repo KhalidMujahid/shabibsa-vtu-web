@@ -2,6 +2,7 @@ const { Router } = require("express");
 const axios = require("axios");
 const User = require("../models/User");
 const Transaction = require("../models/Transaction");
+const Cable = require("../models/Cable");
 const itemsApi = Router();
 const path = require("path");
 const bcrypt = require("bcryptjs");
@@ -140,11 +141,11 @@ itemsApi.post("/exams", authenticateToken, async (req, res, next) => {
 // electricity 
 itemsApi.post("/bills", authenticateToken, async (req, res, next) => {
   try {
-    const { disco, meterType, meterNumber, amount, transactionPin } = req.body;
+    const { disco, meterType, meterNumber, amount, pin } = req.body;
     const userId = req.user.id;
 
     // Check for missing required fields
-    if (!disco || !meterType || !meterNumber || !amount || !transactionPin) {
+    if (!disco || !meterType || !meterNumber || !amount || !pin) {
       return res.status(400).json({ error: "All fields are required." });
     }
 
@@ -154,8 +155,9 @@ itemsApi.post("/bills", authenticateToken, async (req, res, next) => {
       return res.status(400).json({ error: "User not found!" });
     }
 
-    if (getUser.transactionPin !== transactionPin) {
-      return res.status(400).json({ error: "Invalid transaction PIN." });
+    const isPinValid = await bcrypt.compare(pin, getUser.pin);
+    if (!isPinValid) {
+      return res.status(400).json({ error: "Invalid PIN" });
     }
 
     // Check if the user's balance is sufficient to pay the bill
@@ -210,6 +212,78 @@ itemsApi.post("/bills", authenticateToken, async (req, res, next) => {
     next(error);
   }
 });
+
+// POST route to create a new cable entry and make the external API call
+itemsApi.post("/cable", authenticateToken, async (req, res, next) => {
+  try {
+    const { cable, iuc, cable_plan, pin } = req.body;
+    const userId = req.user.id;
+
+    if (!cable || !iuc || !cable_plan || !pin) {
+      return res.status(400).json({ error: "All fields are required." });
+    }
+
+    // Get the current user from the database
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ error: "User not found!" });
+    }
+
+    // Validate the user's PIN
+    const isPinValid = await bcrypt.compare(pin, user.pin);
+    if (!isPinValid) {
+      return res.status(400).json({ error: "Invalid PIN" });
+    }
+
+    // Check if the user's balance is sufficient to pay the bill
+    if (user.balance < amount) {
+      return res.status(400).json({ error: "Insufficient funds. Please fund your wallet." });
+    }
+
+    // Prepare the payload for the external API call
+    const payload = {
+      cable: cable,
+      iuc: iuc,
+      cable_plan: cable_plan,
+      bypass: false,
+      'request-id': `Cable_${Date.now()}`
+    };
+
+    // Set the headers for the external API call
+    const headers = {
+      Authorization: `Token ${process.env.API_KEY}`,
+      'Content-Type': 'application/json'
+    };
+
+    // Make the POST request to the external API
+    const externalResponse = await axios.post('https://legitdataway.com/api/cable', payload, { headers });
+
+    if (externalResponse.data.success) {
+
+      // Optionally, create a transaction record (if needed for tracking purposes)
+      // const transaction = new Transaction({
+      //   user: userId,
+      //   cable: newCable._id,
+      //   type: 'debit', // If this is a debit operation, for example
+      // });
+      // await transaction.save();
+
+      // Return a successful response
+      res.status(201).json({
+        success: true,
+        message: "Cable payment successfully!",
+        cable: newCable,
+      });
+    } else {
+      return res.status(400).json({
+        error: externalResponse.data.message || "Payment failed. Please try again.",
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 
 // download apk
