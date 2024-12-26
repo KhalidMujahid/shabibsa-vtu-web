@@ -9,6 +9,8 @@ function Exams() {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [pin, setPin] = useState(""); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,9 +18,21 @@ function Exams() {
     setSuccessMessage("");
     setErrorMessage("");
 
+    // Before submitting, open the PIN modal
+    setIsModalOpen(true);
+  };
+
+  const handlePinSubmit = async () => {
+    if (pin.length !== 4 || isNaN(pin)) {
+      setErrorMessage("Please enter a valid 4-digit PIN.");
+      return;
+    }
+
+    // Proceed with the form submission if PIN is valid
     const payload = {
       exam_name: examName,
       quantity: quantity,
+      pin: pin, // Add PIN to the payload
     };
 
     try {
@@ -38,6 +52,7 @@ function Exams() {
         setSuccessMessage("Exam pins generated successfully!");
         setExamName("");
         setQuantity(1);
+        setPin(""); // Reset PIN after successful submission
       } else {
         const errorData = await response.json();
         setErrorMessage(errorData.error || "Failed to generate exam pins.");
@@ -47,8 +62,15 @@ function Exams() {
     } finally {
       setLoading(false);
     }
-};
 
+    // Close modal after submission
+    setIsModalOpen(false);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setPin(""); // Reset PIN input when modal closes
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 flex flex-col items-center p-6">
@@ -139,9 +161,42 @@ function Exams() {
           </div>
         </form>
       </div>
+
+      {/* PIN Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg w-80 shadow-md">
+            <h2 className="text-xl font-bold text-gray-700 mb-4">Enter PIN</h2>
+            <input
+              type="text"
+              maxLength="4"
+              value={pin}
+              onChange={(e) => setPin(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter 4-digit PIN"
+            />
+            {errorMessage && (
+              <div className="text-red-600 text-sm mb-4">{errorMessage}</div>
+            )}
+            <div className="flex justify-between">
+              <button
+                onClick={handlePinSubmit}
+                className="bg-blue-600 text-white py-2 px-4 rounded-lg"
+              >
+                Submit
+              </button>
+              <button
+                onClick={closeModal}
+                className="bg-gray-400 text-white py-2 px-4 rounded-lg"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default Exams;
-
