@@ -4,6 +4,7 @@ const User = require("../models/User");
 const Transaction = require("../models/Transaction");
 const itemsApi = Router();
 const path = require("path");
+const bcrypt = require("bcryptjs");
 const Data = require("../models/Data");
 const { authenticateToken } = require("../middlewares/auth");
 const Exam = require("../models/Exam");
@@ -44,7 +45,7 @@ itemsApi.post("/bluksms", async (req, res, next) => {
 //exams route
 itemsApi.post("/exams", authenticateToken, async (req, res, next) => {
   try {
-    const { exam_name, quantity } = req.body;
+    const { exam_name, quantity, pin } = req.body;
     const userId = req.user;
 
     // Check for missing required fields
@@ -56,6 +57,12 @@ itemsApi.post("/exams", authenticateToken, async (req, res, next) => {
     const getUser = await User.findById(userId.id);
     if (!getUser) {
       return res.status(400).json({ error: "User not found!" });
+    }
+
+    // Verify user's PIN
+    const isPinValid = await bcrypt.compare(pin, getUser.pin);
+    if (!isPinValid) {
+      return res.status(400).json({ error: "Invalid PIN" });
     }
 
     // Find the exam based on exam_name
@@ -95,6 +102,80 @@ itemsApi.post("/exams", authenticateToken, async (req, res, next) => {
   }
 });
 
+// electricity 
+itemsApi.post("/bills", authenticateToken, async (req, res, next) => {
+  try {
+    const { disco, meterType, meterNumber, amount, transactionPin } = req.body;
+    const userId = req.user.id;
+
+    // Check for missing required fields
+    if (!disco || !meterType || !meterNumber || !amount || !transactionPin) {
+      return res.status(400).json({ error: "All fields are required." });
+    }
+
+    // Get the current user from the database
+    const getUser = await User.findById(userId);
+    if (!getUser) {
+      return res.status(400).json({ error: "User not found!" });
+    }
+
+    if (getUser.transactionPin !== transactionPin) {
+      return res.status(400).json({ error: "Invalid transaction PIN." });
+    }
+
+    // Check if the user's balance is sufficient to pay the bill
+    if (getUser.balance < amount) {
+      return res.status(400).json({ error: "Insufficient funds. Please fund your wallet." });
+    }
+
+    // Prepare the payload for the payment API request
+    const payload = {
+      disco,
+      meter_typer: meterType,
+      meter_number: meterNumber,
+      amount,
+      bypass: false,
+      'request-id': `Bill_${Date.now()}`
+    };
+
+    // Set the headers for the API request (assuming the external payment API requires an API key)
+    const headers = {
+      "Authorization": `Bearer ${process.env.PAYMENT_API_KEY}`,
+      "Content-Type": "application/json",
+    };
+
+    const paymentResponse = await axios.post('https://legitdataway.com/api/bill', payload, { headers });
+
+    if (paymentResponse.data.success) {
+      getUser.balance -= amount;
+      await getUser.save();
+
+      // Optionally, create a transaction record in the database
+      // const transaction = new Transaction({
+      //   user: userId,
+      //   amount,
+      //   bill: bill._id,
+      //   type: 'debit',
+      // });
+      // await transaction.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Bill payment successful!",
+        data: paymentResponse.data,
+      });
+    } else {
+      // Handle payment API failure
+      return res.status(400).json({
+        error: paymentResponse.data.message || "Payment failed. Please try again.",
+      });
+    }
+  } catch (error) {
+    console.error("Error while processing the bill payment:", error);
+    next(error);
+  }
+});
+
 
 // download apk
 // itemsApi.get('/download', async (req, res, next) => {
@@ -115,7 +196,7 @@ itemsApi.post("/admin", async (req, res, next) => {
       return res.status(400).json({ error: "All fields are required." });
     }
 
-   
+
     const newData = new Data({
       planId,
       network,
@@ -137,7 +218,45 @@ itemsApi.post("/admin", async (req, res, next) => {
   }
 });
 
-itemsApi.get("/admin",async (req,res) => {
+itemsApi.post('/add/exam', async (req, res) => {
+  const { examName, planId, amount } = req.body;
+
+  // Input Validation
+  if (!examName || !planId || !amount) {
+    return res.status(400).json({ message: 'All fields are required.' });
+  }
+
+  if (typeof examName !== 'string' || examName.trim().length === 0) {
+    return res.status(400).json({ message: 'Exam name must be a non-empty string.' });
+  }
+
+  if (typeof planId !== 'number' || planId <= 0) {
+    return res.status(400).json({ message: 'Plan ID must be a positive number.' });
+  }
+
+  if (typeof amount !== 'number' || amount < 0) {
+    return res.status(400).json({ message: 'Amount must be a positive number.' });
+  }
+
+  try {
+    // Create the new exam
+    const newExam = new Exam({
+      examName,
+      planId,
+      amount,
+    });
+
+    // Save the new exam to the database
+    await newExam.save();
+
+    return res.status(201).json({ message: 'Exam added successfully.', exam: newExam });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'An error occurred while adding the exam.', error: error.message });
+  }
+});
+
+itemsApi.get("/admin", async (req, res) => {
   const data = await Data.find();
   return res.status(200).json(data);
 })
