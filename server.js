@@ -31,7 +31,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./clients/dist", "index.html"));
 });
 
-// Connect to the database and start the server
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
