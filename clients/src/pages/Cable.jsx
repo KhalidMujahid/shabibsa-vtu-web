@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { baseURL } from "../services/baseURL";
 import { FiArrowLeft } from "react-icons/fi";
 
 const Cable = () => {
   const [cable, setCable] = useState("");
+  const navigate = useNavigate();
   const [iuc, setIuc] = useState("");
   const [cablePlan, setCablePlan] = useState("");
   const [loading, setLoading] = useState(false);
