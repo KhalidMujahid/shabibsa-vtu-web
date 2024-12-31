@@ -51,6 +51,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  virtualAccount: {
+    accountNumber: String,
+    bankName: String,
+  },
 }, {
   timestamps: true, 
 });

@@ -170,6 +170,7 @@ const registerValidationRules = [
 ];
 
 userApi.post("/register", registerValidationRules, async (req, res) => {
+  // Validate request body
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -178,16 +179,19 @@ userApi.post("/register", registerValidationRules, async (req, res) => {
   const { firstName, lastName, username, phoneNumber, email, password, pin, gender } = req.body;
 
   try {
+    // Check if user with the same email already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists with this email" });
     }
 
-    const existUserName = await User.findOne({ username });
-    if (existUserName) {
+    // Check if user with the same username already exists
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
       return res.status(400).json({ message: "User already exists with this username" });
     }
 
+    // Create new user
     const newUser = new User({
       firstName,
       lastName,
@@ -200,10 +204,60 @@ userApi.post("/register", registerValidationRules, async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json({ message: "User registered successfully" });
+
+    // Prepare payload and headers for API call
+    const url = "https://api.payvessel.com/api/external/request/customerReservedAccount/";
+    const headers = {
+      "api-key": process.env.API_KEY,
+      "api-secret": `Bearer ${process.env.API_SEC}`,
+      "Content-Type": "application/json",
+    };
+    const payload = {
+      email,
+      name: `${newUser.firstName} ${newUser.lastName}`,
+      phoneNumber: newUser.phoneNumber,
+      bankcode: [120001],
+      account_type: "STATIC",
+      businessid: process.env.businessid,
+      nin: process.env.NIN,
+    };
+
+    // Make API call to create a reserved account
+    const response = await axios.post(url, payload, { headers });
+
+    if (response.data && response.data.banks && response.data.banks.length > 0) {
+      const { accountNumber, bankName } = response.data.banks[0];
+
+      // Save the account number and bank name in the user's record
+      newUser.virtualAccount = {
+        accountNumber,
+        bankName,
+      };
+
+      await newUser.save();
+
+      return res.status(200).json({
+        message: "User registered successfully",
+        accountDetails: response.data.banks[0],
+      });
+    } else {
+      return res.status(500).json({ message: "Failed to retrieve bank details from API response." });
+    }
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(500).json({ message: "Error registering user", error: error.message });
+
+    // Handle errors from the API call
+    if (error.response) {
+      return res.status(error.response.status).json({
+        error: error.response.data,
+      });
+    }
+
+    // Handle general server errors
+    res.status(500).json({
+      message: "An error occurred while registering the user.",
+      error: error.message,
+    });
   }
 });
 
@@ -366,6 +420,35 @@ userApi.post("/password-reset", async (req, res, next) => {
 
   } catch (error) {
     next(error);
+  }
+});
+
+userApi.get('/get/:account', async (req, res) => {
+  const { account } = req.params;
+
+  const url = `https://api.payvessel.com/api/external/request/virtual-account/${process.env.businessid}/${account}/`;
+
+  const headers = {
+    'api-key': 'PVKEY-5XUTPTPL6QFGPEN5JSH0BSNE88OZT4MQ',
+    'api-secret': 'Bearer PVSECRET-TFW9QCF44VQDVOXSGKHAQVTEFU77RCK3KHQVTA7LNN7XQMSDGHC5Z4I7O6HZJQ21',
+    'Content-Type': 'application/json',
+  };
+
+  try {
+    const response = await axios.get(url, { headers });
+    return res.status(200).json(response.data);
+  } catch (error) {
+    console.error('Error fetching account info:', error.message);
+
+    if (error.response) {
+      // API responded with a status code outside 2xx range
+      return res.status(error.response.status).json({
+        error: error.response.data,
+      });
+    }
+
+    // Handle other errors (e.g., network issues)
+    return res.status(500).json({ error: 'An error occurred while fetching account info.' });
   }
 });
 

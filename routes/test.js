@@ -1,43 +1,79 @@
+const express = require('express');
 const axios = require('axios');
-const fs = require('fs');
+const app = express();
 
-const username = 'Shabibsadata';
-const password = 'safisham1$';
+app.use(express.json());
 
-const authHeader = Buffer.from(`${username}:${password}`).toString('base64');
+// Route to request a customer reserved account
+app.post('/', async (req, res) => {
+  console.log(req.body);
+  const { email, name, phoneNumber, bankcode, account_type, businessid, bvn, nin } = req.body;
 
-axios.post('https://legitdataway.com/api/user', null, {
-  headers: {
-    'Authorization': `Basic ${authHeader}`
+  const url = 'https://api.payvessel.com/api/external/request/customerReservedAccount/';
+
+  const headers = {
+    'api-key': 'PVKEY-5XUTPTPL6QFGPEN5JSH0BSNE88OZT4MQ',
+    'api-secret': 'Bearer PVSECRET-TFW9QCF44VQDVOXSGKHAQVTEFU77RCK3KHQVTA7LNN7XQMSDGHC5Z4I7O6HZJQ21',
+    'Content-Type': 'application/json',
+  };
+
+  const payload = {
+    email,
+    name,
+    phoneNumber,
+    bankcode,
+    account_type,
+    businessid,
+    nin,
+  };
+
+  try {
+    const response = await axios.post(url, payload, { headers });
+    return res.status(200).json(response.data);
+  } catch (error) {
+    console.error('Error creating reserved account:', error.message);
+
+    if (error.response) {
+      // API responded with a status code outside 2xx range
+      return res.status(error.response.status).json({
+        error: error.response.data,
+      });
+    }
+
+    // Handle other errors (e.g., network issues)
+    return res.status(500).json({ error: 'An error occurred while processing the request.' });
   }
-})
-  .then(response => {
-    fs.writeFileSync('response.json', JSON.stringify(response.data, null, 2));
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+});
 
+app.get('/get/:businessid/:account', async (req, res) => {
+  const { businessid, account } = req.params;
 
-  const axios = require('axios');
+  const url = `https://api.payvessel.com/api/external/request/virtual-account/${businessid}/${account}/`;
 
-const payload = {
-  network: 1,
-  phone: '08032904452',
-  data_plan: 1,
-  bypass: false,
-  'request-id': 'Data_12345678900'
-};
+  const headers = {
+    'api-key': 'PVKEY-5XUTPTPL6QFGPEN5JSH0BSNE88OZT4MQ',
+    'api-secret': 'Bearer PVSECRET-TFW9QCF44VQDVOXSGKHAQVTEFU77RCK3KHQVTA7LNN7XQMSDGHC5Z4I7O6HZJQ21',
+    'Content-Type': 'application/json',
+  };
 
-const headers = {
-  'Authorization': 'Token bd6d6b83973b3182eec75152997ef09e6ee6e94e58fec16ce62fc838bfb8',
-  'Content-Type': 'application/json'
-};
+  try {
+    const response = await axios.get(url, { headers });
+    return res.status(200).json(response.data);
+  } catch (error) {
+    console.error('Error fetching account info:', error.message);
 
-axios.post('https://legitdataway.com/api/data', payload, { headers })
-  .then(response => {
-    console.log(response.data); // Handle the response data
-  })
-  .catch(error => {
-    console.error('Error:', error); // Handle errors
-  });
+    if (error.response) {
+      // API responded with a status code outside 2xx range
+      return res.status(error.response.status).json({
+        error: error.response.data,
+      });
+    }
+
+    // Handle other errors (e.g., network issues)
+    return res.status(500).json({ error: 'An error occurred while fetching account info.' });
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
