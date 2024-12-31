@@ -11,11 +11,11 @@ const dataRouter = require("./routes/data");
 const airtimeRouter = require("./routes/airtime");
 const app = express();
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3004;
 
 // Middleware setup
 app.use(helmet());
-//app.use(cors({ origin: "http://localhost:5000", credentials: true }));
+// app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 

@@ -7,6 +7,7 @@ const User = require("../models/User");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require("crypto");
+const axios = require("axios");
 
 const userApi = Router();
 
@@ -93,6 +94,8 @@ userApi.post(
           username: user.username,
           firstname: user.firstName,
           lastname: user.lastName,
+          account_number: user.virtualAccount.accountNumber,
+          account_name: user.virtualAccount.bankName
         },
         token,
       });
@@ -147,9 +150,9 @@ const registerValidationRules = [
     .withMessage("Username must be at least 4 characters")
     .trim()
     .escape(),
-  body("phoneNumber")
-    .matches(/^[0-9]{10}$/)
-    .withMessage("Phone number must be 10 digits")
+    body("phoneNumber")
+    .matches(/^0[7-9][0-1][0-9]{8}$/)
+    .withMessage("Phone number must be exactly 11 digits in NGN format, starting with 070, 080, or similar")
     .trim(),
   body("email")
     .isEmail()
@@ -208,8 +211,8 @@ userApi.post("/register", registerValidationRules, async (req, res) => {
     // Prepare payload and headers for API call
     const url = "https://api.payvessel.com/api/external/request/customerReservedAccount/";
     const headers = {
-      "api-key": process.env.API_KEY,
-      "api-secret": `Bearer ${process.env.API_SEC}`,
+      "api-key": process.env.API_KEY_PAY,
+      "api-secret": `Bearer ${process.env.API_SEC_PAY}`,
       "Content-Type": "application/json",
     };
     const payload = {
@@ -307,6 +310,39 @@ userApi.get('/recent/transactions', authenticateToken, async (req, res) => {
     res.json({ transactions });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+// web hook
+userApi.post('/payvessel_payment_done', (req, res) => {
+  const payload = req.body;
+  const payvessel_signature = req.header('HTTP_PAYVESSEL_HTTP_SIGNATURE');
+  const ip_address = req.socket.remoteAddress;
+  const secret = 'PVSECRET-';
+
+  const hash = crypto.createHmac('sha512', secret)
+    .update(JSON.stringify(payload))
+    .digest('hex');
+  const ipAddress = ["3.255.23.38", "162.246.254.36"];
+
+  if (payvessel_signature === hash && ipAddress.includes(ip_address)) {
+    const data = payload;
+    const amount = parseFloat(data.order.amount);
+    const settlementAmount = parseFloat(data.order.settlement_amount);
+    const fee = parseFloat(data.order.fee);
+    const reference = data.transaction.reference;
+    const description = data.order.description;
+
+    // Check if reference already exists in your payment transaction table
+    if (reference === reference) {
+      // Fund user wallet here
+      console.log(data);
+      res.status(200).json({ message: 'success' });
+    } else {
+      res.status(200).json({ message: 'transaction already exist' });
+    }
+  } else {
+    res.status(400).json({ message: 'Permission denied, invalid hash or ip address.' });
   }
 });
 
