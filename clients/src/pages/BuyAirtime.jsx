@@ -4,10 +4,11 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { baseURL } from "../services/baseURL";
+import { RingLoader } from "react-spinners";
 
 function BuyAirtime() {
   const navigate = useNavigate();
-  const [networks] = useState(["MTN", "GLO", "Airtel", "9Mobile"]);
+  const [networks] = useState(["MTN", "Airtel", "GLO", "9Mobile"]);
   const [selectedNetwork, setSelectedNetwork] = useState("");
   const [amount, setAmount] = useState("");
   const [phone, setPhone] = useState("");
@@ -66,7 +67,6 @@ function BuyAirtime() {
       setLoading(false);  // Always stop loading when done
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
@@ -151,9 +151,14 @@ function BuyAirtime() {
           </div>
         </div>
       )}
+
+      {loading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <RingLoader color="#4b56d2" size={60} /> {/* Custom loading spinner */}
+        </div>
+      )}
     </div>
   );
 }
 
 export default BuyAirtime;
-

@@ -315,7 +315,7 @@ userApi.get('/recent/transactions', authenticateToken, async (req, res) => {
 });
 
 // web hook
-userApi.post('/payvessel_payment_done', (req, res) => {
+userApi.post('/payvessel_payment_done', async (req, res) => {
   const payload = req.body;
   const payvessel_signature = req.header('HTTP_PAYVESSEL_HTTP_SIGNATURE');
   const ip_address = req.connection.remoteAddress;
@@ -326,25 +326,31 @@ userApi.post('/payvessel_payment_done', (req, res) => {
     .digest('hex');
   const ipAddress = ["3.255.23.38", "162.246.254.36"];
   
-  // if (payvessel_signature === hash && ipAddress.includes(ip_address)) {
+  if (payvessel_signature === hash && ipAddress.includes(ip_address)) {
     const data = payload;
     const amount = parseFloat(data.order.amount);
     const settlementAmount = parseFloat(data.order.settlement_amount);
     const fee = parseFloat(data.order.fee);
     const reference = data.transaction.reference;
+    const sessionid = data.transaction.sessionid;
     const description = data.order.description;
 
     // Check if reference already exists in your payment transaction table
-    if (reference === reference) {
+    if (reference === sessionid) {
+      const email = data.customer.email;
+      const amount = data.order.amount;
       // Fund user wallet here
-      console.log(data);
+      const user = await User.findOne({ email });
+
+      user.balance = Number(amount) - 50;
+      await user.save();
       res.status(200).json({ message: 'success' });
     } else {
       res.status(200).json({ message: 'transaction already exist' });
     }
-  // } else {
-    // res.status(400).json({ message: 'Permission denied, invalid hash or ip address.' });
-  // }
+  } else {
+    res.status(400).json({ message: 'Permission denied, invalid hash or ip address.' });
+  }
 });
 
 

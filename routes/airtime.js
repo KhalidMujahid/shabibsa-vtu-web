@@ -68,7 +68,7 @@ airtimeRouter.post("/airtime/buy", authenticateToken, async (req, res) => {
         console.log(response);
 
         // Handle the external API response
-        if (response.status === 200 && response.data.success) {
+        if (response.status === 200 && response.data.status === "success") {
             user.balance -= plan.amount;
             await user.save();
 
