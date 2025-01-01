@@ -317,7 +317,7 @@ userApi.get('/recent/transactions', authenticateToken, async (req, res) => {
 userApi.post('/payvessel_payment_done', (req, res) => {
   const payload = req.body;
   const payvessel_signature = req.header('HTTP_PAYVESSEL_HTTP_SIGNATURE');
-  const ip_address = req.socket.remoteAddress;
+  const ip_address = req.connection.remoteAddress;
   const secret = 'PVSECRET-';
 
   const hash = crypto.createHmac('sha512', secret)
