@@ -7,8 +7,8 @@ function Profile() {
   const navigate = useNavigate();
   const { user, loading } = useSelector((state) => state.user);
 
-  const [username, setUsername] = useState(user?.username);
-  const [email, setEmail] = useState(user?.email);
+  const [username, setUsername] = useState(user?.username || user?.user?.username);
+  const [email, setEmail] = useState(user?.email || user?.email?.email);
   const [profilePicture, setProfilePicture] = useState(null);
 
   const handleProfilePictureChange = (e) => {

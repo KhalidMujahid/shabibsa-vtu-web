@@ -19,8 +19,8 @@ function Settings() {
   const [message, setMessage] = useState("");
   const [notifications, setNotifications] = useState(true);
   const [profileData, setProfileData] = useState({
-    name: user.firstname,
-    email: user.email,
+    name: user.firstname || user?.user?.firstname,
+    email: user.email || user?.user?.email,
   });
 
   const handlePasswordChange = (e) => {
