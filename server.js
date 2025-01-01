@@ -11,7 +11,7 @@ const dataRouter = require("./routes/data");
 const airtimeRouter = require("./routes/airtime");
 const app = express();
 
-const PORT = process.env.PORT || 3004;
+const PORT = process.env.PORT || 3005;
 
 // Middleware setup
 app.use(helmet());

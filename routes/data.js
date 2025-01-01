@@ -28,8 +28,19 @@ dataRouter.get('/plans/:network', async (req, res) => {
             return res.status(404).json({ error: "No plans found for the specified network." });
         }
 
-        // Return the plans
-        return res.status(200).json({ plans });
+        // Remove duplicate planType by using a Set to track already seen planType values
+        const uniquePlans = [];
+        const seenPlanTypes = new Set();
+
+        plans.forEach(plan => {
+            if (!seenPlanTypes.has(plan.planType)) {
+                uniquePlans.push(plan);
+                seenPlanTypes.add(plan.planType);
+            }
+        });
+
+        // Return the unique plans without duplicate planType
+        return res.status(200).json({ plans: uniquePlans });
     } catch (error) {
         console.error("Error fetching plans:", error);
         return res.status(500).json({ error: "Internal Server Error" });

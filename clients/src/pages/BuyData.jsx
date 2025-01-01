@@ -24,12 +24,7 @@ function BuyData() {
     try {
       const response = await axios.get(`${baseURL}/plans/${network}`);
       const data = response.data;
-
-      const uniquePlans = data.plans.filter((plan, index, self) =>
-        index === self.findIndex((p) => p.plan_type === plan.plan_type)
-      );
-  
-      setDataPlans(uniquePlans);
+      setDataPlans(data.plans);
       toast.success("Plans loaded successfully!", { position: "top-center" });
     } catch (error) {
       console.error("Error fetching plans:", error);
@@ -37,7 +32,7 @@ function BuyData() {
     } finally {
       setLoading(false);
     }
-  };  
+  };
 
   const fetchDataPlans = async () => {
     if (!selectedNetwork || !selectedDataPlan) {
