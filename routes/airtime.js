@@ -65,6 +65,8 @@ airtimeRouter.post("/airtime/buy", authenticateToken, async (req, res) => {
         // Send the request to the external API
         const response = await axios.post('https://legitdataway.com/api/topup/', payload, { headers });
 
+        console.log(response);
+
         // Handle the external API response
         if (response.status === 200 && response.data.success) {
             user.balance -= plan.amount;

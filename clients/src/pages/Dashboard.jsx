@@ -26,7 +26,7 @@ import { loadUser, toggleLog } from "../redux/user";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { user, balance, notif } = useSelector((state) => state.user);
+  const { user, notif } = useSelector((state) => state.user);
   const [showBalance, setShowBalance] = useState(false);
   const navigate = useNavigate();
 
@@ -52,7 +52,6 @@ const Dashboard = () => {
     }
   }, [dispatch, navigate]);
 
-  
   const handleShare = () => {
     if (navigator.share) {
       navigator
@@ -66,6 +65,9 @@ const Dashboard = () => {
       toast.info("Share functionality is not supported on this device.");
     }
   };
+
+  // Check if the balance exists in the correct part of the user object
+  const balance = user?.balance || user?.user?.balance;
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800">
@@ -127,8 +129,8 @@ const Dashboard = () => {
           <div className="flex justify-between items-center">
             <div>
               <h2 className="text-lg font-semibold">
-                {user.user?.firstname || user?.firstname}{" "}
-                {user.user?.lastname || user?.lastname}
+                {user?.firstname || user.user?.firstname}{" "}
+                {user?.lastname || user.user?.lastname}
               </h2>
               <p className="text-sm text-gray-500">
                 @{user?.username || user.user?.username}
@@ -150,7 +152,7 @@ const Dashboard = () => {
             <h3 className="text-sm text-gray-500">Available Balance</h3>
             <p className="text-3xl font-bold">
               {showBalance
-                ? `₦${balance.toLocaleString() || user.balance.toLocaleString()}`
+                ? `₦${balance ? balance.toLocaleString() : "0.00"}`
                 : "****"}
             </p>
           </div>
@@ -160,7 +162,7 @@ const Dashboard = () => {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {[
+          {[ 
             { icon: <FaMobileAlt size={24} />, label: "Airtime", bg: "bg-gray-300", link: "/buyairtime" },
             { icon: <FaWifi size={24} />, label: "Data", bg: "bg-gray-300", link: "/buydata" },
             { icon: <FaCreditCard size={24} />, label: "Fund", bg: "bg-gray-300", link: "/fundwallet" },
@@ -169,7 +171,7 @@ const Dashboard = () => {
             { icon: <FaFileAlt size={24} />, label: "Result Checker", bg: "bg-gray-300", link: "/exams" },
             { icon: <FaTv size={24} />, label: "TV subscription", bg: "bg-gray-300", link: "/cables" },
             { icon: <FaComments size={24} />, label: "Bulk SMS", bg: "bg-gray-300", link: "/bluksms" },
-            { icon: <FaMoneyBillWave size={24} />, label: "Airtime to Cash", bg: "bg-gray-300", link: "/airtime2cash" },
+            { icon: <FaMoneyBillWave size={24} />, label: "Airtime to Cash", bg: "bg-gray-300", link: "/airtime2cash" }
           ].map((action, index) => (
             <button
               key={index}

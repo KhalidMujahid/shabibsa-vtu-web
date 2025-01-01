@@ -130,7 +130,6 @@ const initialState = {
   user: null,
   //user: { username: "Khalid", firstname: "mujahid", lastname: "khalid",email: "binkha@gmail.com",accountNumber: "234 5678 9012 3456" },
   notif: true,
-  balance: 0,
   token: null,
   transactions: [],
   loading: false,

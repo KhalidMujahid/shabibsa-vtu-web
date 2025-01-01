@@ -95,7 +95,8 @@ userApi.post(
           firstname: user.firstName,
           lastname: user.lastName,
           account_number: user.virtualAccount.accountNumber,
-          account_name: user.virtualAccount.bankName
+          account_name: user.virtualAccount.bankName,
+          balance: user.balance,
         },
         token,
       });
